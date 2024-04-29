@@ -1,5 +1,5 @@
-import { createClient } from "edgedb";
 import createAuth from "@edgedb/auth-nextjs/app";
+import { createClient } from "edgedb";
 
 export const client = createClient({
   // Note: when developing locally you will need to set tls security to
@@ -9,5 +9,5 @@ export const client = createClient({
 });
 
 export const auth = createAuth(client, {
-  baseUrl: "http://localhost:3000",
+  baseUrl: "https://edgedb-hackathon-mocha.vercel.app/",
 });
