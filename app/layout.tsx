@@ -1,3 +1,4 @@
+import logo from "@/public/logoCR.png";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -9,12 +10,14 @@ export const metadata: Metadata = {
   description: "You are unique in a lot of ways.",
   openGraph: {
     type: "website",
+    title: "Clone Radar",
+    description: "You are unique in a lot of ways.",
     locale: "en_US",
     url: "https://cloneradar.com",
     siteName: "Clone Radar",
     images: [
       {
-        url: "https://cloneradar.com/logoCR.jpg",
+        url: logo.src,
         width: 1200,
         height: 630,
         alt: "Clone Radar",

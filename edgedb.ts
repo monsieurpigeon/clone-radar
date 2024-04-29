@@ -12,5 +12,5 @@ export const auth = createAuth(client, {
   baseUrl:
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : "https://edgedb-hackathon-mocha.vercel.app/",
+      : "https://cloneradar.com/",
 });
