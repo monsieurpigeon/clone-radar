@@ -1,5 +1,5 @@
-import { createClient } from "edgedb";
 import e from "@/dbschema/edgeql-js";
+import { createClient } from "edgedb";
 
 import Items from "@/components/Items";
 import Link from "next/link";
@@ -24,7 +24,7 @@ export default async function Home() {
     <>
       <header className="flex justify-between items-center pb-4">
         <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900">
-          Items
+          Trucs
         </h1>
         <Link href="/dashboard/new">
           <button className="bg-primary text-white px-3 py-2 rounded-md text-xs font-semibold">
