@@ -3,20 +3,20 @@
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 
-export default function DeleteItem({
-  item,
+export default function DeleteChannel({
+  channel,
   handleDelete,
 }: {
-  item: { id: string };
+  channel: { id: string };
   handleDelete: (id: string) => Promise<string | null>;
 }) {
   const router = useRouter();
   return (
     <button
       type="button"
-      className="text-sm font-semibold text-red-600 mt-2"
+      className="text-sm font-semibold text-red-600"
       onClick={async () => {
-        const error = await handleDelete(item.id);
+        const error = await handleDelete(channel.id);
         if (error) {
           alert(error);
           return;

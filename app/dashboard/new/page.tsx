@@ -1,18 +1,18 @@
-import AddItem from "@/components/AddItem";
-import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import e from "@/dbschema/edgeql-js";
 import { auth } from "@/edgedb";
+import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
+import AddChannel from "../../../components/AddChannel";
 
-const addItem = async (name: string) => {
+const addChannel = async (name: string) => {
   "use server";
   const session = auth.getSession();
 
-  const newItemQuery = e.insert(e.Item, {
+  const newChannelQuery = e.insert(e.Channel, {
     name,
   });
 
-  newItemQuery.run(session.client);
+  newChannelQuery.run(session.client);
 };
 
 export default function Example() {
@@ -24,7 +24,7 @@ export default function Example() {
         </button>
       </Link>
       <div className="mt-4">
-        <AddItem addItem={addItem} />
+        <AddChannel addChannel={addChannel} />
       </div>
     </>
   );

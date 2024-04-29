@@ -4,19 +4,19 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function AddItem({
-  addItem,
+export default function AddChannel({
+  addChannel,
 }: {
-  addItem: (name: string) => Promise<void>;
+  addChannel: (name: string) => Promise<void>;
 }) {
-  const [itemName, setItemName] = useState("");
+  const [channelName, setChannelName] = useState("");
   const router = useRouter();
   return (
     <form
       onSubmit={async (e) => {
         e.preventDefault();
-        await addItem(itemName);
-        setItemName("");
+        await addChannel(channelName);
+        setChannelName("");
         router.refresh();
       }}
     >
@@ -42,8 +42,8 @@ export default function AddItem({
                     id="name"
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="test item"
-                    value={itemName}
-                    onChange={(e) => setItemName(e.target.value)}
+                    value={channelName}
+                    onChange={(e) => setChannelName(e.target.value)}
                   />
                 </div>
               </div>

@@ -1,42 +1,39 @@
-'use client'
+"use client";
 
-import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
+import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
-  XMarkIcon,
   BuildingStorefrontIcon,
   UserCircleIcon,
-} from '@heroicons/react/24/outline'
-import { classNames } from '../src/utils'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { Fragment } from "react";
+import { classNames } from "../src/utils";
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', current: true },
-  { name: 'Page #1', href: '#', current: false },
-  { name: 'Page #2', href: '#', current: false },
-]
+  { name: "Channels", href: "/dashboard", current: true },
+  { name: "Matches", href: "/matches", current: false },
+];
 
 export default function Navbar({
   onSignOut,
 }: {
-  signedIn: boolean
-  onSignOut: () => Promise<void>
+  signedIn: boolean;
+  onSignOut: () => Promise<void>;
 }) {
-  const router = useRouter()
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleSignOut = async () => {
-    await onSignOut()
+    await onSignOut();
 
-    router.push('/')
-  }
+    router.push("/");
+  };
 
   return (
-    <Disclosure
-      as="nav"
-      className="border-b border-gray-200 bg-white"
-    >
+    <Disclosure as="nav" className="border-b border-gray-200 bg-white">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -53,12 +50,12 @@ export default function Navbar({
                       key={item.name}
                       href={item.href}
                       className={classNames(
-                        item.current
-                          ? 'border-primary text-gray-900'
-                          : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                        'inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium'
+                        pathname === item.href
+                          ? "border-primary text-gray-900"
+                          : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
+                        "inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium"
                       )}
-                      aria-current={item.current ? 'page' : undefined}
+                      aria-current={item.current ? "page" : undefined}
                     >
                       {item.name}
                     </a>
@@ -66,10 +63,7 @@ export default function Navbar({
                 </div>
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:items-center">
-                <Menu
-                  as="div"
-                  className="relative ml-3"
-                >
+                <Menu as="div" className="relative ml-3">
                   <div>
                     <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
                       <span className="absolute -inset-1.5" />
@@ -112,15 +106,9 @@ export default function Navbar({
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
                   {open ? (
-                    <XMarkIcon
-                      className="block h-6 w-6"
-                      aria-hidden="true"
-                    />
+                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
                   ) : (
-                    <Bars3Icon
-                      className="block h-6 w-6"
-                      aria-hidden="true"
-                    />
+                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
                   )}
                 </Disclosure.Button>
               </div>
@@ -136,11 +124,11 @@ export default function Navbar({
                   href={item.href}
                   className={classNames(
                     item.current
-                      ? 'border-primary bg-gray-50 text-primary'
-                      : 'border-transparent text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800',
-                    'block border-l-4 py-2 pl-3 pr-4 text-base font-medium'
+                      ? "border-primary bg-gray-50 text-primary"
+                      : "border-transparent text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800",
+                    "block border-l-4 py-2 pl-3 pr-4 text-base font-medium"
                   )}
-                  aria-current={item.current ? 'page' : undefined}
+                  aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
                 </Disclosure.Button>
@@ -175,5 +163,5 @@ export default function Navbar({
         </>
       )}
     </Disclosure>
-  )
+  );
 }
