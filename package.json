@@ -35,7 +35,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "pnpm run prebuild; next build",
     "start": "next start",
     "lint": "next lint",
     "prebuild": "npx @edgedb/generate edgeql-js",
