@@ -9,5 +9,8 @@ export const client = createClient({
 });
 
 export const auth = createAuth(client, {
-  baseUrl: "https://edgedb-hackathon-mocha.vercel.app/",
+  baseUrl:
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000"
+      : "https://edgedb-hackathon-mocha.vercel.app/",
 });
