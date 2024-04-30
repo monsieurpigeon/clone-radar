@@ -24,6 +24,9 @@ export default async function MatchesPage() {
           My Matches
         </h1>
       </header>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Scan
+      </button>
       <Matches matches={matches} />
     </>
   );
