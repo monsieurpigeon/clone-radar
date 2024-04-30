@@ -1,8 +1,8 @@
+import AddChannel from "@/components/AddChannel";
 import e from "@/dbschema/edgeql-js";
-import { auth } from "@/edgedb";
 import { ArrowLeftIcon } from "@heroicons/react/20/solid";
+import { auth } from "edgedb-client";
 import Link from "next/link";
-import AddChannel from "../../../components/AddChannel";
 
 const addChannel = async (name: string) => {
   "use server";

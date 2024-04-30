@@ -1,5 +1,5 @@
 import { Channel } from "@/dbschema/interfaces";
-import { auth } from "@/edgedb";
+import { auth } from "edgedb-client";
 import DeleteChannel from "./DeleteChannel";
 
 interface Props {

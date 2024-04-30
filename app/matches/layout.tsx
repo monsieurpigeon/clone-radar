@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import { auth } from "@/edgedb";
+import { auth } from "edgedb-client";
 import { redirect } from "next/navigation";
 
 const handleSignOut = async () => {

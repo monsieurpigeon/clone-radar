@@ -1,4 +1,4 @@
-import { auth } from "@/edgedb";
+import { auth } from "edgedb-client";
 import Link from "next/link";
 
 export default async function Home() {

@@ -1,8 +1,7 @@
+import Channels from "@/components/Channels";
 import e from "@/dbschema/edgeql-js";
-import { auth } from "@/edgedb";
-
+import { auth } from "edgedb-client";
 import Link from "next/link";
-import Channels from "../../components/Channels";
 
 export default async function Dashboard() {
   const { client } = auth.getSession();

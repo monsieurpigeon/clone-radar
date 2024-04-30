@@ -1,6 +1,6 @@
-import process from "node:process";
-import crypto from "node:crypto";
 import { createClient } from "edgedb";
+import crypto from "node:crypto";
+import process from "node:process";
 
 const client = createClient();
 
@@ -39,7 +39,7 @@ SELECT cfg::Config.extensions[is ext::auth::AuthConfig] {
     console.warn(
       `Auth is already configured with the following values:
 ${JSON.stringify(existingConfig, null, 2)}
-`,
+`
     );
   }
 
