@@ -1,5 +1,5 @@
+import { Channel } from "@/dbschema/interfaces";
 import { auth } from "edgedb-client";
-import { Channel } from "../dbschema/interfaces";
 import DeleteChannel from "./DeleteChannel";
 
 interface Props {
@@ -37,7 +37,7 @@ export default function Channels({ channels }: Props) {
           <div className="flex-auto border rounded p-4">
             <div className="flex items-center justify-between gap-x-4">
               <p className="text-sm font-semibold leading-6 text-gray-900">
-                {channel.name}
+                {channel.name} by {channel.created_by.email}
               </p>
               <DeleteChannel channel={channel} handleDelete={deleteChannel} />
             </div>

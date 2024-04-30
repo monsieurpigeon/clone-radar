@@ -5,6 +5,7 @@ import Link from "next/link";
 
 export default async function Dashboard() {
   const { client } = auth.getSession();
+
   const channelsQuery = e.select(e.Channel, (_channel) => ({
     id: true,
     name: true,
@@ -14,6 +15,7 @@ export default async function Dashboard() {
       name: true,
       email: true,
     },
+    filter: e.op(_channel.created_by, "=", e.global.current_user),
   }));
 
   const channels = await channelsQuery.run(client);
