@@ -1,4 +1,3 @@
-import logo from "@/public/logoCR.png";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -17,9 +16,7 @@ export const metadata: Metadata = {
     siteName: "Clone Radar",
     images: [
       {
-        url: logo.src,
-        width: 1200,
-        height: 630,
+        url: "/logoCR.png",
         alt: "Clone Radar",
       },
     ],
