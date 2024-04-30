@@ -1,13 +1,15 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react/no-unescaped-entities */
 import {
-  CircleStackIcon,
-  ListBulletIcon,
-  ShieldCheckIcon,
   AtSymbolIcon,
-  UserCircleIcon,
-  PencilSquareIcon,
   BeakerIcon,
   CheckCircleIcon,
+  CircleStackIcon,
   CloudIcon,
+  ListBulletIcon,
+  PencilSquareIcon,
+  ShieldCheckIcon,
+  UserCircleIcon,
 } from "@heroicons/react/20/solid";
 
 const timeline = [
