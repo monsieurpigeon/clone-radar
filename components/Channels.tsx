@@ -1,9 +1,9 @@
-import { Channel } from "@/dbschema/interfaces";
 import { auth } from "edgedb-client";
 import DeleteChannel from "./DeleteChannel";
 
 interface Props {
-  channels: (Omit<Channel, "created_by"> & {
+  channels: (Omit<any, "created_by"> & {
+    id: string;
     created_by: {
       name: string;
       email: string | null;
