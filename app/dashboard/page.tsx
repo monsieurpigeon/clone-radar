@@ -1,12 +1,11 @@
 import e from "@/dbschema/edgeql-js";
-import { createClient } from "edgedb";
+import { auth } from "@/edgedb";
 
 import Link from "next/link";
 import Channels from "../../components/Channels";
 
 export default async function Dashboard() {
-  const client = createClient();
-
+  const { client } = auth.getSession();
   const channelsQuery = e.select(e.Channel, (_channel) => ({
     id: true,
     name: true,
