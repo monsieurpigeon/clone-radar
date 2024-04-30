@@ -19,7 +19,7 @@ export default async function Dashboard() {
     <>
       <header className="flex justify-between items-center pb-4">
         <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900">
-          My favorite Channels
+          My favorite YouTube Channels
         </h1>
         <Link href="/dashboard/new">
           <button className="bg-primary text-white px-3 py-2 rounded-md text-xs font-semibold">

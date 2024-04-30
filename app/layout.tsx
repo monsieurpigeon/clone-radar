@@ -32,7 +32,19 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <CSPostHogProvider>
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          {children}
+          <footer className="absolute inset-x-0 bottom-0 z-50 flex flex-row justify-center">
+            <div className="p-4">
+              Made with <a href="https://www.edgedb.com/">EdgeDB</a> and{" "}
+              <a href="https://nextjs.org/">Next.js</a>, hosted on{" "}
+              <a href="https://vercel.com/">Vercel</a>. Clone Radar is open
+              source on{" "}
+              <a href="https://github.com/monsieurpigeon/clone-radar">GitHub</a>
+              .
+            </div>
+          </footer>
+        </body>
       </CSPostHogProvider>
     </html>
   );

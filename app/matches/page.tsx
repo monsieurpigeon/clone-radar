@@ -1,21 +1,26 @@
-import Matches from "../../components/Matches";
+import Matches from "@/components/Matches";
+import { User } from "@/dbschema/interfaces";
+import { auth } from "@/edgedb-client";
+import { scanMatches } from "./actions";
 
 export default async function MatchesPage() {
-  // const client = createClient();
+  const { client } = auth.getSession();
 
-  // const matchesQuery = e.select(e.Channel, (_channel) => ({
-  //   id: true,
-  //   name: true,
-  //   created: true,
-  //   updated: true,
-  //   created_by: {
-  //     name: true,
-  //     email: true,
-  //   },
-  // }));
+  const user = await client.query(`
+    Select User {
+      matches: {
+        email,
+        channels,
+        restrictedChannels := (select .channels.name intersect global current_user.channels.name)
+      }
+    }
+    filter .email = global current_user.email
+  `);
 
-  //   const matches = await matchesQuery.run(client);
-  const matches = [{ name: "hello" }, { name: "world" }];
+  const matches = (user[0] as User)?.matches as Omit<
+    User & { restrictedChannels: string[] },
+    "created_by"
+  >[];
 
   return (
     <>
@@ -24,9 +29,15 @@ export default async function MatchesPage() {
           My Matches
         </h1>
       </header>
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Scan
-      </button>
+      <form action={scanMatches}>
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          type="submit"
+        >
+          Scan
+        </button>
+      </form>
+
       <Matches matches={matches} />
     </>
   );

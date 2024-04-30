@@ -20,6 +20,7 @@ module default {
     };
 
     multi channels: Channel;
+    multi matches: User;
 
     created: datetime {
       rewrite insert using (datetime_of_statement());

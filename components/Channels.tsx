@@ -11,10 +11,13 @@ const deleteChannel = async (id: string) => {
   const session = auth.getSession();
 
   const res = await session.client.query(
-    "DELETE Channel FILTER .id = <uuid>$id",
-    {
-      id,
+    `
+    update User
+      filter .email = global current_user.email
+    set {
+      channels := {}
     }
+    `
   );
 
   if (res.length === 0) {
