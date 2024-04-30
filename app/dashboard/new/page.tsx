@@ -6,7 +6,7 @@ import Link from "next/link";
 const addChannel = async (name: string) => {
   "use server";
   const session = auth.getSession();
-  const result = await session.client.query(
+  await session.client.query(
     `
     with channel := (
       insert Channel { name := <str>$name }
