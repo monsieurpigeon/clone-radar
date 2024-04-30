@@ -1,24 +1,19 @@
 import Channels from "@/components/Channels";
-import e from "@/dbschema/edgeql-js";
+import { User } from "@/dbschema/interfaces";
 import { auth } from "edgedb-client";
 import Link from "next/link";
 
 export default async function Dashboard() {
   const { client } = auth.getSession();
 
-  const channelsQuery = e.select(e.Channel, (_channel) => ({
-    id: true,
-    name: true,
-    created: true,
-    updated: true,
-    created_by: {
-      name: true,
-      email: true,
-    },
-    filter: e.op(_channel.created_by, "=", e.global.current_user),
-  }));
+  const user = await client.query(`
+    Select User {
+      channels: {*}
+    }
+    filter .email = global current_user.email
+  `);
 
-  const channels = await channelsQuery.run(client);
+  const channels = (user[0] as User)?.channels;
 
   return (
     <>

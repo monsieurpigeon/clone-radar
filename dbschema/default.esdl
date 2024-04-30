@@ -19,6 +19,8 @@ module default {
       default := "user";
     };
 
+    multi channels: Channel;
+
     created: datetime {
       rewrite insert using (datetime_of_statement());
     }
@@ -29,9 +31,8 @@ module default {
   }
 
   type Channel {
-    required name: str;
-    required created_by: User {
-      default := global current_user;
+    required name: str {
+      constraint exclusive;
     }
 
     created: datetime {
@@ -45,9 +46,6 @@ module default {
     access policy admin_has_full_access
       allow all
       using (global current_user.userRole ?= Role.admin);
-    access policy creator_has_full_access
-      allow all
-      using (.created_by ?= global current_user);
     access policy others_read_only
       allow select, insert;
   }

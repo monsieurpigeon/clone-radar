@@ -1,5 +1,4 @@
 import AddChannel from "@/components/AddChannel";
-import e from "@/dbschema/edgeql-js";
 import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import { auth } from "edgedb-client";
 import Link from "next/link";
@@ -7,12 +6,21 @@ import Link from "next/link";
 const addChannel = async (name: string) => {
   "use server";
   const session = auth.getSession();
-
-  const newChannelQuery = e.insert(e.Channel, {
-    name,
-  });
-
-  newChannelQuery.run(session.client);
+  const result = await session.client.query(
+    `
+    with channel := (
+      insert Channel { name := <str>$name }
+      unless conflict on .name
+      else Channel
+    )
+    update User
+    filter .email = global current_user.email
+    set {
+      channels += channel
+    }
+  `,
+    { name }
+  );
 };
 
 export default function Example() {

@@ -3,12 +3,7 @@ import { auth } from "edgedb-client";
 import DeleteChannel from "./DeleteChannel";
 
 interface Props {
-  channels: (Omit<Channel, "created_by"> & {
-    created_by: {
-      name: string;
-      email: string | null;
-    };
-  })[];
+  channels: Omit<Channel, "created_by">[];
 }
 
 const deleteChannel = async (id: string) => {
@@ -37,7 +32,7 @@ export default function Channels({ channels }: Props) {
           <div className="flex-auto border rounded p-4">
             <div className="flex items-center justify-between gap-x-4">
               <p className="text-sm font-semibold leading-6 text-gray-900">
-                {channel.name} by {channel.created_by.email}
+                {channel.name}
               </p>
               <DeleteChannel channel={channel} handleDelete={deleteChannel} />
             </div>
