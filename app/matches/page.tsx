@@ -23,22 +23,22 @@ export default async function MatchesPage() {
   >[];
 
   return (
-    <>
+    <div className="max-w-xl mx-auto">
       <header className="flex justify-between items-center pb-4">
         <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900">
           My Matches
         </h1>
+        <form action={scanMatches}>
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white px-3 py-2 rounded-md font-semibold"
+            type="submit"
+          >
+            Scan
+          </button>
+        </form>
       </header>
-      <form action={scanMatches}>
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          type="submit"
-        >
-          Scan
-        </button>
-      </form>
 
       <Matches matches={matches} />
-    </>
+    </div>
   );
 }
