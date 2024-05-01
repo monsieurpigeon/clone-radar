@@ -23,7 +23,7 @@ export default function AddChannel({
       <div className="space-y-12">
         <div className="pb-4 border-b border-gray-200">
           <h2 className="text-xl font-semibold leading-1 text-gray-900">
-            New Item
+            New Channel
           </h2>
 
           <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -41,7 +41,7 @@ export default function AddChannel({
                     name="name"
                     id="name"
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="test item"
+                    placeholder="@t3dotgg"
                     value={channelName}
                     onChange={(e) => setChannelName(e.target.value)}
                   />
