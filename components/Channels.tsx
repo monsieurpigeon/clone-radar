@@ -8,14 +8,18 @@ interface Props {
 
 const deleteChannel = async (id: string) => {
   "use server";
+
   const session = auth.getSession();
 
   const res = await session.client.query(
     `
+    with deletedChannel := (
+      select Channel filter .id = <uuid>"${id}" limit 1
+    )
     update User
       filter .email = global current_user.email
     set {
-      channels := {}
+      channels := .channels except deletedChannel
     }
     `
   );
