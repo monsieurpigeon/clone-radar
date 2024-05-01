@@ -5,6 +5,8 @@ import Link from "next/link";
 
 const addChannel = async (name: string) => {
   "use server";
+
+  const cleanedName = name.replace(/[^a-zA-Z0-9@]/g, "");
   const session = auth.getSession();
   await session.client.query(
     `
@@ -19,7 +21,7 @@ const addChannel = async (name: string) => {
       channels += channel
     }
   `,
-    { name }
+    { name: cleanedName }
   );
 };
 

@@ -12,12 +12,11 @@ export const metadata: Metadata = {
     type: "website",
     title: "Clone Radar",
     description: "You are unique in a lot of ways.",
-    locale: "en_US",
     url: "https://cloneradar.com",
     siteName: "Clone Radar",
     images: [
       {
-        url: "/logoCR.png",
+        url: "/logo.png",
         alt: "Clone Radar",
       },
     ],
