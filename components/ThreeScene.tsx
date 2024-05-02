@@ -59,7 +59,8 @@ function Boxes() {
             Math.sin(z / 4 + time);
           tempObject.rotation.z = tempObject.rotation.y * 2;
           if (hovered !== prevRef.Current) {
-            (id === hovered
+            (data[id].color === data[hovered].color &&
+            Math.abs(id - hovered) < 10
               ? tempColor.setRGB(10, 10, 10)
               : tempColor.set(data[id].color)
             ).toArray(colorArray, id * 3);
