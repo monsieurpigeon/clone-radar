@@ -23,7 +23,7 @@ export function ThreeScene() {
       <Boxes />
       <EffectComposer disableNormalPass>
         <N8AO aoRadius={0.5} intensity={1} />
-        <Bloom luminanceThreshold={1} intensity={0.5} levels={9} mipmapBlur />
+        <Bloom luminanceThreshold={1} intensity={0.5} levels={9} />
       </EffectComposer>
     </Canvas>
   );
