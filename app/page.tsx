@@ -1,5 +1,10 @@
 import { auth } from "edgedb-client";
 import Link from "next/link";
+import { ThreeScene } from "../components/ThreeScene";
+
+// const Dynamic3D = dynamic(() => import("../components/ThreeScene"), {
+//   loading: () => <p>Loading...</p>,
+// });
 
 export default async function Home() {
   const session = auth.getSession();
@@ -53,7 +58,7 @@ export default async function Home() {
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
               Clone Radar
             </h1>
-            <div className="mt-6 text-base leading-7 text-gray-600">
+            <div className="mt-6 text-base leading-7 text-gray-600 flex flex-col items-center">
               <div>You are unique in a lot of ways.</div>
               <div>
                 One of them is the perfect combination of the things you love
@@ -64,6 +69,9 @@ export default async function Home() {
                 the same,
               </div>
               <div>and together, build something amazing on top.</div>
+              <div style={{ width: "800px", height: "800px" }}>
+                <ThreeScene />
+              </div>
             </div>
           </div>
         </div>
