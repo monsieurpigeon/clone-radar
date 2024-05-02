@@ -2,6 +2,7 @@
 
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
+import posthog from "posthog-js";
 
 export default function DeleteChannel({
   channel,
@@ -21,7 +22,7 @@ export default function DeleteChannel({
           alert(error);
           return;
         }
-
+        posthog.capture("channel_delete");
         router.refresh();
       }}
     >

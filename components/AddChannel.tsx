@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import posthog from "posthog-js";
 import { useState } from "react";
 
 export default function AddChannel({
@@ -17,6 +18,7 @@ export default function AddChannel({
         e.preventDefault();
         await addChannel(channelName);
         setChannelName("");
+        posthog.capture("channel_add");
         router.refresh();
       }}
     >
