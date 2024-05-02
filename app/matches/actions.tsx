@@ -15,9 +15,9 @@ export async function scanMatches() {
     with myMatches := (SELECT User {
         email,
         channels: {
-        name
+          name
         },
-        matchCount := (with value := (select result := User.channels.name = global current_user.channels.name filter result = true) Select count(value))
+        matchCount := (Select count(User.channels.name intersect global current_user.channels.name))
     } filter .matchCount > 0 and .email != global current_user.email)
     update User
         filter .email = global current_user.email

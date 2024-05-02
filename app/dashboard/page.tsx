@@ -6,14 +6,11 @@ import Link from "next/link";
 export default async function Dashboard() {
   const { client } = auth.getSession();
 
-  const user = await client.query(`
-    Select User {
-      channels: {*}
-    }
-    filter .email = global current_user.email
-  `);
+  const user = await client.querySingle(
+    "select global current_user { *, channels: { * } };"
+  );
 
-  const channels = (user[0] as User)?.channels;
+  const channels = (user as User)?.channels;
 
   return (
     <div className="max-w-xl mx-auto">
