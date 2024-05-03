@@ -55,7 +55,7 @@ export default function AddChannel({
       </div>
 
       <div className="mt-6 flex items-center gap-x-6">
-        <Link href="/dashboard">
+        <Link href="/collection">
           <button
             type="button"
             className="text-sm font-semibold leading-6 text-gray-900"

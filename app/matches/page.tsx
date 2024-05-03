@@ -12,7 +12,8 @@ export default async function MatchesPage() {
         email,
         channels,
         boardGames,
-        restrictedItems := (select (select .channels.name intersect global current_user.channels.name) union (select .boardGames.name intersect global current_user.boardGames.name) )
+        authors,
+        restrictedItems := (select (select .channels.name intersect global current_user.channels.name) union (select .boardGames.name intersect global current_user.boardGames.name) union (select .authors.name intersect global current_user.authors.name) )
       }
     }
     filter .email = global current_user.email

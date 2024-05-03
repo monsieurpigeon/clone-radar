@@ -21,6 +21,7 @@ module default {
 
     multi channels: Channel;
     multi boardGames: BoardGame;
+    multi authors: Author;
     multi matches: User;
 
     created: datetime {
@@ -59,5 +60,9 @@ module default {
 
   type BoardGame extending CollectionItem {
 
+  }
+
+  type Author extending CollectionItem {
+    
   }
 }

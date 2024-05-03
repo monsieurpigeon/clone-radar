@@ -20,7 +20,10 @@ export async function scanMatches() {
         boardGames: {
           id
         },
-        matchCount := (SELECT count(User.channels.id INTERSECT global current_user.channels.id) + count(User.boardGames.id INTERSECT global current_user.boardGames.id))
+        authors: {
+          id
+        }
+        matchCount := (SELECT count(User.channels.id INTERSECT global current_user.channels.id) + count(User.boardGames.id INTERSECT global current_user.boardGames.id) + count(User.authors.id INTERSECT global current_user.authors.id))
     } filter .matchCount > 0 AND .email != global current_user.email)
     UPDATE User
         FILTER .email = global current_user.email
