@@ -1,7 +1,7 @@
 import { User } from "@/dbschema/interfaces";
 
 interface Props {
-  matches: Omit<User & { restrictedChannels: string[] }, "created_by">[];
+  matches: Omit<User & { restrictedItems: string[] }, "created_by">[];
 }
 
 export default function Matches({ matches }: Props) {
@@ -15,12 +15,12 @@ export default function Matches({ matches }: Props) {
                 {match.email}
               </p>
               <div>
-                {match.restrictedChannels?.map((channel) => (
+                {match.restrictedItems?.map((item) => (
                   <div
-                    key={channel}
+                    key={item}
                     className="text-sm font-semibold leading-6 text-gray-900"
                   >
-                    {channel}
+                    {item}
                   </div>
                 ))}
               </div>

@@ -11,14 +11,15 @@ export default async function MatchesPage() {
       matches: {
         email,
         channels,
-        restrictedChannels := (select .channels.name intersect global current_user.channels.name)
+        boardGames,
+        restrictedItems := (select (select .channels.name intersect global current_user.channels.name) union (select .boardGames.name intersect global current_user.boardGames.name) )
       }
     }
     filter .email = global current_user.email
   `);
 
   const matches = (user[0] as User)?.matches as Omit<
-    User & { restrictedChannels: string[] },
+    User & { restrictedItems: string[] },
     "created_by"
   >[];
 

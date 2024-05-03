@@ -20,6 +20,7 @@ module default {
     };
 
     multi channels: Channel;
+    multi boardGames: BoardGame;
     multi matches: User;
 
     created: datetime {
@@ -31,14 +32,15 @@ module default {
     }
   }
 
-  type Channel {
+  abstract type CollectionItem {
     required name: str {
-      constraint exclusive;
+      delegated constraint exclusive;
     }
 
     created: datetime {
       rewrite insert using (datetime_of_statement());
     }
+
     updated: datetime {
       rewrite insert using (datetime_of_statement());
       rewrite update using (datetime_of_statement());
@@ -49,5 +51,13 @@ module default {
       using (global current_user.userRole ?= Role.admin);
     access policy others_read_only
       allow select, insert;
+  }
+
+  type Channel extending CollectionItem {
+    
+  }
+
+  type BoardGame extending CollectionItem {
+
   }
 }

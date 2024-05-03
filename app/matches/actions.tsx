@@ -15,13 +15,16 @@ export async function scanMatches() {
     with myMatches := (SELECT User {
         email,
         channels: {
-          name
+          id
         },
-        matchCount := (Select count(User.channels.name intersect global current_user.channels.name))
-    } filter .matchCount > 0 and .email != global current_user.email)
-    update User
-        filter .email = global current_user.email
-    set {
+        boardGames: {
+          id
+        },
+        matchCount := (SELECT count(User.channels.id INTERSECT global current_user.channels.id) + count(User.boardGames.id INTERSECT global current_user.boardGames.id))
+    } filter .matchCount > 0 AND .email != global current_user.email)
+    UPDATE User
+        FILTER .email = global current_user.email
+    SET {
       matches := myMatches
     }
   `);

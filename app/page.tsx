@@ -40,11 +40,11 @@ export default async function Home() {
               </>
             ) : (
               <Link
-                href="dashboard"
+                href="collection"
                 className="text-sm font-semibold leading-6 text-gray-900"
               >
                 <button className="bg-primary px-4 py-2 rounded-md text-white">
-                  Dashboard
+                  My Collection
                 </button>
               </Link>
             )}

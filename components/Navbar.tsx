@@ -13,8 +13,8 @@ import { Fragment } from "react";
 import { classNames } from "../src/utils";
 
 const navigation = [
-  { name: "Channels", href: "/dashboard", current: true },
-  { name: "Matches", href: "/matches", current: false },
+  { name: "My Collection", href: "/collection", current: true },
+  { name: "My Matches", href: "/matches", current: false },
 ];
 
 export default function Navbar({
