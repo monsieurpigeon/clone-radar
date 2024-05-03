@@ -13,14 +13,20 @@ export default async function MatchesPage() {
         channels,
         boardGames,
         authors,
-        restrictedItems := (select (select .channels.name intersect global current_user.channels.name) union (select .boardGames.name intersect global current_user.boardGames.name) union (select .authors.name intersect global current_user.authors.name) )
+        restrictedItems := (select (select .channels intersect global current_user.channels) union (select .boardGames intersect global current_user.boardGames) union (select .authors intersect global current_user.authors) ) {name, id, __type__: { name }}
       }
     }
     filter .email = global current_user.email
   `);
 
   const matches = (user[0] as User)?.matches as Omit<
-    User & { restrictedItems: string[] },
+    User & {
+      restrictedItems: {
+        id: string;
+        name: string;
+        __type__: { name: string };
+      }[];
+    },
     "created_by"
   >[];
 
