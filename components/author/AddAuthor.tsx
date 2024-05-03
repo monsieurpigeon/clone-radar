@@ -19,6 +19,7 @@ export default function AddAuthor({
         await addAuthor(authorName);
         setAuthorName("");
         posthog.capture("author_add");
+        router.replace("/collection");
         router.refresh();
       }}
     >

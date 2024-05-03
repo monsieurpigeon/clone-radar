@@ -19,6 +19,7 @@ export default function AddBoardGame({
         await addBoardGame(boardGameName);
         setBoardGameName("");
         posthog.capture("boardgame_add");
+        router.replace("/collection");
         router.refresh();
       }}
     >

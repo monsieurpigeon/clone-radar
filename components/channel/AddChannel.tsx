@@ -19,6 +19,7 @@ export default function AddChannel({
         await addChannel(channelName);
         setChannelName("");
         posthog.capture("channel_add");
+        router.replace("/collection");
         router.refresh();
       }}
     >
