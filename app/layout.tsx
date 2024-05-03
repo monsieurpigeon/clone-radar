@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { TimeCounter } from "../components/TimeCounter";
 import { auth } from "../edgedb-client";
 import "./globals.css";
 import { CSPostHogProvider } from "./providers";
@@ -41,13 +42,27 @@ export default async function RootLayout({
         <body className={inter.className}>
           {children}
           <footer className="absolute inset-x-0 bottom-0 z-50 flex flex-row justify-center">
-            <div className="p-4">
-              Made with <a href="https://www.edgedb.com/">EdgeDB</a> and{" "}
-              <a href="https://nextjs.org/">Next.js</a>, hosted on{" "}
-              <a href="https://vercel.com/">Vercel</a>. Clone Radar is open
-              source on{" "}
-              <a href="https://github.com/monsieurpigeon/clone-radar">GitHub</a>
-              .
+            <div className="flex flex-col items-center gap-1 pb-4">
+              <div>
+                This is my entry for the{" "}
+                <a href="https://hackathon.edgedb.com/">
+                  <span className="p-1 underline hover:bg-sky-100">
+                    EdgeDB hackthon
+                  </span>
+                </a>{" "}
+                and you still have <TimeCounter /> to build a better app and win
+                5k$
+              </div>
+              <div>
+                Made with <a href="https://www.edgedb.com/">EdgeDB</a> and{" "}
+                <a href="https://nextjs.org/">Next.js</a>, hosted on{" "}
+                <a href="https://vercel.com/">Vercel</a>. Clone Radar is open
+                source on{" "}
+                <a href="https://github.com/monsieurpigeon/clone-radar">
+                  GitHub
+                </a>
+                .
+              </div>
             </div>
           </footer>
         </body>

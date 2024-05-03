@@ -19,7 +19,7 @@ export default async function Collection() {
       <div className="max-w-xl mx-auto">
         <header className="flex justify-between items-center pb-4">
           <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900">
-            My favorite YouTube Channels
+            My Favorite YouTube Channels
           </h1>
           <Link href="/collection/channel/new">
             <button className="bg-primary text-white px-3 py-2 rounded-md font-semibold">
@@ -32,7 +32,7 @@ export default async function Collection() {
       <div className="max-w-xl mx-auto">
         <header className="flex justify-between items-center pb-4">
           <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900">
-            My favorite Board Games
+            My Favorite Board Games
           </h1>
           <Link href="/collection/boardgame/new">
             <button className="bg-primary text-white px-3 py-2 rounded-md font-semibold">
