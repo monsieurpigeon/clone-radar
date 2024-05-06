@@ -12,7 +12,7 @@ export async function scanMatches() {
   const { client } = auth.getSession();
 
   const [{ id: distinctId }]: { id: string }[] = await client.query(`
-    with myMatches := (SELECT User {
+    with myClones := (SELECT User {
         email,
         channels: {
           id
@@ -23,14 +23,14 @@ export async function scanMatches() {
         authors: {
           id
         },
-        matchCount := (SELECT count(User.channels.id INTERSECT global current_user.channels.id)
+        cloneCount := (SELECT count(User.channels.id INTERSECT global current_user.channels.id)
         + count(User.boardGames.id INTERSECT global current_user.boardGames.id)
         + count(User.authors.id INTERSECT global current_user.authors.id))
-    } filter .matchCount > 0 AND .email != global current_user.email ORDER BY .matchCount DESC)
+    } filter .cloneCount > 0 AND .email != global current_user.email ORDER BY .cloneCount DESC)
     UPDATE User
         FILTER .email = global current_user.email
     SET {
-      matches := myMatches
+      clones := myClones
     }
   `);
   posthog.capture({
