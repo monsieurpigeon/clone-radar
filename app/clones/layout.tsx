@@ -9,7 +9,7 @@ const handleSignOut = async () => {
   await signout();
 };
 
-export default async function DashboardLayout({
+export default async function MatchesLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -24,7 +24,6 @@ export default async function DashboardLayout({
   return (
     <div>
       <Navbar signedIn={signedIn} onSignOut={handleSignOut} />
-
       <div className="relative isolate px-4 pt-8 sm:px-6 xl:px-16">
         <main>
           <div className="mx-auto max-w-7xl">{children}</div>

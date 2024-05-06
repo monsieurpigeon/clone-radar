@@ -12,9 +12,15 @@ export default async function Collection() {
     "select global current_user { *, channels: { * }, boardGames: { * }, authors: { * } };"
   );
 
-  const channels = (user as User)?.channels;
-  const boardGames = (user as User)?.boardGames;
-  const authors = (user as User)?.authors;
+  const channels = (user as User)?.channels.sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+  const boardGames = (user as User)?.boardGames.sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+  const authors = (user as User)?.authors.sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
 
   return (
     <>

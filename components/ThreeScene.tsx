@@ -22,7 +22,7 @@ export function ThreeScene() {
       linear
     >
       <Boxes />
-      <EffectComposer disableNormalPass>
+      <EffectComposer>
         <N8AO aoRadius={0.5} intensity={1} />
         <Bloom luminanceThreshold={1} intensity={0.5} levels={9} />
       </EffectComposer>
@@ -46,8 +46,8 @@ function Boxes() {
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
-    meshRef.current.rotation.x = Math.sin(time / 4);
-    meshRef.current.rotation.y = Math.sin(time / 2);
+    meshRef.current.rotation.x = Math.sin(time / 42);
+    meshRef.current.rotation.y = Math.sin(time / 23);
     let i = 0;
     for (let x = 0; x < 10; x++)
       for (let y = 0; y < 10; y++)
@@ -55,9 +55,9 @@ function Boxes() {
           const id = i++;
           tempObject.position.set(5 - x, 5 - y, 5 - z);
           tempObject.rotation.y =
-            Math.sin(x / 4 + time) +
-            Math.sin(y / 4 + time) +
-            Math.sin(z / 4 + time);
+            Math.sin(x / 4 + time / 3) +
+            Math.sin(y / 4 + time / 3) +
+            Math.sin(z / 4 + time / 3);
           tempObject.rotation.z = tempObject.rotation.y * 2;
           if (hovered !== prevRef.Current) {
             (data[id].color === data[hovered].color

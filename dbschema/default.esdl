@@ -22,7 +22,7 @@ module default {
     multi channels: Channel;
     multi boardGames: BoardGame;
     multi authors: Author;
-    multi matches: User;
+    multi clones: User;
 
     created: datetime {
       rewrite insert using (datetime_of_statement());
@@ -30,6 +30,22 @@ module default {
     updated: datetime {
       rewrite insert using (datetime_of_statement());
       rewrite update using (datetime_of_statement());
+    }
+  }
+
+  type Conversation {
+    multi messages: Message;
+    multi participants: User;
+    created: datetime {
+      rewrite insert using (datetime_of_statement());
+    }
+  }
+
+  type Message {
+    required text: str;
+    required author: User;
+    created: datetime {
+      rewrite insert using (datetime_of_statement());
     }
   }
 

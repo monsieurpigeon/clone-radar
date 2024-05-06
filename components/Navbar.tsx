@@ -13,8 +13,9 @@ import { Fragment } from "react";
 import { classNames } from "../src/utils";
 
 const navigation = [
-  { name: "My Collection", href: "/collection", current: true },
-  { name: "My Matches", href: "/matches", current: false },
+  { name: "Collection", href: "/collection", current: true },
+  { name: "Clones", href: "/clones", current: false },
+  { name: "Conversations", href: "/conversations", current: false },
 ];
 
 export default function Navbar({

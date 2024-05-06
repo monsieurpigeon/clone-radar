@@ -1,4 +1,4 @@
-import Matches from "@/components/Matches";
+import Clones from "@/components/Clones";
 import { User } from "@/dbschema/interfaces";
 import { auth } from "@/edgedb-client";
 import { scanMatches } from "./actions";
@@ -8,7 +8,7 @@ export default async function MatchesPage() {
 
   const user = await client.query(`
     Select User {
-      matches: {
+      clones: {
         email,
         channels,
         boardGames,
@@ -19,7 +19,7 @@ export default async function MatchesPage() {
     filter .email = global current_user.email
   `);
 
-  const matches = (user[0] as User)?.matches as Omit<
+  const clones = (user[0] as User)?.clones as Omit<
     User & {
       restrictedItems: {
         id: string;
@@ -34,7 +34,7 @@ export default async function MatchesPage() {
     <div className="max-w-xl mx-auto">
       <header className="flex justify-between items-center pb-4">
         <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900">
-          My Matches
+          My Clones
         </h1>
         <form action={scanMatches}>
           <button
@@ -46,7 +46,7 @@ export default async function MatchesPage() {
         </form>
       </header>
 
-      <Matches matches={matches} />
+      <Clones clones={clones} />
     </div>
   );
 }

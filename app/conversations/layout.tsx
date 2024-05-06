@@ -9,7 +9,7 @@ const handleSignOut = async () => {
   await signout();
 };
 
-export default async function MatchesLayout({
+export default async function ConversationLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -22,9 +22,8 @@ export default async function MatchesLayout({
   }
 
   return (
-    <div className="min-h-full">
+    <div>
       <Navbar signedIn={signedIn} onSignOut={handleSignOut} />
-
       <div className="relative isolate px-4 pt-8 sm:px-6 xl:px-16">
         <main>
           <div className="mx-auto max-w-7xl">{children}</div>
