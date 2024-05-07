@@ -63,13 +63,7 @@ function Boxes() {
             (data[id].color === data[hovered].color
               ? tempColor
                   .set(data[id].color)
-                  .addScalar(
-                    Math.abs(
-                      Math.sin(x + time * 3) +
-                        Math.sin(y + time * 3) +
-                        Math.sin(z + time * 3)
-                    )
-                  )
+                  .addScalar(Math.abs(Math.sin(x + y + z + time * 3)))
               : tempColor.set(data[id].color)
             ).toArray(colorArray, id * 3);
             meshRef.current.geometry.attributes.color.needsUpdate = true;

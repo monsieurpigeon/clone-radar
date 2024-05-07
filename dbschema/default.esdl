@@ -39,6 +39,10 @@ module default {
     created: datetime {
       rewrite insert using (datetime_of_statement());
     }
+    updated: datetime {
+      rewrite insert using (datetime_of_statement());
+      rewrite update using (datetime_of_statement());
+    }
   }
 
   type Message {
