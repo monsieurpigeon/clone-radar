@@ -20,7 +20,7 @@ export function CollectionSection({
           <button className="text-xl px-3 py-1 font-semibold">+</button>
         </Link>
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-4 flex-wrap">
         {user &&
           user[collection.objectKey]
             .sort((a, b) => a.name.localeCompare(b.name))
