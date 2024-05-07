@@ -46,8 +46,8 @@ function Boxes() {
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
-    meshRef.current.rotation.x = Math.sin(time / 42);
-    meshRef.current.rotation.y = Math.sin(time / 23);
+    meshRef.current.rotation.x = Math.sin(time / 12);
+    meshRef.current.rotation.y = Math.sin(time / 13);
     let i = 0;
     for (let x = 0; x < 10; x++)
       for (let y = 0; y < 10; y++)
@@ -61,7 +61,15 @@ function Boxes() {
           tempObject.rotation.z = tempObject.rotation.y * 2;
           if (hovered !== prevRef.Current) {
             (data[id].color === data[hovered].color
-              ? tempColor.setRGB(10, 10, 10)
+              ? tempColor
+                  .set(data[id].color)
+                  .addScalar(
+                    Math.abs(
+                      Math.sin(x + time * 3) +
+                        Math.sin(y + time * 3) +
+                        Math.sin(z + time * 3)
+                    )
+                  )
               : tempColor.set(data[id].color)
             ).toArray(colorArray, id * 3);
             meshRef.current.geometry.attributes.color.needsUpdate = true;
