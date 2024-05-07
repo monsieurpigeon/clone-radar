@@ -5,20 +5,26 @@ import { useRouter } from "next/navigation";
 import posthog from "posthog-js";
 import { useState } from "react";
 
-export default function AddChannel({
-  addChannel,
+export default function AddItem({
+  addItem,
+  type,
+  title,
+  placeholder,
 }: {
-  addChannel: (name: string) => Promise<void>;
+  addItem: (name: string) => Promise<void>;
+  type: string;
+  title: string;
+  placeholder: string;
 }) {
-  const [channelName, setChannelName] = useState("");
+  const [name, setName] = useState("");
   const router = useRouter();
   return (
     <form
       onSubmit={async (e) => {
         e.preventDefault();
-        await addChannel(channelName);
-        setChannelName("");
-        posthog.capture("channel_add");
+        await addItem(name);
+        setName("");
+        posthog.capture(`${type}_add`);
         router.replace("/collection");
         router.refresh();
       }}
@@ -26,7 +32,7 @@ export default function AddChannel({
       <div className="space-y-12">
         <div className="pb-4 border-b border-gray-200">
           <h2 className="text-xl font-semibold leading-1 text-gray-900">
-            New Channel
+            New {title}
           </h2>
 
           <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -44,9 +50,9 @@ export default function AddChannel({
                     name="name"
                     id="name"
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="@t3dotgg"
-                    value={channelName}
-                    onChange={(e) => setChannelName(e.target.value)}
+                    placeholder={placeholder}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
               </div>
