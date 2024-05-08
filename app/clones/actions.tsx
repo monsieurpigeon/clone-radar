@@ -44,7 +44,6 @@ export async function scanMatches() {
 export async function createConversation(formData: FormData) {
   const { client } = auth.getSession();
   const email = formData.get("email");
-  console.log(email);
   const id = await client.query(
     `
       with other := (SELECT User {}
