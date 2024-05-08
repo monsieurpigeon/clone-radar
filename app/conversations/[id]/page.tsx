@@ -1,7 +1,7 @@
+import { Conversation, Message, User } from "@/dbschema/interfaces";
 import { auth } from "@/edgedb-client";
-import { Conversation, User } from "../../../dbschema/interfaces";
-import { dateFormatter, durationFormatter } from "../../../utils/formatter";
-import { sendMessage } from "./actions";
+import { dateFormatter, durationFormatter } from "@/utils/formatter";
+import { ChatForm } from "./ChatForm";
 
 export default async function ConversationPage({
   params,
@@ -9,15 +9,17 @@ export default async function ConversationPage({
   params: { id: string };
 }) {
   const { client } = auth.getSession();
-  const conversation: (Conversation & { participant: User }) | null =
-    await client.querySingle(
-      `Select Conversation { *,
+  const conversation:
+    | (Conversation & { participant: User; lastMessages: Message[] })
+    | null = await client.querySingle(
+    `Select Conversation { *,
         participant := (SELECT assert_single((SELECT .participants filter .email != global current_user.email))){email},
-        messages: { *, author: {*} }
+        messages: { *, author: {*} },
+        lastMessages := (SELECT .messages ORDER BY .created DESC LIMIT 5){ *, author: {*} }
     }
     filter .id = <uuid>$id`,
-      { id: params.id }
-    );
+    { id: params.id }
+  );
 
   if (!conversation) {
     return <div>Conversation not found</div>;
@@ -31,29 +33,23 @@ export default async function ConversationPage({
         </h1>
         <p>Since {dateFormatter(conversation.created)}</p>
       </header>
-      <div className="">
-        <div>
-          {conversation.messages?.map((message) => {
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col-reverse gap-4">
+          {conversation.lastMessages?.map((message) => {
             return (
-              <div key={message.id}>
-                <div className="font-semibold">{message.author.email}</div>
-                <div>{durationFormatter(message.created)}</div>
+              <div key={message.id} className="p-2 border rounded">
+                <div className="flex gap-4 text-sm">
+                  <div className="font-semibold">{message.author.email}</div>
+                  <div>{durationFormatter(message.created)}</div>
+                </div>
+
                 <div>{message.text}</div>
               </div>
             );
           })}
         </div>
         <div>
-          <form action={sendMessage}>
-            <input
-              type="text"
-              name="conversationId"
-              defaultValue={params.id}
-              hidden
-            />
-            <input type="text" name="message" />
-            <button>Send</button>
-          </form>
+          <ChatForm conversationId={params.id} />
         </div>
       </div>
     </div>
