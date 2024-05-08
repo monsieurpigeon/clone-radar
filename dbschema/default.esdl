@@ -10,6 +10,11 @@ module default {
     ))
   );
 
+  type Clone {
+    cloneCount: int64;
+    element: User;
+  }
+
   type User {
     required identity: ext::auth::Identity;
     required name: str;
@@ -22,7 +27,7 @@ module default {
     multi channels: Channel;
     multi boardGames: BoardGame;
     multi authors: Author;
-    multi clones: User;
+    multi clones: Clone;
 
     created: datetime {
       rewrite insert using (datetime_of_statement());

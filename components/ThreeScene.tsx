@@ -78,7 +78,6 @@ function Boxes() {
       ref={meshRef}
       args={[null, null, 1000]}
       onPointerMove={(e) => (e.stopPropagation(), set(e.instanceId))}
-      onPointerOut={(e) => set(undefined)}
     >
       <boxGeometry args={[0.6, 0.6, 0.6]}>
         <instancedBufferAttribute

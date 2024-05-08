@@ -12,25 +12,32 @@ export async function scanMatches() {
   const { client } = auth.getSession();
 
   const [{ id: distinctId }]: { id: string }[] = await client.query(`
-    with myClones := (SELECT User {
+  WITH currentUser := (SELECT global current_user),
+  clones := (
+      (FOR channel in currentUser.channels
+      UNION channel.<channels[is User]) UNION
+      (FOR boardGame in currentUser.boardGames
+      UNION boardGame.<boardGames[is User]) UNION
+      (FOR author in currentUser.authors
+      UNION author.<authors[is User])
+    ),
+    cloneResult := (GROUP clones BY .email),
+    myClones := (SELECT cloneResult {
+      element := (SELECT .elements LIMIT 1){
         email,
-        channels: {
-          id
-        },
-        boardGames: {
-          id
-        },
-        authors: {
-          id
-        },
-        cloneCount := (SELECT count(User.channels.id INTERSECT global current_user.channels.id)
-        + count(User.boardGames.id INTERSECT global current_user.boardGames.id)
-        + count(User.authors.id INTERSECT global current_user.authors.id))
-    } filter .cloneCount > 0 AND .email != global current_user.email ORDER BY .cloneCount DESC)
+      },
+      cloneCount := count(.elements)
+    } FILTER .element.email != currentUser.email
+    ORDER BY .cloneCount DESC
+    LIMIT 10)
+
     UPDATE User
-        FILTER .email = global current_user.email
+        FILTER .email = currentUser.email
     SET {
-      clones := myClones
+      clones := (FOR clone in myClones UNION (INSERT Clone {
+        element := clone.element,
+        cloneCount := clone.cloneCount
+      }))
     }
   `);
   posthog.capture({
