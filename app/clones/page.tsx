@@ -1,7 +1,7 @@
-import Clones from "@/components/Clones";
 import { User } from "@/dbschema/interfaces";
 import { auth } from "@/edgedb-client";
 import { scanMatches } from "./actions";
+import Clones from "./Clones";
 
 export default async function MatchesPage() {
   const { client } = auth.getSession();

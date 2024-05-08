@@ -58,8 +58,6 @@ export async function createConversation(formData: FormData) {
     `,
     { email }
   );
-  console.log(id);
-
   revalidatePath("/conversations");
   return id;
 }
