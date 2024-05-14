@@ -37,21 +37,25 @@ export default function Loader() {
   let circles = [
     {
       el: useRef(null),
+      path: useRef(null),
       position: { ...origin[0] },
       speed: { x: 0, y: STRENTH },
     },
     {
       el: useRef(null),
+      path: useRef(null),
       position: { ...origin[1] },
       speed: { x: STRENTH, y: 0 },
     },
     {
       el: useRef(null),
+      path: useRef(null),
       position: { ...origin[2] },
       speed: { x: 0, y: STRENTH },
     },
     {
       el: useRef(null),
+      path: useRef(null),
       position: { ...origin[3] },
       speed: { x: -STRENTH, y: 0 },
     },
@@ -80,6 +84,26 @@ export default function Loader() {
     []
   );
 
+  const setPath = useCallback(
+    (
+      ref: RefObject<SVGCircleElement>,
+      position: { x: number; y: number },
+      speed: { x: number; y: number }
+    ) => {
+      const previous = ref.current?.getAttribute("d");
+      if (!previous) {
+        ref.current?.setAttribute("d", `M ${position.x} ${position.y}`);
+      } else {
+        const array = previous.split("L").slice(-500);
+        ref.current?.setAttribute(
+          "d",
+          `M ${array[0]} L ${array.join("L")} L ${position.x} ${position.y}`
+        );
+      }
+    },
+    []
+  );
+
   const animateOut = () => {
     time += 0.1;
     circles = circles.map((circle, index) => {
@@ -97,6 +121,7 @@ export default function Loader() {
         y,
         (spin * (circle.speed.x + circle.speed.y)) / 3 + 10
       );
+      setPath(circle.path, circle.position, circle.speed);
 
       return {
         ...circle,
@@ -142,11 +167,14 @@ export default function Loader() {
           <svg>
             {circles.map((circle, index) => {
               return (
-                <circle
-                  className={styles.electron}
-                  key={index}
-                  ref={circle.el}
-                />
+                <>
+                  <circle
+                    className={styles.electron}
+                    key={index}
+                    ref={circle.el}
+                  />
+                  <path ref={circle.path} stroke="white" fill="none" />
+                </>
               );
             })}
             <circle className={styles.center} ref={center} />
