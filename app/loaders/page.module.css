@@ -32,7 +32,9 @@
 }
 
 .center {
-  stroke-width: 3px;
-  stroke: white;
-  fill: none;
+  fill: #60dafb;
+}
+
+.path {
+  stroke-opacity: 0.6;
 }

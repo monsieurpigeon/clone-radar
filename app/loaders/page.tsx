@@ -3,6 +3,7 @@ import { RefObject, useCallback, useEffect, useRef } from "react";
 import styles from "./page.module.css";
 
 const COEF = 0.005;
+const SIZE = 100;
 const CENTER = {
   x: 400,
   y: 300,
@@ -14,50 +15,47 @@ let time = 0;
 
 const origin = [
   {
-    x: CENTER.x + 100,
-    y: CENTER.y,
+    x: CENTER.x + SIZE * Math.sin(Math.PI / 3),
+    y: CENTER.y + SIZE * Math.cos(Math.PI / 3),
+  },
+  {
+    x: CENTER.x - SIZE * Math.sin(Math.PI / 3),
+    y: CENTER.y + SIZE * Math.cos(Math.PI / 3),
   },
   {
     x: CENTER.x,
-    y: CENTER.y + 100,
-  },
-  {
-    x: CENTER.x - 100,
-    y: CENTER.y,
-  },
-  {
-    x: CENTER.x,
-    y: CENTER.y - 100,
+    y: CENTER.y - SIZE,
   },
 ];
 export default function Loader() {
   const center = useRef<SVGCircleElement>(null);
-  let MOUSE = { x: 0, y: 0 };
-  let STRENTH = 9;
+  let MOUSE = { x: 400, y: 300 };
+  let STRENTH = 20;
   let circles = [
     {
       el: useRef(null),
-      path: useRef(null),
+      path: { ref: useRef(null), points: [], color: "red" },
       position: { ...origin[0] },
-      speed: { x: 0, y: STRENTH },
+
+      speed: {
+        x: -STRENTH * Math.cos(Math.PI / 3),
+        y: STRENTH * Math.sin(Math.PI / 3),
+      },
     },
     {
       el: useRef(null),
-      path: useRef(null),
+      path: { ref: useRef(null), points: [], color: "blue" },
       position: { ...origin[1] },
-      speed: { x: STRENTH, y: 0 },
+      speed: {
+        x: -STRENTH * Math.cos(Math.PI / 3),
+        y: -STRENTH * Math.sin(Math.PI / 3),
+      },
     },
     {
       el: useRef(null),
-      path: useRef(null),
+      path: { ref: useRef(null), points: [], color: "green" },
       position: { ...origin[2] },
-      speed: { x: 0, y: STRENTH },
-    },
-    {
-      el: useRef(null),
-      path: useRef(null),
-      position: { ...origin[3] },
-      speed: { x: -STRENTH, y: 0 },
+      speed: { x: STRENTH, y: 0 },
     },
   ];
 
@@ -75,7 +73,7 @@ export default function Loader() {
       ref: RefObject<SVGCircleElement>,
       x: number,
       y: number,
-      r: number = 10
+      r: number = 30
     ) => {
       ref.current?.setAttribute("cx", x.toString());
       ref.current?.setAttribute("cy", y.toString());
@@ -86,20 +84,26 @@ export default function Loader() {
 
   const setPath = useCallback(
     (
-      ref: RefObject<SVGCircleElement>,
+      path: {
+        ref: RefObject<SVGCircleElement>;
+        points: { x: number; y: number }[];
+      },
       position: { x: number; y: number },
       speed: { x: number; y: number }
     ) => {
-      const previous = ref.current?.getAttribute("d");
-      if (!previous) {
-        ref.current?.setAttribute("d", `M ${position.x} ${position.y}`);
-      } else {
-        const array = previous.split("L").slice(-500);
-        ref.current?.setAttribute(
-          "d",
-          `M ${array[0]} L ${array.join("L")} L ${position.x} ${position.y}`
-        );
+      path.points.push({
+        x: position.x,
+        y: position.y,
+      });
+      if (path.points.length > 500) {
+        path.points.shift();
       }
+      path.ref.current?.setAttribute(
+        "d",
+        `M ${path.points[0].x} ${path.points[0].y} L ${path.points
+          .map((point) => `${point.x} ${point.y} `)
+          .join("L")}`
+      );
     },
     []
   );
@@ -168,16 +172,24 @@ export default function Loader() {
             {circles.map((circle, index) => {
               return (
                 <>
-                  <circle
+                  {/* <circle
                     className={styles.electron}
                     key={index}
                     ref={circle.el}
+                    opacity={0.6}
+                  /> */}
+                  <path
+                    className={styles.path}
+                    ref={circle.path.ref}
+                    stroke="#60dafb"
+                    strokeWidth="20"
+                    fill="none"
                   />
-                  <path ref={circle.path} stroke="white" fill="none" />
                 </>
               );
             })}
-            <circle className={styles.center} ref={center} />
+
+            <circle className={styles.center} ref={center} r="30" />
           </svg>
         </div>
       </div>
