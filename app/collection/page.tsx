@@ -1,8 +1,9 @@
 import { User } from "@/dbschema/interfaces";
 import { auth } from "edgedb-client";
-import { CollectionSection } from "./CollectionSection";
 import { deleteChannel } from "./actions";
+import { CollectionSection } from "./CollectionSection";
 import { CollectionType } from "./types";
+import { YoutubeInput } from "./YoutubeInput";
 
 const collectionList: CollectionType[] = [
   {
@@ -30,6 +31,7 @@ export default async function Collection() {
         </header>
         <div className="flex flex-col gap-4">
           <div className="border-b-slate-400 border-dashed border-b"></div>
+          <YoutubeInput />
 
           {collectionList.map((collection) => {
             return (
