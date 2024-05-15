@@ -1,11 +1,11 @@
-export async function getYoutubeVideos() {
+export async function searchChannels(youtubeUrl: string) {
   const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
   const channelId = process.env.NEXT_PUBLIC_YOUTUBE_CHANNEL_ID;
-  const url = process.env.NEXT_PUBLIC_YOUTUBE_API_URL;
+  const url = "https://www.googleapis.com/youtube/v3/channels";
 
   try {
     const data = await fetch(
-      `${url}?part=snippet&channelId=${channelId}&key=${apiKey}`
+      `${url}?part=snippet,statistics&forHandle=${youtubeUrl.split("/")[3]}&key=${apiKey}`
     );
 
     if (!data.ok) throw new Error("Failed to fetch youtube videos");

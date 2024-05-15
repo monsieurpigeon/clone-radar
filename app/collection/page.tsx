@@ -7,7 +7,7 @@ import { YoutubeInput } from "./YoutubeInput";
 
 const collectionList: CollectionType[] = [
   {
-    title: "Youtube Channels",
+    title: "My Collection",
     type: "youtube",
     objectKey: "channels",
     handleDelete: deleteChannel,
@@ -24,13 +24,7 @@ export default async function Collection() {
   return (
     <>
       <div className="max-w-xl mx-auto">
-        <header className="flex justify-between items-center pb-4">
-          <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900">
-            My Collection
-          </h1>
-        </header>
         <div className="flex flex-col gap-4">
-          <div className="border-b-slate-400 border-dashed border-b"></div>
           <YoutubeInput />
 
           {collectionList.map((collection) => {

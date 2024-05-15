@@ -1,5 +1,4 @@
 import { User } from "@/dbschema/interfaces";
-import Link from "next/link";
 import { CollectionItem } from "./CollectionItem";
 import { CollectionType } from "./types";
 
@@ -16,9 +15,6 @@ export function CollectionSection({
         <p className="text-xl font-bold leading-4 tracking-tight text-gray-900">
           {collection.title}
         </p>
-        <Link href={`/collection/new?type=${collection.type}`}>
-          <button className="text-xl px-3 py-1 font-semibold">+</button>
-        </Link>
       </div>
       <div className="flex gap-4 flex-wrap">
         {user &&
