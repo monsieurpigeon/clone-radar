@@ -17,18 +17,18 @@ export function YoutubeInput() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-4">
+      <div className="flex gap-4 shadow-lg p-2 rounded-b-xl">
         <input
           value={value}
           placeholder="https://www.youtube.com/@t3dotgg"
           onChange={(e) => setValue(e.target.value)}
-          className="grow rounded "
+          className="grow rounded-lg border-0 focus:ring-0"
         />
         <button
           onClick={handleClick}
-          className="border rounded-lg p-2 bg-blue-500 text-white hover:bg-blue-600"
+          className="border rounded-lg p-2 bg-blue-500 text-white hover:bg-blue-600 font-semibold"
         >
-          SEARCH
+          Scout
         </button>
       </div>
 
@@ -38,7 +38,7 @@ export function YoutubeInput() {
             return (
               <div
                 key={item.etag}
-                className="flex gap-4 p-4 border-l-4 border-purple-400 rounded"
+                className="flex gap-4 p-4 border-l-4 border-purple-400 rounded-xl shadow-lg"
               >
                 <div className="flex flex-col items-stretch gap-2">
                   <div className="min-w-20 max-w-20 h-20 relative grow rounded-lg overflow-hidden">
