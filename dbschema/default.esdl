@@ -14,14 +14,15 @@ module default {
     required identity: ext::auth::Identity;
     required name: str;
     email: str;
+    required githubUsername: str;
+    required avatarUrl: str;
+
   
     userRole: Role {
       default := "user";
     };
 
     multi channels: Channel;
-    multi boardGames: BoardGame;
-    multi authors: Author;
     multi clones: User;
 
     created: datetime {
@@ -75,14 +76,6 @@ module default {
   }
 
   type Channel extending CollectionItem {
-    
-  }
-
-  type BoardGame extending CollectionItem {
-
-  }
-
-  type Author extending CollectionItem {
-    
+    fans := .<channels[is User];
   }
 }

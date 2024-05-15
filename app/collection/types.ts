@@ -1,7 +1,7 @@
 export type CollectionType = {
   title: string;
   type: string;
-  objectKey: "channels" | "boardGames" | "authors";
+  objectKey: "channels";
   capitalize?: boolean;
   handleDelete: (id: string) => Promise<string | null>;
 };

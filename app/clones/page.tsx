@@ -11,9 +11,7 @@ export default async function MatchesPage() {
       clones: {
         email,
         channels,
-        boardGames,
-        authors,
-        restrictedItems := (select (select .channels intersect global current_user.channels) union (select .boardGames intersect global current_user.boardGames) union (select .authors intersect global current_user.authors) ) {name, id, __type__: { name }}
+        restrictedItems := (select .channels intersect global current_user.channels) {name, id, __type__: { name }}
       }
     }
     filter .email = global current_user.email

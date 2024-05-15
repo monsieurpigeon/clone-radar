@@ -1,30 +1,7 @@
 import { ArrowLeftIcon } from "@heroicons/react/20/solid";
-import { auth } from "edgedb-client";
 import Link from "next/link";
-import { addBoardGame, addChannel } from "./actions";
+import { addChannel } from "./actions";
 import AddItem from "./AddItem";
-
-const addAuthor = async (name: string) => {
-  "use server";
-
-  const cleanedName = name.toLowerCase();
-  const session = auth.getSession();
-  await session.client.query(
-    `
-    with author := (
-      insert Author { name := <str>$name }
-      unless conflict on .name
-      else Author
-    )
-    update User
-    filter .email = global current_user.email
-    set {
-      authors += author
-    }
-  `,
-    { name: cleanedName }
-  );
-};
 
 const collectionTypes: {
   [key: string]: {
@@ -39,18 +16,6 @@ const collectionTypes: {
     placeholder: "@t3dotgg",
     type: "channel",
     addItem: addChannel,
-  },
-  boardgame: {
-    title: "Board Game",
-    placeholder: "Pandemic",
-    type: "boardgame",
-    addItem: addBoardGame,
-  },
-  author: {
-    title: "Author",
-    placeholder: "George Orwell",
-    type: "author",
-    addItem: addAuthor,
   },
 };
 

@@ -1,7 +1,7 @@
 import { User } from "@/dbschema/interfaces";
 import { auth } from "edgedb-client";
 import { CollectionSection } from "./CollectionSection";
-import { deleteAuthor, deleteBoardGame, deleteChannel } from "./actions";
+import { deleteChannel } from "./actions";
 import { CollectionType } from "./types";
 
 const collectionList: CollectionType[] = [
@@ -11,27 +11,13 @@ const collectionList: CollectionType[] = [
     objectKey: "channels",
     handleDelete: deleteChannel,
   },
-  {
-    title: "Board Games",
-    type: "boardgame",
-    objectKey: "boardGames",
-    capitalize: true,
-    handleDelete: deleteBoardGame,
-  },
-  {
-    title: "Authors",
-    type: "author",
-    objectKey: "authors",
-    capitalize: true,
-    handleDelete: deleteAuthor,
-  },
 ];
 
 export default async function Collection() {
   const { client } = auth.getSession();
 
   const user: User | null = await client.querySingle(
-    "select global current_user { *, channels: { * }, boardGames: { * }, authors: { * } };"
+    "select global current_user { *, channels: { * } };"
   );
 
   return (
