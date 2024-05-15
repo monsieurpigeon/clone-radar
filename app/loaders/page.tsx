@@ -157,7 +157,7 @@ export default function Loader() {
     });
   };
 
-  const handleHouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleHouseMove = (e: React.MouseEvent<SVGCircleElement>) => {
     MOUSE.x = e.clientX;
     MOUSE.y = e.clientY;
 
@@ -167,7 +167,7 @@ export default function Loader() {
   return (
     <div className={styles.container}>
       <div className={styles.body}>
-        <div className={styles.box} onMouseMove={handleHouseMove}>
+        <div className={styles.box}>
           <svg>
             {circles.map((circle, index) => {
               return (
@@ -188,8 +188,18 @@ export default function Loader() {
                 </>
               );
             })}
-
             <circle className={styles.center} ref={center} r="30" />
+            <circle
+              cx="400"
+              cy="300"
+              r="200"
+              fill="transparent"
+              onMouseMove={handleHouseMove}
+              onMouseLeave={() => {
+                MOUSE.x = 400;
+                MOUSE.y = 300;
+              }}
+            />
           </svg>
         </div>
       </div>
