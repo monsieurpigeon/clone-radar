@@ -2,22 +2,31 @@
 
 import { viewsFormatter } from "@/utils/formatter";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ChannelInputProps, searchChannels } from ".";
 import { addChannel } from "./actions";
 
-export function YoutubeInput() {
+export function YoutubeInput({
+  myCollection,
+}: {
+  myCollection: ChannelInputProps[];
+}) {
   const [videos, setVideos] = useState();
   const [value, setValue] = useState("");
-
+  const router = useRouter();
   const handleVerify = () => {
     searchChannels(value)
-      .then((data) => setVideos(data))
+      .then((data) => {
+        setVideos(data);
+        setValue("");
+      })
       .catch((error) => console.error(error));
   };
 
   const handleCollect = async (channel: ChannelInputProps) => {
     await addChannel(channel);
+    router.refresh();
   };
 
   return (
@@ -39,7 +48,7 @@ export function YoutubeInput() {
 
       <div className="flex flex-col">
         {videos &&
-          videos.items.map((item) => {
+          videos.items?.map((item) => {
             return (
               <div
                 key={item.etag}

@@ -38,9 +38,10 @@ export const addChannel = async (channel: ChannelInputProps) => {
           thumbnailUrl := <str>$thumbnailUrl,
           subscriberCount := <int64>$subscriberCount,
           videoCount := <int64>$videoCount
-        }  unless conflict on .youtubeId
+        }
+        unless conflict on .youtubeId
         else (
-          update Channel set { 
+          update Channel set {
             name := <str>$name,
             description := <str>$description,
             thumbnailUrl := <str>$thumbnailUrl,

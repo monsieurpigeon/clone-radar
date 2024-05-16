@@ -68,7 +68,7 @@ module default {
       allow all
       using (global current_user.userRole ?= Role.admin);
     access policy others_read_only
-      allow select, insert;
+      allow select, insert, update;
   }
 
   type Channel extending CollectionItem {
