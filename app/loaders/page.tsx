@@ -5,8 +5,8 @@ import styles from "./page.module.css";
 const COEF = 0.005;
 const SIZE = 100;
 const CENTER = {
-  x: 400,
-  y: 300,
+  x: 700,
+  y: 400,
 };
 
 const lerp = (x: number, y: number, a: number) => x * (1 - a) + y * a;
@@ -29,7 +29,7 @@ const origin = [
 ];
 export default function Loader() {
   const center = useRef<SVGCircleElement>(null);
-  let MOUSE = { x: 400, y: 300 };
+  let MOUSE = { x: 700, y: 400 };
   let STRENTH = 20;
   let circles = [
     {
@@ -190,14 +190,18 @@ export default function Loader() {
             })}
             <circle className={styles.center} ref={center} r="30" />
             <circle
-              cx="400"
-              cy="300"
-              r="200"
+              cx="700"
+              cy="400"
+              r="50"
               fill="transparent"
+              onMouseEnter={(e) => {
+                e.currentTarget.setAttribute("r", "300");
+              }}
               onMouseMove={handleHouseMove}
-              onMouseLeave={() => {
-                MOUSE.x = 400;
-                MOUSE.y = 300;
+              onMouseLeave={(e) => {
+                e.currentTarget.setAttribute("r", "50");
+                MOUSE.x = 700;
+                MOUSE.y = 400;
               }}
             />
           </svg>

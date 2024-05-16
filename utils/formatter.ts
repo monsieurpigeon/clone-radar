@@ -33,3 +33,13 @@ export function capitalize(s: string): string {
     .map((p: string) => p.charAt(0).toUpperCase() + p.substring(1))
     .join(" ");
 }
+
+export function viewsFormatter(count: number): string {
+  if (count < 1000) {
+    return count.toString();
+  }
+  if (count < 1000000) {
+    return `${(count / 1000).toFixed(1)}K`;
+  }
+  return `${(count / 1000000).toFixed(1)}M`;
+}

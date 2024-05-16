@@ -55,10 +55,6 @@ module default {
   }
 
   abstract type CollectionItem {
-    required name: str {
-      delegated constraint exclusive;
-    }
-
     created: datetime {
       rewrite insert using (datetime_of_statement());
     }
@@ -72,10 +68,18 @@ module default {
       allow all
       using (global current_user.userRole ?= Role.admin);
     access policy others_read_only
-      allow select, insert;
+      allow select, insert, update;
   }
 
   type Channel extending CollectionItem {
     fans := .<channels[is User];
+    required youtubeId: str{
+      constraint exclusive;
+    };
+    required name: str;
+    required description: str;
+    thumbnailUrl: str;
+    subscriberCount: int64;
+    videoCount: int64;
   }
 }
