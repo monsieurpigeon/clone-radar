@@ -2,6 +2,12 @@
 const nextConfig = {
   images: {
     domains: ["yt3.ggpht.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "yt3.ggpht.com",
+      },
+    ],
   },
   transpilePackages: ["three"],
   typescript: {

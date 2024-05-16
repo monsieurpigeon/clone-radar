@@ -11,6 +11,7 @@ export async function searchChannels(youtubeUrl: string) {
   const url = "https://www.googleapis.com/youtube/v3/channels";
   const handleArray = youtubeUrl.split("/");
   const handle = handleArray[handleArray.length - 1];
+  console.log(apiKey?.substring(0, 5) + "...");
 
   try {
     const data = await fetch(
