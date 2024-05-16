@@ -73,7 +73,9 @@ module default {
 
   type Channel extending CollectionItem {
     fans := .<channels[is User];
-    required youtubeId: str;
+    required youtubeId: str{
+      constraint exclusive;
+    };
     required name: str;
     required description: str;
     thumbnailUrl: str;

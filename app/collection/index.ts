@@ -1,6 +1,7 @@
+import { Channel } from "@/dbschema/interfaces";
+
 export async function searchChannels(youtubeUrl: string) {
   const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
-  const channelId = process.env.NEXT_PUBLIC_YOUTUBE_CHANNEL_ID;
   const url = "https://www.googleapis.com/youtube/v3/channels";
 
   try {
@@ -15,3 +16,5 @@ export async function searchChannels(youtubeUrl: string) {
     throw new Error("Failed to fetch youtube videos");
   }
 }
+
+export type ChannelInputProps = Omit<Channel, "id" | "fans">;

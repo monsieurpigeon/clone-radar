@@ -1,18 +1,23 @@
 "use client";
 
+import { viewsFormatter } from "@/utils/formatter";
 import Image from "next/image";
 import { useState } from "react";
-import { searchChannels } from ".";
-import { viewsFormatter } from "../../utils/formatter";
+import { ChannelInputProps, searchChannels } from ".";
+import { addChannel } from "./actions";
 
 export function YoutubeInput() {
   const [videos, setVideos] = useState();
   const [value, setValue] = useState("");
 
-  const handleClick = () => {
+  const handleVerify = () => {
     searchChannels(value)
       .then((data) => setVideos(data))
       .catch((error) => console.error(error));
+  };
+
+  const handleCollect = async (channel: ChannelInputProps) => {
+    await addChannel(channel);
   };
 
   return (
@@ -25,10 +30,10 @@ export function YoutubeInput() {
           className="grow rounded-lg border-0 focus:ring-0"
         />
         <button
-          onClick={handleClick}
+          onClick={handleVerify}
           className="border rounded-lg p-2 bg-blue-500 text-white hover:bg-blue-600 font-semibold"
         >
-          Scout
+          Verify
         </button>
       </div>
 
@@ -40,8 +45,8 @@ export function YoutubeInput() {
                 key={item.etag}
                 className="flex gap-4 p-4 border-l-4 border-purple-400 rounded-xl shadow-lg"
               >
-                <div className="flex flex-col items-stretch gap-2">
-                  <div className="min-w-20 max-w-20 h-20 relative grow rounded-lg overflow-hidden">
+                <div className="flex flex-col items-stretch gap-4">
+                  <div className="min-w-20 max-w-20 min-h-20 max-h-20 relative grow rounded-lg overflow-hidden">
                     <Image
                       src={item.snippet.thumbnails.default.url}
                       fill={true}
@@ -49,7 +54,21 @@ export function YoutubeInput() {
                       alt={item.snippet.title}
                     />
                   </div>
-                  <button className="border-2 rounded-lg px-1 hover:bg-yellow-400 hover:text-white hover:border-yellow-300 font-bold shadow-md">
+                  <button
+                    onClick={() =>
+                      handleCollect({
+                        youtubeId: item.id,
+                        name: item.snippet.title,
+                        description: item.snippet.description,
+                        thumbnailUrl: item.snippet.thumbnails.default.url,
+                        subscriberCount: parseInt(
+                          item.statistics.subscriberCount
+                        ),
+                        videoCount: parseInt(item.statistics.videoCount),
+                      })
+                    }
+                    className="border-2 rounded-lg px-1 hover:bg-yellow-400 hover:text-white hover:border-yellow-300 font-bold shadow-md"
+                  >
                     Collect
                   </button>
                 </div>
