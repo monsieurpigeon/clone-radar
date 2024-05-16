@@ -1,3 +1,4 @@
+"use server";
 import { Channel } from "@/dbschema/interfaces";
 
 // https://www.youtube.com/channel/UCVMAuwgr6s72Vlowid2EsbQ
@@ -6,7 +7,7 @@ import { Channel } from "@/dbschema/interfaces";
 // https://www.youtube.com/@t3dotgg
 
 export async function searchChannels(youtubeUrl: string) {
-  const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
+  const apiKey = process.env.YOUTUBE_API_KEY;
   const url = "https://www.googleapis.com/youtube/v3/channels";
   const handleArray = youtubeUrl.split("/");
   const handle = handleArray[handleArray.length - 1];
