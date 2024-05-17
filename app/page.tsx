@@ -14,7 +14,13 @@ export default async function Home() {
   const signedIn = await session.isSignedIn();
 
   const popularChannels: Channel[] | null = await session.client.query(
-    "select Channel {youtubeId,name, cloneRate := count(.fans)} ORDER BY .cloneRate then .subscriberCount DESC LIMIT 10"
+    `select Channel {
+      youtubeId,
+      name,
+      cloneRate := count(.fans)
+    } ORDER BY .cloneRate DESC
+    THEN .subscriberCount DESC
+    LIMIT 10`
   );
 
   const recentChannels: Channel[] | null = await session.client.query(
