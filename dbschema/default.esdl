@@ -22,7 +22,6 @@ module default {
     };
 
     multi channels: Channel;
-    multi clones: User;
 
     created: datetime {
       rewrite insert using (datetime_of_statement());
