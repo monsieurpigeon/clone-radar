@@ -43,3 +43,10 @@ export function viewsFormatter(count: number): string {
   }
   return `${(count / 1000000).toFixed(1)}M`;
 }
+
+export function ellipse(text: string, threshold: number) {
+  if (text.length < threshold) {
+    return text;
+  }
+  return `${text.substring(0, threshold)}...`;
+}

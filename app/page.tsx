@@ -1,5 +1,7 @@
+import { Channel } from "@/dbschema/interfaces";
 import { auth } from "edgedb-client";
 import Link from "next/link";
+import { ReactNode } from "react";
 import { ThreeScene } from "../components/ThreeScene";
 
 // const Dynamic3D = dynamic(() => import("../components/ThreeScene"), {
@@ -10,6 +12,20 @@ export default async function Home() {
   const session = auth.getSession();
 
   const signedIn = await session.isSignedIn();
+
+  const popularChannels: Channel[] | null = await session.client.query(
+    "select Channel {id,name} ORDER BY .subscriberCount DESC LIMIT 10"
+  );
+
+  const recentChannels: Channel[] | null = await session.client.query(
+    "select Channel {id,name} ORDER BY .created DESC LIMIT 10"
+  );
+
+  const recentScans = await session.client.query(`select Clone {
+    matchCount,
+    scanner: {githubUsername},
+    scanned: {githubUsername}
+  } FILTER .created > <datetime>'${new Date().toISOString()}' - <cal::relative_duration>'30 days' ORDER BY .matchCount DESC LIMIT 10`);
 
   return (
     <div>
@@ -72,10 +88,53 @@ export default async function Home() {
               <div style={{ width: "800px", height: "800px" }}>
                 <ThreeScene />
               </div>
-              <div className="grid grid-cols-3 gap-4">
-                <StatBlock title="Most popular channels" />
-                <StatBlock title="Most recent channels" />
-                <StatBlock title="Most recent scans" />
+              <div className="grid grid-cols-2 gap-4">
+                <StatBlock
+                  title="Popular channels"
+                  items={popularChannels.map((channel) => (
+                    <Link
+                      key={channel.id}
+                      href={`https://www.youtube.com/channel/${channel.id}`}
+                    >
+                      <div>{channel.name}</div>
+                    </Link>
+                  ))}
+                />
+                <StatBlock
+                  title="Recent channels"
+                  items={recentChannels.map((channel) => (
+                    <Link
+                      key={channel.id}
+                      href={`https://www.youtube.com/channel/${channel.id}`}
+                    >
+                      <div>{channel.name}</div>
+                    </Link>
+                  ))}
+                />
+                <StatBlock
+                  className="col-span-2"
+                  title="Best scans - 30 days"
+                  items={recentScans.map((scan, index) => {
+                    return (
+                      <div key={index}>
+                        <div>
+                          <span>{scan.matchCount} : </span>
+                          <Link
+                            href={`https://github.com/${scan.scanner.githubUsername}`}
+                          >
+                            {scan.scanner.githubUsername}
+                          </Link>
+                          <span>{"=>"}</span>
+                          <Link
+                            href={`https://github.com/${scan.scanned.githubUsername}`}
+                          >
+                            {scan.scanned.githubUsername}
+                          </Link>
+                        </div>
+                      </div>
+                    );
+                  })}
+                />
               </div>
             </div>
           </div>
@@ -86,12 +145,15 @@ export default async function Home() {
 }
 interface StatBlockProps {
   title: string;
+  items?: ReactNode[];
+  className?: string;
 }
 
-function StatBlock({ title }: StatBlockProps) {
+function StatBlock({ title, items, className }: StatBlockProps) {
   return (
-    <div className="border rounded p-4">
-      <div>{title}</div>
+    <div className={`border rounded p-4 ${className}`}>
+      <div className="font-semibold">{title}</div>
+      <div className="flex flex-col items-start">{items}</div>
     </div>
   );
 }

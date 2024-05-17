@@ -29,7 +29,9 @@ export function CollectionList({
               {channels &&
                 channels
                   .sort((a, b) => a.subscriberCount - b.subscriberCount)
-                  .map((item) => <CollectionItem key={item.id} item={item} />)}
+                  .map((item) => (
+                    <CollectionItem key={item.id} item={item} isBackground />
+                  ))}
             </div>
           </div>
 

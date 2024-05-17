@@ -5,7 +5,6 @@ import posthog from "posthog-js";
 
 export function DeleteButton({
   id,
-
   handleDelete,
 }: {
   id: string;

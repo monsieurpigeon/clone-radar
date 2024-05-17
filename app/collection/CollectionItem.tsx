@@ -3,7 +3,13 @@ import Image from "next/image";
 import { deleteChannel } from "./actions";
 import { DeleteButton } from "./DeleteButton";
 
-export function CollectionItem({ item }: { item: any }) {
+export function CollectionItem({
+  item,
+  isBackground,
+}: {
+  item: any;
+  isBackground?: boolean;
+}) {
   return (
     <div className="show-container relative">
       <div
@@ -17,7 +23,9 @@ export function CollectionItem({ item }: { item: any }) {
           alt={item.name}
         />
       </div>
-      <DeleteButton id={item.id} handleDelete={deleteChannel} />
+      {!isBackground && (
+        <DeleteButton id={item.id} handleDelete={deleteChannel} />
+      )}
     </div>
   );
 }
