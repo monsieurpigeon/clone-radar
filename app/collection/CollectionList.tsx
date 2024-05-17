@@ -34,15 +34,14 @@ export function CollectionList({
                   ))}
             </div>
           </div>
-
-          {show && (
-            <div className="absolute left-4 right-4 top-4 bottom-4 grid grid-cols-4 grid-rows-4 gap-4">
-              {channels &&
-                channels
-                  .sort((a, b) => a.subscriberCount - b.subscriberCount)
-                  .map((item) => <CollectionItem key={item.id} item={item} />)}
-            </div>
-          )}
+          <div
+            className={`absolute left-4 right-4 top-4 bottom-4 grid grid-cols-4 grid-rows-4 gap-4 collection-list ${show && "active"}`}
+          >
+            {channels &&
+              channels
+                .sort((a, b) => a.subscriberCount - b.subscriberCount)
+                .map((item) => <CollectionItem key={item.id} item={item} />)}
+          </div>
         </div>
       </div>
     </>

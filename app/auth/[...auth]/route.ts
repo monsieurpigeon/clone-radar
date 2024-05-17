@@ -11,6 +11,7 @@ export const { GET, POST } = auth.createAuthRouteHandlers({
     if (!tokenData) {
       console.log("email verification required");
     }
+
     if (isSignUp) {
       if (provider === "builtin::local_emailpassword") {
         const client = auth.getSession().client;
@@ -61,7 +62,7 @@ export const { GET, POST } = auth.createAuthRouteHandlers({
         );
       }
     }
-    redirect("/");
+    redirect("/collection");
   },
   onSignout() {
     redirect("/");

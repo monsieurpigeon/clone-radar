@@ -10,8 +10,13 @@ export function CollectionItem({
   item: any;
   isBackground?: boolean;
 }) {
+  const delay = Math.random() * 0.3 + 0.3;
+
   return (
-    <div className="show-container relative">
+    <div
+      className="show-container relative collection-item"
+      style={{ transitionDelay: `${delay}s` }}
+    >
       <div
         key={item.id}
         className="rounded-lg relative cursor-pointer overflow-hidden"
