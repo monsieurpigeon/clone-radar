@@ -44,8 +44,8 @@ export default function Clones({ clones }: Props) {
                       >
                         <input
                           type="text"
-                          name="email"
-                          defaultValue={clone.email || ""}
+                          name="otherId"
+                          defaultValue={clone.scanned.id || ""}
                           hidden
                         />
                         <button

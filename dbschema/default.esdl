@@ -34,9 +34,9 @@ module default {
   }
 
   type Clone {
-    matchCount: int64;
-    scanner: User;
-    scanned: User;
+    required matchCount: int64;
+    required scanner: User;
+    required scanned: User;
     restrictedItems := (select .scanned.channels intersect global current_user.channels  ORDER BY .subscriberCount);
     constraint exclusive on ((.scanner, .scanned));
 

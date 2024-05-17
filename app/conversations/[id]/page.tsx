@@ -13,7 +13,7 @@ export default async function ConversationPage({
     | (Conversation & { participant: User; lastMessages: Message[] })
     | null = await client.querySingle(
     `Select Conversation { *,
-        participant := (SELECT assert_single((SELECT .participants filter .email != global current_user.email))){email},
+        participant := (SELECT assert_single((SELECT .participants filter .id != global current_user.id))){id, name, githubUsername},
         messages: { *, author: {*} },
         lastMessages := (SELECT .messages ORDER BY .created DESC LIMIT 5){ *, author: {*} }
     }
@@ -29,7 +29,7 @@ export default async function ConversationPage({
     <div className="max-w-xl mx-auto">
       <header className="flex flex-col justify-between items-center pb-4">
         <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900">
-          My Conversation with {conversation.participant.email}
+          My Conversation with {conversation.participant.name}
         </h1>
         <p>Since {dateFormatter(conversation.created)}</p>
       </header>
@@ -39,7 +39,7 @@ export default async function ConversationPage({
             return (
               <div key={message.id} className="p-2 border rounded">
                 <div className="flex gap-4 text-sm">
-                  <div className="font-semibold">{message.author.email}</div>
+                  <div className="font-semibold">{message.author.name}</div>
                   <div>{durationFormatter(message.created)}</div>
                 </div>
 

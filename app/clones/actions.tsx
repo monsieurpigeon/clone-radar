@@ -38,11 +38,12 @@ export async function scanMatches() {
 
 export async function createConversation(formData: FormData) {
   const { client } = auth.getSession();
-  const email = formData.get("email");
+  const otherId = formData.get("otherId");
+  console.log({ otherId });
   const id = await client.query(
     `
       with other := (SELECT User {}
-      FILTER .email = <str>$email),
+      FILTER .id = <uuid>$otherId),
       myConversations := (SELECT Conversation {id} FILTER global current_user in .participants), 
       previous := (SELECT myConversations FILTER other in .participants),
       SELECT(INSERT Conversation {
@@ -50,7 +51,7 @@ export async function createConversation(formData: FormData) {
       }){id} if len(array_agg(previous)) = 0
       else previous
     `,
-    { email }
+    { otherId }
   );
   revalidatePath("/conversations");
   return id;

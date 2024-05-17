@@ -9,9 +9,9 @@ export default async function ConversationsPage() {
   Select Conversation {
     *,
     participants: {
-      email
+      id, name, githubUsername
     },
-    participant := (SELECT assert_single((SELECT .participants filter .email != global current_user.email))){email}
+    participant := (SELECT assert_single((SELECT .participants filter .id != global current_user.id))){id, name, githubUsername}
   }
   filter global current_user in .participants
   order by .updated desc
@@ -31,7 +31,7 @@ export default async function ConversationsPage() {
               <Link href={`/conversations/${conversation.id}`}>
                 <div>
                   <p className="font-semibold">
-                    {conversation.participant.email}
+                    {conversation.participant.name}
                   </p>
                   <p>{durationFormatter(conversation.updated)}</p>
                 </div>
