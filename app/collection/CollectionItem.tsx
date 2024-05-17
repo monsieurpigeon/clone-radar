@@ -8,7 +8,7 @@ export function CollectionItem({ item }: { item: any }) {
     <div className="show-container relative">
       <div
         key={item.id}
-        className="border rounded-lg relative cursor-pointer overflow-hidden shadow-lg hover:shadow-xl transition duration-300 ease-in-out"
+        className="rounded-lg relative cursor-pointer overflow-hidden"
       >
         <Image
           width={300}

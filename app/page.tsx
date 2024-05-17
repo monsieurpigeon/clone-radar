@@ -72,10 +72,26 @@ export default async function Home() {
               <div style={{ width: "800px", height: "800px" }}>
                 <ThreeScene />
               </div>
+              <div className="grid grid-cols-3 gap-4">
+                <StatBlock title="Most popular channels" />
+                <StatBlock title="Most recent channels" />
+                <StatBlock title="Most recent scans" />
+              </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+interface StatBlockProps {
+  title: string;
+}
+
+function StatBlock({ title }: StatBlockProps) {
+  return (
+    <div className="border rounded p-4">
+      <div>{title}</div>
     </div>
   );
 }
