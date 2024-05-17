@@ -18,7 +18,7 @@ export default async function Home() {
       youtubeId,
       name,
       cloneRate := count(.fans)
-    } ORDER BY .cloneRate DESC
+    } ORDER BY .cloneRate DESC EMPTY LAST
     THEN .subscriberCount DESC
     LIMIT 10`
   );
