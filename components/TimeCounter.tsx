@@ -10,11 +10,11 @@ export function TimeCounter() {
   const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
-    const target = new Date("05/26/2024 23:59:59");
+    const target = 1716710400000;
 
     const interval = setInterval(() => {
       const now = new Date();
-      const difference = target.getTime() - now.getTime();
+      const difference = target - now.getTime();
 
       const d = Math.floor(difference / (1000 * 60 * 60 * 24));
       setDays(d);

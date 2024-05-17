@@ -16,7 +16,6 @@ module default {
     email: str;
     required githubUsername: str;
     required avatarUrl: str;
-
   
     userRole: Role {
       default := "user";
@@ -24,6 +23,22 @@ module default {
 
     multi channels: Channel;
     multi clones: User;
+
+    created: datetime {
+      rewrite insert using (datetime_of_statement());
+    }
+    updated: datetime {
+      rewrite insert using (datetime_of_statement());
+      rewrite update using (datetime_of_statement());
+    }
+  }
+
+  type Clone {
+    matchCount: int64;
+    scanner: User;
+    scanned: User;
+    restrictedItems := (select .scanned.channels intersect global current_user.channels  ORDER BY .subscriberCount);
+    constraint exclusive on ((.scanner, .scanned));
 
     created: datetime {
       rewrite insert using (datetime_of_statement());

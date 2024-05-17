@@ -1,4 +1,4 @@
-import { User } from "@/dbschema/interfaces";
+import { Clone } from "@/dbschema/interfaces";
 import { auth } from "@/edgedb-client";
 import { scanMatches } from "./actions";
 import Clones from "./Clones";
@@ -6,27 +6,15 @@ import Clones from "./Clones";
 export default async function MatchesPage() {
   const { client } = auth.getSession();
 
-  const user = await client.query(`
-    Select User {
-      clones: {
-        email,
-        channels,
-        restrictedItems := (select .channels intersect global current_user.channels) {name, id, __type__: { name }}
-      }
+  const clones: Clone[] = await client.query(`
+    SELECT Clone {
+      matchCount,
+      scanned: {name, githubUsername},
+      restrictedItems: {name, id}
     }
-    filter .email = global current_user.email
+    filter .scanner = global current_user
+    order by .matchCount
   `);
-
-  const clones = (user[0] as User)?.clones as Omit<
-    User & {
-      restrictedItems: {
-        id: string;
-        name: string;
-        __type__: { name: string };
-      }[];
-    },
-    "created_by"
-  >[];
 
   return (
     <div className="max-w-xl mx-auto">

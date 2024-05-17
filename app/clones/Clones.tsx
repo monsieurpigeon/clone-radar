@@ -1,31 +1,22 @@
 "use client";
 
-import { User } from "@/dbschema/interfaces";
+import { Clone } from "@/dbschema/interfaces";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FiMail } from "react-icons/fi";
 import { createConversation } from "./actions";
 
 interface Props {
-  clones: Omit<
-    User & {
-      restrictedItems: {
-        id: string;
-        name: string;
-        __type__: { name: string };
-      }[];
-    },
-    "created_by"
-  >[];
+  clones: Clone[];
 }
 
 export default function Clones({ clones }: Props) {
   const router = useRouter();
-
   return (
     <ul role="list" className="flex flex-col gap-4">
       {clones
         ? clones?.map((clone) => (
-            <div key={clone.email} className="flex gap-2">
+            <div key={clone.scanned.email} className="flex gap-2">
               <div className="flex-auto">
                 <div className="p-2 flex gap-2 bg-slate-400 rounded-xl">
                   <div className="text-2xl w-12 text-center bg-slate-700 rounded flex items-center justify-center text-white font-bold">
@@ -33,7 +24,12 @@ export default function Clones({ clones }: Props) {
                   </div>
                   <div className="text-sm font-semibold flex-grow bg-slate-700 text-white p-2 rounded flex flex-col gap-2">
                     <div className="flex gap-4 text-xl justify-between">
-                      {clone.email}
+                      <Link
+                        href={`https://github.com/${clone.scanned?.githubUsername}`}
+                      >
+                        {clone.scanned?.githubUsername}
+                      </Link>
+
                       <form
                         onSubmit={async (e) => {
                           e.preventDefault();
