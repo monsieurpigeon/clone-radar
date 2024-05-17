@@ -14,11 +14,11 @@ export default async function Home() {
   const signedIn = await session.isSignedIn();
 
   const popularChannels: Channel[] | null = await session.client.query(
-    "select Channel {id,name} ORDER BY .subscriberCount DESC LIMIT 10"
+    "select Channel {youtubeId,name} ORDER BY .subscriberCount DESC LIMIT 10"
   );
 
   const recentChannels: Channel[] | null = await session.client.query(
-    "select Channel {id,name} ORDER BY .created DESC LIMIT 10"
+    "select Channel {youtubeId,name} ORDER BY .created DESC LIMIT 10"
   );
 
   const recentScans = await session.client.query(`select Clone {
@@ -94,7 +94,7 @@ export default async function Home() {
                   items={popularChannels.map((channel) => (
                     <Link
                       key={channel.id}
-                      href={`https://www.youtube.com/channel/${channel.id}`}
+                      href={`https://www.youtube.com/channel/${channel.youtubeId}`}
                     >
                       <div>{channel.name}</div>
                     </Link>
@@ -105,7 +105,7 @@ export default async function Home() {
                   items={recentChannels.map((channel) => (
                     <Link
                       key={channel.id}
-                      href={`https://www.youtube.com/channel/${channel.id}`}
+                      href={`https://www.youtube.com/channel/${channel.youtubeId}`}
                     >
                       <div>{channel.name}</div>
                     </Link>
