@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 
 export const { GET, POST } = auth.createAuthRouteHandlers({
   async onBuiltinUICallback({ error, tokenData, isSignUp, provider }) {
+    console.log(error, tokenData, isSignUp, provider);
     if (error) {
       console.error("sign in failed", error);
     }
