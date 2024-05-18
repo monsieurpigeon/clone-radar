@@ -66,6 +66,7 @@ export const addChannel = async (channel: ChannelInputProps) => {
       videoCount: channel.videoCount,
     }
   );
+  console.log(res);
 
   if (res.length === 0) {
     return "Cannot add item";
