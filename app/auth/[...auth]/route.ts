@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 
 export const { GET, POST } = auth.createAuthRouteHandlers({
   async onBuiltinUICallback({ error, tokenData, isSignUp, provider }) {
-    console.log(error, tokenData, isSignUp, provider);
     if (error) {
       console.error("sign in failed", error);
     }
@@ -13,7 +12,7 @@ export const { GET, POST } = auth.createAuthRouteHandlers({
       console.log("email verification required");
     }
 
-    if (isSignUp) {
+    if (true) {
       if (provider === "builtin::local_emailpassword") {
         const client = auth.getSession().client;
 
@@ -52,7 +51,12 @@ export const { GET, POST } = auth.createAuthRouteHandlers({
           githubUsername := <optional str>$githubUsername,
           userRole := 'user',
           identity := (global ext::auth::ClientTokenIdentity)
-        }
+        } unless conflict on .githubUsername
+        else (UPDATE User SET {
+          name := <optional str>$name,
+          email := <optional str>$email,
+          avatarUrl := <optional str>$avatarUrl,
+        })
       `,
           {
             name: result?.data?.name,
