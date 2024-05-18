@@ -1,6 +1,6 @@
 "use client";
 
-import { viewsFormatter } from "@/utils/formatter";
+import { ellipse, viewsFormatter } from "@/utils/formatter";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -94,7 +94,9 @@ export function YoutubeInput({
                     subscribers ‧ {viewsFormatter(item.statistics?.videoCount)}{" "}
                     videos
                   </div>
-                  <div className="">{item.snippet.description}</div>
+                  <div className="">
+                    {ellipse(item.snippet.description, 180)}
+                  </div>
                 </div>
               </div>
             );
