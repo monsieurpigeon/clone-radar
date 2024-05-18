@@ -11,7 +11,7 @@ export const deleteChannel = async (id: string) => {
         select Channel filter .id = <uuid>"${id}" limit 1
       )
       update User
-        filter .email = global current_user.email
+        filter .id = global current_user.id
       set {
         channels := .channels except deletedChannel
       }

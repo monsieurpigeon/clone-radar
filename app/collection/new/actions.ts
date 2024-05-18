@@ -13,7 +13,7 @@ export const addChannel = async (name: string) => {
         else Channel
       )
       update User
-      filter .email = global current_user.email
+      filter .id = global current_user.id
       set {
         channels += channel
       }

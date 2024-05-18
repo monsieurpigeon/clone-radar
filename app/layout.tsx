@@ -33,7 +33,7 @@ export default async function RootLayout({
 }) {
   const session = auth.getSession();
   const [user] = await session.client.query(
-    `SELECT User {*} FILTER .email = global current_user.email`
+    `SELECT User {*} FILTER .id = global current_user.id`
   );
 
   return (
