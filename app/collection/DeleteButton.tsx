@@ -13,7 +13,8 @@ export function DeleteButton({
   const router = useRouter();
   return (
     <div
-      onClick={async () => {
+      onClick={async (e) => {
+        e.preventDefault();
         const error = await handleDelete(id);
         if (error) {
           alert(error);
