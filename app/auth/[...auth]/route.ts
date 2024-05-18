@@ -59,7 +59,7 @@ export const { GET, POST } = auth.createAuthRouteHandlers({
         })
       `,
           {
-            name: result?.data?.name,
+            name: result?.data?.name || result?.data?.login,
             email: result?.data?.email,
             avatarUrl: result?.data?.avatar_url,
             githubUsername: result?.data?.login,
