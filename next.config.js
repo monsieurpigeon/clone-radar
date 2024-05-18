@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["yt3.ggpht.com"],
     remotePatterns: [
       {
         protocol: "https",
