@@ -27,6 +27,7 @@ export const deleteChannel = async (id: string) => {
 
 export const addChannel = async (channel: ChannelInputProps) => {
   const session = auth.getSession();
+  console.log("addChannel", channel);
 
   const res = await session.client.query(
     `

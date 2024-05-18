@@ -18,6 +18,7 @@ export function YoutubeInput({
   const handleVerify = () => {
     searchChannels(value)
       .then((data) => {
+        console.log("searchChannels", data);
         setVideos(data);
         setValue("");
       })
@@ -25,7 +26,11 @@ export function YoutubeInput({
   };
 
   const handleCollect = async (channel: ChannelInputProps) => {
-    await addChannel(channel);
+    try {
+      await addChannel(channel);
+    } catch (error) {
+      console.error(error);
+    }
     router.refresh();
   };
 
