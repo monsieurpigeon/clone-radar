@@ -51,8 +51,7 @@ export const addChannel = async (channel: ChannelInputProps) => {
           }
         )
       )
-      update User
-        filter .email = global current_user.email
+      update User FILTER global current_user.id = .id
       set {
         channels += newChannel
       }
