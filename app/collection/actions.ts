@@ -27,7 +27,6 @@ export const deleteChannel = async (id: string) => {
 
 export const addChannel = async (channel: ChannelInputProps) => {
   const session = auth.getSession();
-  console.log("addChannel", channel);
 
   const res = await session.client.query(
     `
@@ -65,7 +64,6 @@ export const addChannel = async (channel: ChannelInputProps) => {
       videoCount: channel.videoCount,
     }
   );
-  console.log(res);
 
   if (res.length === 0) {
     return "Cannot add item";

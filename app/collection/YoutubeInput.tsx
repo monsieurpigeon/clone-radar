@@ -18,7 +18,6 @@ export function YoutubeInput({
   const handleVerify = () => {
     searchChannels(value)
       .then((data) => {
-        console.log("searchChannels", data);
         setVideos(data);
         setValue("");
       })
