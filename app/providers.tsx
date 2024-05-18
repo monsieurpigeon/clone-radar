@@ -1,4 +1,5 @@
 "use client";
+import { User } from "@/dbschema/interfaces";
 import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 import { ReactNode, useEffect } from "react";
@@ -14,11 +15,12 @@ export function PostHogAuthWrapper({
   user,
 }: {
   children: React.ReactNode;
-  user: any;
+  user: User | null;
 }) {
   useEffect(() => {
     if (user?.id) {
       posthog.identify(user?.id, {
+        github: user.githubUsername,
         email: user.email,
         name: user.name,
       });

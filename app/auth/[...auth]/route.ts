@@ -1,6 +1,11 @@
 import { Octokit } from "@octokit/core";
 import { auth } from "edgedb-client";
 import { redirect } from "next/navigation";
+import { PostHog } from "posthog-node";
+
+const posthog = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY || "", {
+  host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+});
 
 export const { GET, POST } = auth.createAuthRouteHandlers({
   async onBuiltinUICallback({ error, tokenData, isSignUp, provider }) {
@@ -42,7 +47,7 @@ export const { GET, POST } = auth.createAuthRouteHandlers({
         });
         const client = auth.getSession().client;
 
-        await client.query(
+        const resultEdge = await client.query(
           `
         INSERT User {
           name := <optional str>$name,
@@ -65,6 +70,15 @@ export const { GET, POST } = auth.createAuthRouteHandlers({
             githubUsername: result?.data?.login,
           }
         );
+
+        posthog.identify({
+          distinctId: resultEdge?.[0]?.id,
+          properties: {
+            name: result?.data?.name || result?.data?.login,
+            email: result?.data?.email,
+            github: result?.data?.login,
+          },
+        });
       }
     }
     redirect("/collection");
