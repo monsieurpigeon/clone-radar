@@ -98,7 +98,7 @@ export function YoutubeInput({
               )}
             </div>
 
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 w-full">
               <div className="flex gap-4 items-center justify-between">
                 <div className="flex gap-4 items-center">
                   <div className="font-bold">{channel.name}</div>
