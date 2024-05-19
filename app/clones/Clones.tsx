@@ -19,16 +19,21 @@ export default function Clones({ clones }: Props) {
             <div key={clone.other[0].email} className="flex gap-2">
               <div className="flex-auto">
                 <div className="p-2 flex gap-2 bg-slate-400 rounded-xl">
-                  <div className="text-2xl w-12 text-center bg-slate-700 rounded flex items-center justify-center text-white font-bold">
+                  <div className="w-12 text-center bg-slate-700 rounded flex items-center justify-center text-white">
                     {clone.restrictedItems.length}
                   </div>
-                  <div className="text-sm font-semibold flex-grow bg-slate-700 text-white p-2 rounded flex flex-col gap-2">
-                    <div className="flex gap-4 text-xl justify-between">
-                      <Link
-                        href={`https://github.com/${clone.other[0]?.githubUsername}`}
-                      >
-                        {clone.other[0]?.githubUsername}
-                      </Link>
+                  <div className="flex-grow bg-slate-700 text-white p-2 rounded flex flex-col gap-2">
+                    <div className="flex gap-4 justify-between">
+                      <div className="flex gap-4 items-center">
+                        <div className="font-semibold">
+                          {clone.other[0]?.name}
+                        </div>
+                        <Link
+                          href={`https://github.com/${clone.other[0]?.githubUsername}`}
+                        >
+                          <div>@{clone.other[0]?.githubUsername}</div>{" "}
+                        </Link>
+                      </div>
 
                       <form
                         onSubmit={async (e) => {
@@ -50,18 +55,18 @@ export default function Clones({ clones }: Props) {
                         />
                         <button
                           type="submit"
-                          className="hover:-translate-y-0.5"
+                          className="hover:-translate-y-0.5 text-xl"
                         >
                           <FiMail />
                         </button>
                       </form>
                     </div>
 
-                    <div className="flex flex-wrap gap-4">
+                    <div className="flex flex-wrap gap-1">
                       {clone.restrictedItems?.map((item) => (
                         <div
                           key={item.id}
-                          className="px-4 py-2 border rounded relative bg-slate-200 text-slate-900"
+                          className="px-1 border rounded relative bg-slate-200 text-slate-900"
                         >
                           {item.name}
                         </div>
