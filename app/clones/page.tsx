@@ -14,7 +14,7 @@ export default async function MatchesPage() {
       other: {id, name, githubUsername}
     }
     filter global current_user in .users
-    order by .matchCount
+    order by .matchCount DESC
   `);
 
   return (

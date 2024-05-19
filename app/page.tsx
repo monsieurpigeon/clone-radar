@@ -129,7 +129,7 @@ export default async function Home() {
                           >
                             {scan.users[0].githubUsername}
                           </Link>
-                          <span>{"=>"}</span>
+                          <span>{"<=>"}</span>
                           <Link
                             href={`https://github.com/${scan.users[1].githubUsername}`}
                           >
