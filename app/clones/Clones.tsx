@@ -16,7 +16,7 @@ export default function Clones({ clones }: Props) {
     <ul role="list" className="flex flex-col gap-4">
       {clones
         ? clones?.map((clone) => (
-            <div key={clone.other.email} className="flex gap-2">
+            <div key={clone.other[0].email} className="flex gap-2">
               <div className="flex-auto">
                 <div className="p-2 flex gap-2 bg-slate-400 rounded-xl">
                   <div className="text-2xl w-12 text-center bg-slate-700 rounded flex items-center justify-center text-white font-bold">
@@ -25,9 +25,9 @@ export default function Clones({ clones }: Props) {
                   <div className="text-sm font-semibold flex-grow bg-slate-700 text-white p-2 rounded flex flex-col gap-2">
                     <div className="flex gap-4 text-xl justify-between">
                       <Link
-                        href={`https://github.com/${clone.other?.githubUsername}`}
+                        href={`https://github.com/${clone.other[0]?.githubUsername}`}
                       >
-                        {clone.other?.githubUsername}
+                        {clone.other[0]?.githubUsername}
                       </Link>
 
                       <form
@@ -45,7 +45,7 @@ export default function Clones({ clones }: Props) {
                         <input
                           type="text"
                           name="otherId"
-                          defaultValue={clone.other.id || ""}
+                          defaultValue={clone.other[0].id || ""}
                           hidden
                         />
                         <button
