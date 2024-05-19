@@ -40,10 +40,8 @@ module default {
       constraint exclusive;
     };
     multi users: User;
-    required scanner: User;
-    required scanned: User;
-    restrictedItems := (select .scanned.channels intersect global current_user.channels  ORDER BY .subscriberCount);
-    constraint exclusive on ((.scanner, .scanned));
+    other := (SELECT .users FILTER .id != global current_user.id);
+    restrictedItems := (select .users.channels intersect global current_user.channels  ORDER BY .subscriberCount);
     constraint exclusive on ((.cloneId));
 
     created: datetime {

@@ -9,10 +9,11 @@ export default async function MatchesPage() {
   const clones: Clone[] = await client.query(`
     SELECT Clone {
       matchCount,
-      scanned: {id, name, githubUsername},
-      restrictedItems: {name, id}
+      users: {id, name, githubUsername},
+      restrictedItems: {name, id},
+      other: {id, name, githubUsername}
     }
-    filter .scanner = global current_user
+    filter global current_user in .users
     order by .matchCount
   `);
 
