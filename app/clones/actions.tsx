@@ -18,17 +18,16 @@ export async function scanMatches() {
     id,
     channels,
     matchCount := (SELECT count((SELECT .channels intersect currentUser.channels))),
-    users := (SELECT User FILTER .id in {currentUser.id, .id})
   } ORDER BY .matchCount LIMIT 5)
 
   FOR clone in myClones UNION ((
-  INSERT Clone {
-    users := clone.users,
-    cloneId := (SELECT array_join(array_agg((SELECT <str>clone.users.id ORDER BY clone.users.id)), ":")),
-    matchCount := clone.matchCount,
-  } unless conflict on .cloneId else (
-     UPDATE Clone SET { matchCount := clone.matchCount }
-  )))
+    INSERT Clone {
+      users :=  (SELECT User FILTER .id in {currentUser.id, clone.id}),
+       cloneId := (SELECT array_join(array_agg((SELECT test:={<str>clone.id, <str>currentUser.id} ORDER BY test)), ":")),
+      matchCount := clone.matchCount,
+    } unless conflict on .cloneId else (
+       UPDATE Clone SET { matchCount := clone.matchCount }
+    )))   
   `);
   // posthog.capture({
   //   distinctId,

@@ -29,8 +29,7 @@ export default async function Home() {
 
   const recentScans = await session.client.query(`select Clone {
     matchCount,
-    scanner: {githubUsername},
-    scanned: {githubUsername}
+    users: {githubUsername}
   } FILTER .created > <datetime>'${new Date().toISOString()}' - <cal::relative_duration>'30 days' ORDER BY .matchCount DESC LIMIT 10`);
 
   return (
@@ -126,15 +125,15 @@ export default async function Home() {
                         <div>
                           <span>{scan.matchCount} : </span>
                           <Link
-                            href={`https://github.com/${scan.scanner.githubUsername}`}
+                            href={`https://github.com/${scan.users[0].githubUsername}`}
                           >
-                            {scan.scanner.githubUsername}
+                            {scan.users[0].githubUsername}
                           </Link>
                           <span>{"=>"}</span>
                           <Link
-                            href={`https://github.com/${scan.scanned.githubUsername}`}
+                            href={`https://github.com/${scan.users[1].githubUsername}`}
                           >
-                            {scan.scanned.githubUsername}
+                            {scan.users[1].githubUsername}
                           </Link>
                         </div>
                       </div>
