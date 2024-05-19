@@ -11,29 +11,33 @@ const posthog = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY || "", {
 export async function scanMatches() {
   const { client } = auth.getSession();
 
-  const result = await client.query(`
+  await client.query(`
   WITH currentUser := (SELECT global current_user),
   pool := (SELECT (SELECT currentUser.channels.fans) FILTER .id != currentUser.id),
   myClones := (SELECT pool {
     id,
     channels,
-    matchCount := (SELECT count((SELECT .channels intersect currentUser.channels)))
+    matchCount := (SELECT count((SELECT .channels intersect currentUser.channels))),
+    users := (SELECT User FILTER .id in {currentUser.id, .id})
   } ORDER BY .matchCount LIMIT 5)
 
-  FOR clone in myClones UNION (INSERT Clone {
-    matchCount := clone.matchCount,
+  FOR clone in myClones UNION ((
+  INSERT Clone {
+    users := clone.users,
+    cloneId := (SELECT array_join(array_agg((SELECT <str>clone.users.id ORDER BY clone.users.id)), ":")),
     scanner := currentUser,
-    scanned := clone
-  } unless conflict on (.scanner, .scanned) else (
+    scanned := clone,
+    matchCount := clone.matchCount,
+  } unless conflict on .cloneId else (
      UPDATE Clone SET { matchCount := clone.matchCount }
-  ))
+  )))
   `);
   // posthog.capture({
   //   distinctId,
   //   event: "scanned_matches",
   // });
 
-  revalidatePath("/matches");
+  revalidatePath("/clones");
 }
 
 export async function createConversation(formData: FormData) {

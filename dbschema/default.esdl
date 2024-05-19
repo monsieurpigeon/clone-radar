@@ -36,10 +36,15 @@ module default {
 
   type Clone {
     required matchCount: int64;
+    required cloneId: str {
+      constraint exclusive;
+    };
+    multi users: User;
     required scanner: User;
     required scanned: User;
     restrictedItems := (select .scanned.channels intersect global current_user.channels  ORDER BY .subscriberCount);
     constraint exclusive on ((.scanner, .scanned));
+    constraint exclusive on ((.cloneId));
 
     created: datetime {
       rewrite insert using (datetime_of_statement());
