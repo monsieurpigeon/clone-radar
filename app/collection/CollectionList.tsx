@@ -2,14 +2,20 @@
 
 import { Channel } from "@/dbschema/interfaces";
 import { useState } from "react";
+import { ChannelInputProps } from ".";
 import { CollectionItem } from "./CollectionItem";
 
 export function CollectionList({
   channels,
+  setChannel,
 }: {
   channels: Channel[] | undefined;
+  setChannel: (channel: ChannelInputProps) => void;
 }) {
   const [show, setShow] = useState(false);
+  const handleClick = (channel: Channel) => {
+    setChannel(channel);
+  };
 
   return (
     <>
@@ -40,7 +46,15 @@ export function CollectionList({
             {channels &&
               channels
                 .sort((a, b) => a.subscriberCount - b.subscriberCount)
-                .map((item) => <CollectionItem key={item.id} item={item} />)}
+                .map((item) => (
+                  <CollectionItem
+                    key={item.id}
+                    item={item}
+                    onClick={() => {
+                      handleClick(item);
+                    }}
+                  />
+                ))}
           </div>
         </div>
       </div>
