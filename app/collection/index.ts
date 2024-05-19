@@ -32,11 +32,7 @@ function getChannelHandle(youtubeUrl: string): string {
 }
 
 function isAnId(handle: string): boolean {
-  return (
-    handle.length === 24 &&
-    /^[0-9a-zA-Z]{24}$/.test(handle) &&
-    handle.startsWith("UC")
-  );
+  return handle.length === 24 && handle.startsWith("UC");
 }
 
 export async function searchChannels(youtubeUrl: string) {
