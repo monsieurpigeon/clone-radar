@@ -42,7 +42,6 @@ module default {
     multi users: User;
     other := (SELECT .users FILTER .id != global current_user.id);
     restrictedItems := (select .users.channels intersect global current_user.channels  ORDER BY .subscriberCount);
-    constraint exclusive on ((.cloneId));
 
     created: datetime {
       rewrite insert using (datetime_of_statement());
