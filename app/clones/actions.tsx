@@ -25,8 +25,6 @@ export async function scanMatches() {
   INSERT Clone {
     users := clone.users,
     cloneId := (SELECT array_join(array_agg((SELECT <str>clone.users.id ORDER BY clone.users.id)), ":")),
-    scanner := currentUser,
-    scanned := clone,
     matchCount := clone.matchCount,
   } unless conflict on .cloneId else (
      UPDATE Clone SET { matchCount := clone.matchCount }
