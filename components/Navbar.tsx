@@ -14,8 +14,8 @@ import { classNames } from "../src/utils";
 
 const navigation = [
   { name: "Collection", href: "/collection", current: true },
-  { name: "Clones", href: "/clones", current: false },
-  { name: "Conversations", href: "/conversations", current: false },
+  { name: "Radar", href: "/clones", current: false },
+  { name: "Messages", href: "/conversations", current: false },
 ];
 
 export default function Navbar({
