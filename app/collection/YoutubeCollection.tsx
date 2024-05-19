@@ -1,6 +1,7 @@
 "use client";
 import { Channel } from "@/dbschema/interfaces";
 import { useState } from "react";
+import { ChannelInputProps } from ".";
 import { CollectionList } from "./CollectionList";
 import { YoutubeInput } from "./YoutubeInput";
 
@@ -9,7 +10,7 @@ export function YoutubeCollection({
 }: {
   channels: Channel[] | undefined;
 }) {
-  const [channel, setChannel] = useState<Omit<Channel, "id" | "fans">>();
+  const [channel, setChannel] = useState<ChannelInputProps | undefined>();
 
   return (
     <div className="flex flex-col gap-4">

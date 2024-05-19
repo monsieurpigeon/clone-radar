@@ -16,7 +16,7 @@ export function YoutubeInput({
 }: {
   myCollection: ChannelInputProps[] | undefined;
   channel: ChannelInputProps | undefined;
-  setChannel: (channel: ChannelInputProps) => void;
+  setChannel: (channel: ChannelInputProps | undefined) => void;
 }) {
   const [value, setValue] = useState("");
   const router = useRouter();
@@ -99,15 +99,24 @@ export function YoutubeInput({
             </div>
 
             <div className="flex flex-col gap-1">
-              <div className="flex gap-4 items-center">
-                <div className="font-bold">{channel.name}</div>
-                <Link
-                  href={`https://www.youtube.com/channel/${channel.youtubeId}`}
+              <div className="flex gap-4 items-center justify-between">
+                <div className="flex gap-4 items-center">
+                  <div className="font-bold">{channel.name}</div>
+                  <Link
+                    href={`https://www.youtube.com/channel/${channel.youtubeId}`}
+                  >
+                    <div>
+                      <FaShareSquare className="hover:fill-slate-500" />
+                    </div>
+                  </Link>
+                </div>
+
+                <button
+                  className="self-end"
+                  onClick={() => setChannel(undefined)}
                 >
-                  <div>
-                    <FaShareSquare className="hover:fill-slate-500" />
-                  </div>
-                </Link>
+                  Close
+                </button>
               </div>
               <div>
                 {viewsFormatter(channel.subscriberCount || 0)} subscribers ‧{" "}

@@ -25,7 +25,7 @@ export function DeleteButton({
       }}
       className="show-target cursor-pointer text-sm border rounded-full absolute px-1 top-2 right-2 bg-red-300 text-white border-red-500 hover:bg-red-500"
     >
-      X
+      Delete
     </div>
   );
 }
