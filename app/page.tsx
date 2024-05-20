@@ -36,7 +36,7 @@ export default async function Home() {
 
   return (
     <div>
-      <header className="absolute inset-x-0 top-0 z-50">
+      <header className="inset-x-0 top-0 sticky z-10">
         <nav
           className="flex items-center justify-between p-6 lg:px-8"
           aria-label="Global"
@@ -73,7 +73,7 @@ export default async function Home() {
         </nav>
       </header>
 
-      <div className="relative isolate px-6 py-14 lg:px-8">
+      <div className="px-6 py-14 lg:px-8 z-0">
         <div className="mx-auto max-w-2xl pt-16 sm:pt-24 lg:pt-32">
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
