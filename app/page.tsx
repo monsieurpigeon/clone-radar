@@ -1,8 +1,9 @@
+import { ThreeScene } from "@/components/ThreeScene";
+import { Button } from "@/components/ui/button";
 import { Channel } from "@/dbschema/interfaces";
 import { auth } from "edgedb-client";
 import Link from "next/link";
 import { ReactNode } from "react";
-import { ThreeScene } from "../components/ThreeScene";
 
 // const Dynamic3D = dynamic(() => import("../components/ThreeScene"), {
 //   loading: () => <p>Loading...</p>,
@@ -64,9 +65,7 @@ export default async function Home() {
                 href="collection"
                 className="text-sm font-semibold leading-6 text-gray-900"
               >
-                <button className="bg-primary px-4 py-2 rounded-md text-white">
-                  My Collection
-                </button>
+                <Button>My Collection</Button>
               </Link>
             )}
           </div>
@@ -85,11 +84,7 @@ export default async function Home() {
                 One of them is the perfect combination of the things you love
                 now.
               </div>
-              <div>
-                Pick the foundation of these things, meet the people who share
-                the same,
-              </div>
-              <div>and together, build something amazing on top.</div>
+
               <div style={{ width: "800px", height: "800px" }}>
                 <ThreeScene />
               </div>

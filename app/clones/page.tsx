@@ -2,6 +2,7 @@ import { Clone } from "@/dbschema/interfaces";
 import { auth } from "@/edgedb-client";
 import { scanMatches } from "./actions";
 import Clones from "./Clones";
+import { ScanButton } from "./ScanButton";
 
 export default async function MatchesPage() {
   const { client } = auth.getSession();
@@ -24,12 +25,7 @@ export default async function MatchesPage() {
           My Clones
         </h1>
         <form action={scanMatches}>
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white px-3 py-1 rounded-md font-semibold"
-            type="submit"
-          >
-            Scan
-          </button>
+          <ScanButton />
         </form>
       </header>
 

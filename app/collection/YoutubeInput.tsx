@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { ellipse, viewsFormatter } from "@/utils/formatter";
 import Image from "next/image";
 import Link from "next/link";
@@ -64,12 +65,7 @@ export function YoutubeInput({
           onChange={(e) => setValue(e.target.value)}
           className="grow rounded-lg border-0 focus:ring-0"
         />
-        <button
-          onClick={handleVerify}
-          className="border rounded-lg p-2 bg-blue-500 text-white hover:bg-blue-600 font-semibold"
-        >
-          Verify
-        </button>
+        <Button onClick={handleVerify}>Verify</Button>
       </div>
 
       <div className="flex flex-col">

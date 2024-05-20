@@ -8,6 +8,10 @@ const posthog = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY || "", {
   host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
 });
 
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export async function scanMatches() {
   const { client } = auth.getSession();
 
@@ -33,6 +37,8 @@ export async function scanMatches() {
   //   distinctId,
   //   event: "scanned_matches",
   // });
+
+  await sleep(3000);
 
   revalidatePath("/clones");
 }
