@@ -83,14 +83,6 @@ export default function Navbar({
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <Disclosure.Button
-                        key="Your Profile"
-                        as="a"
-                        href="#"
-                        className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
-                      >
-                        Your Profile
-                      </Disclosure.Button>
-                      <Disclosure.Button
                         key="Sign out"
                         as="button"
                         className="block w-full text-left px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
@@ -142,14 +134,6 @@ export default function Navbar({
                 </div>
               </div>
               <div className="mt-3 space-y-1">
-                <Disclosure.Button
-                  key="Your Profile"
-                  as="a"
-                  href="#"
-                  className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
-                >
-                  Your Profile
-                </Disclosure.Button>
                 <Disclosure.Button
                   key="Sign out"
                   as="button"
