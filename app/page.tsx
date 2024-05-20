@@ -1,3 +1,4 @@
+import NextSteps from "@/components/NextSteps";
 import { ThreeScene } from "@/components/ThreeScene";
 import { Button } from "@/components/ui/button";
 import { Channel } from "@/dbschema/interfaces";
@@ -88,6 +89,7 @@ export default async function Home() {
               <div style={{ width: "800px", height: "800px" }}>
                 <ThreeScene />
               </div>
+              <NextSteps />
               <div className="grid grid-cols-2 gap-4">
                 <StatBlock
                   title="Popular channels"
