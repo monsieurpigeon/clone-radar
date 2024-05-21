@@ -18,7 +18,11 @@ export function ConversationList({
       {conversations.map((conversation) => {
         return (
           <Link
-            href={`/conversations/${conversation.id}`}
+            href={
+              conversation.id === selectedConversationId
+                ? "/conversations"
+                : `/conversations/${conversation.id}`
+            }
             key={conversation.id}
           >
             <div

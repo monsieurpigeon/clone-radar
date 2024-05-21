@@ -4,7 +4,7 @@ import { Clone } from "@/dbschema/interfaces";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FiMail } from "react-icons/fi";
-import { createConversation } from "./actions";
+import { getConversation } from "../../actions";
 
 interface Props {
   clones: Clone[];
@@ -38,12 +38,12 @@ export default function Clones({ clones }: Props) {
                       <form
                         onSubmit={async (e) => {
                           e.preventDefault();
-                          const previous = await createConversation(
-                            new FormData(
-                              e.target as HTMLFormElement
-                            ) as FormData
-                          );
-                          router.replace(`/conversations/${previous[0].id}`);
+                          const otherId = new FormData(
+                            e.target as HTMLFormElement
+                          ).get("otherId");
+                          const id = await getConversation(otherId as string);
+
+                          router.replace(`/conversations/${id}`);
                           router.refresh();
                         }}
                       >

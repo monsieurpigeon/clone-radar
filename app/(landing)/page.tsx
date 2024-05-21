@@ -1,7 +1,12 @@
+import {
+  getPopularChannels,
+  getRecentChannels,
+  getRecentScans,
+} from "@/app/actions";
 import NextSteps from "@/components/NextSteps";
 import { ThreeScene } from "@/components/ThreeScene";
 import { Button } from "@/components/ui/button";
-import { Channel } from "@/dbschema/interfaces";
+import { Channel, Clone } from "@/dbschema/interfaces";
 import { auth } from "edgedb-client";
 import Link from "next/link";
 import { ReactNode } from "react";
@@ -15,24 +20,9 @@ export default async function Home() {
 
   const signedIn = await session.isSignedIn();
 
-  const popularChannels: Channel[] | null = await session.client.query(
-    `select Channel {
-      youtubeId,
-      name,
-      cloneRate := count(.fans)
-    } ORDER BY .cloneRate DESC EMPTY LAST
-    THEN .subscriberCount DESC
-    LIMIT 10`
-  );
-
-  const recentChannels: Channel[] | null = await session.client.query(
-    "select Channel {youtubeId,name} ORDER BY .created DESC LIMIT 10"
-  );
-
-  const recentScans = await session.client.query(`select Clone {
-    matchCount,
-    users: {githubUsername}
-  } FILTER .created > <datetime>'${new Date().toISOString()}' - <cal::relative_duration>'30 days' ORDER BY .matchCount DESC LIMIT 10`);
+  const popularChannels: Channel[] = (await getPopularChannels()) || [];
+  const recentChannels: Channel[] = (await getRecentChannels()) || [];
+  const recentScans: Clone[] = (await getRecentScans()) || [];
 
   return (
     <div>
@@ -93,7 +83,7 @@ export default async function Home() {
               <div className="grid grid-cols-2 gap-4">
                 <StatBlock
                   title="Popular channels"
-                  items={popularChannels.map((channel) => (
+                  items={popularChannels?.map((channel) => (
                     <Link
                       key={channel.id}
                       href={`https://www.youtube.com/channel/${channel.youtubeId}`}

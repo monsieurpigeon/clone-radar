@@ -1,22 +1,10 @@
+import { getMyClones, scanMatches } from "@/app/actions";
 import { Clone } from "@/dbschema/interfaces";
-import { auth } from "@/edgedb-client";
-import { scanMatches } from "./actions";
 import Clones from "./Clones";
 import { ScanButton } from "./ScanButton";
 
 export default async function MatchesPage() {
-  const { client } = auth.getSession();
-
-  const clones: Clone[] = await client.query(`
-    SELECT Clone {
-      matchCount,
-      users: {id, name, githubUsername},
-      restrictedItems: {name, id},
-      other: {id, name, githubUsername}
-    }
-    filter global current_user in .users
-    order by .matchCount DESC
-  `);
+  const clones: Clone[] = (await getMyClones()) || [];
 
   return (
     <div className="max-w-xl mx-auto">
