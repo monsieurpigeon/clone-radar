@@ -33,28 +33,24 @@ export function CollectionList({
           <div className="blur-xl">
             <div className="grid grid-cols-4 grid-rows-4 gap-4">
               {channels &&
-                channels
-                  .sort((a, b) => a.subscriberCount - b.subscriberCount)
-                  .map((item) => (
-                    <CollectionItem key={item.id} item={item} isBackground />
-                  ))}
+                channels.map((item) => (
+                  <CollectionItem key={item.id} item={item} isBackground />
+                ))}
             </div>
           </div>
           <div
             className={`absolute left-4 right-4 top-4 bottom-4 grid grid-cols-4 grid-rows-4 gap-4 collection-list ${show && "active"}`}
           >
             {channels &&
-              channels
-                .sort((a, b) => a.subscriberCount - b.subscriberCount)
-                .map((item) => (
-                  <CollectionItem
-                    key={item.id}
-                    item={item}
-                    onClick={() => {
-                      handleClick(item);
-                    }}
-                  />
-                ))}
+              channels.map((item) => (
+                <CollectionItem
+                  key={item.id}
+                  item={item}
+                  onClick={() => {
+                    handleClick(item);
+                  }}
+                />
+              ))}
           </div>
         </div>
       </div>

@@ -1,6 +1,5 @@
-import { Conversation, Message, User } from "@/dbschema/interfaces";
-import { auth } from "@/edgedb-client";
 import { durationFormatter } from "@/utils/formatter";
+import { getConversationById } from "../../../actions";
 import { ChatForm } from "./ChatForm";
 
 export default async function ConversationPage({
@@ -8,18 +7,7 @@ export default async function ConversationPage({
 }: {
   params: { id: string };
 }) {
-  const { client } = auth.getSession();
-  const conversation:
-    | (Conversation & { participant: User; lastMessages: Message[] })
-    | null = await client.querySingle(
-    `Select Conversation { *,
-        participant := (SELECT assert_single((SELECT .participants filter .id != global current_user.id))){id, name, githubUsername},
-        messages: { *, author: {*} },
-        lastMessages := (SELECT .messages ORDER BY .created DESC LIMIT 5){ *, author: {*} }
-    }
-    filter .id = <uuid>$id`,
-    { id: params.id }
-  );
+  const conversation = await getConversationById(params.id);
 
   if (!conversation) {
     return <div>Conversation not found</div>;

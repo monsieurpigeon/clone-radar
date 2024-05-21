@@ -1,6 +1,6 @@
 "use client";
+import { deleteChannel } from "@/app/actions";
 import Image from "next/image";
-import { deleteChannel } from "./actions";
 import { DeleteButton } from "./DeleteButton";
 
 export function CollectionItem({

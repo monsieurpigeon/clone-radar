@@ -1,5 +1,6 @@
 "use client";
 
+import { addChannel } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { ellipse, viewsFormatter } from "@/utils/formatter";
 import Image from "next/image";
@@ -8,7 +9,6 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { FaShareSquare } from "react-icons/fa";
 import { ChannelInputProps, searchChannels } from ".";
-import { addChannel } from "./actions";
 
 export function YoutubeInput({
   myCollection = [],
@@ -29,7 +29,7 @@ export function YoutubeInput({
           youtubeId: item.id,
           name: item.snippet.title,
           description: item.snippet.description,
-          thumbnailUrl: item.snippet.thumbnails.default.url,
+          thumbnailUrl: item.snippet.thumbnails.medium.url,
           subscriberCount: parseInt(item.statistics.subscriberCount),
           videoCount: parseInt(item.statistics.videoCount),
         };

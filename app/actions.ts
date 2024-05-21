@@ -1,9 +1,16 @@
 "use server";
 
-import { Channel, Clone, User } from "@/dbschema/interfaces";
+import {
+  Channel,
+  Clone,
+  Conversation,
+  Message,
+  User,
+} from "@/dbschema/interfaces";
 import { auth } from "@/edgedb-client";
 import { revalidatePath } from "next/cache";
 import { PostHog } from "posthog-node";
+import { ChannelInputProps } from "./(inside)/collection";
 
 const posthog = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY || "", {
   host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
@@ -49,11 +56,84 @@ export async function getRecentScans(): Promise<Clone[] | null> {
   );
 }
 
+export async function addChannel(channel: ChannelInputProps) {
+  const session = auth.getSession();
+
+  const res = await session.client.query(
+    `
+      with newChannel := (
+        insert Channel {
+          name := <str>$name,
+          youtubeId := <str>$youtubeId,
+          description := <str>$description,
+          thumbnailUrl := <str>$thumbnailUrl,
+          subscriberCount := <int64>$subscriberCount,
+          videoCount := <int64>$videoCount
+        }
+        unless conflict on .youtubeId
+        else (
+          update Channel set {
+            name := <str>$name,
+            description := <str>$description,
+            thumbnailUrl := <str>$thumbnailUrl,
+            subscriberCount := <int64>$subscriberCount,
+            videoCount := <int64>$videoCount
+          }
+        )
+      )
+      update User FILTER global current_user.id = .id
+      set {
+        channels += newChannel
+      }
+      `,
+    {
+      youtubeId: channel.youtubeId,
+      name: channel.name,
+      description: channel.description,
+      thumbnailUrl: channel.thumbnailUrl,
+      subscriberCount: channel.subscriberCount,
+      videoCount: channel.videoCount,
+    }
+  );
+
+  if (res.length === 0) {
+    return "Cannot add item";
+  }
+
+  return null;
+}
+
+export async function deleteChannel(id: string) {
+  const session = auth.getSession();
+
+  const res = await session.client.query(
+    `WITH deletedChannel := (
+      SELECT Channel FILTER .id = <uuid>$id LIMIT 1
+    )
+    UPDATE User FILTER .id = global current_user.id
+    SET {
+      channels := .channels except deletedChannel
+    }`,
+    { id }
+  );
+
+  if (res.length === 0) {
+    return "Cannot delete item";
+  }
+
+  return null;
+}
+
 export async function getMe(): Promise<User | null> {
   const session = auth.getSession();
 
   return session.client.querySingle(
-    "select global current_user { *, channels: { * } };"
+    `SELECT global current_user {
+      *,
+      channels: {
+        *
+      } ORDER BY .subscriberCount DESC
+    };`
   );
 }
 
@@ -93,12 +173,12 @@ export async function scanMatches() {
       matchCount := myClone.matchCount,
       restrictedItems := myClone.restrictedItems,
     } unless conflict on .cloneId else (
-      UPDATE Clone SET {
+      (DELETE Clone) if {myClone.matchCount = 0} else
+      (UPDATE Clone SET {
         matchCount := myClone.matchCount,
         restrictedItems := myClone.restrictedItems
-      }
+      })
     )));
-    DELETE Clone FILTER .matchCount = 0;
   `);
   // posthog.capture({
   //   distinctId,
@@ -128,4 +208,41 @@ export async function getConversation(otherId: string): Promise<string> {
   )) as { id: string }[];
   revalidatePath("/conversations");
   return previous[0].id;
+}
+
+export async function getConversations(): Promise<
+  (Conversation & { participant: User })[]
+> {
+  const session = auth.getSession();
+  return session.client.query(
+    `SELECT Conversation {
+      *,
+      participants: {id, name, githubUsername},
+      participant := (SELECT assert_single((SELECT .participants filter .id != global current_user.id))){
+        id, name, githubUsername
+      }
+    }
+    FILTER global current_user in .participants
+    ORDER BY .updated DESC
+`
+  );
+}
+
+export async function getConversationById(
+  id: string
+): Promise<
+  (Conversation & { participant: User; lastMessages: Message[] }) | null
+> {
+  const session = auth.getSession();
+  return session.client.querySingle(
+    `SELECT Conversation {
+      *,
+      participant := (SELECT assert_single((SELECT .participants filter .id != global current_user.id))){
+        id, name, githubUsername
+      },
+      lastMessages := (SELECT .messages ORDER BY .created DESC LIMIT 5){ *, author: {*} }
+    }
+    FILTER .id = <uuid>$id`,
+    { id }
+  );
 }
