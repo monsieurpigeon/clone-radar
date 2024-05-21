@@ -13,7 +13,6 @@ interface Props {
 
 export default function Clones({ clones, currentChannels }: Props) {
   const router = useRouter();
-  console.log(currentChannels);
   const currentChannelIds = new Set(
     currentChannels?.map((channel) => channel.id)
   );
