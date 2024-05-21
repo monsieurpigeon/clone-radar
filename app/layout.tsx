@@ -1,9 +1,9 @@
+import "@/app/globals.css";
+import { CSPostHogProvider } from "@/app/providers";
+import { TimeCounter } from "@/components/TimeCounter";
+import { auth } from "@/edgedb-client";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { TimeCounter } from "../components/TimeCounter";
-import { auth } from "../edgedb-client";
-import "./globals.css";
-import { CSPostHogProvider } from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 

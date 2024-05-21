@@ -1,6 +1,6 @@
 import { Conversation, Message, User } from "@/dbschema/interfaces";
 import { auth } from "@/edgedb-client";
-import { dateFormatter, durationFormatter } from "@/utils/formatter";
+import { durationFormatter } from "@/utils/formatter";
 import { ChatForm } from "./ChatForm";
 
 export default async function ConversationPage({
@@ -27,12 +27,6 @@ export default async function ConversationPage({
 
   return (
     <div className="max-w-xl mx-auto">
-      <header className="flex flex-col justify-between items-center pb-4">
-        <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900">
-          My Conversation with {conversation.participant.name}
-        </h1>
-        <p>Since {dateFormatter(conversation.created)}</p>
-      </header>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col-reverse gap-4">
           {conversation.lastMessages?.map((message) => {

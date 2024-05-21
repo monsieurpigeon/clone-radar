@@ -122,15 +122,15 @@ export default async function Home() {
                         <div>
                           <span>{scan.matchCount} : </span>
                           <Link
-                            href={`https://github.com/${scan.users[0].githubUsername}`}
+                            href={`https://github.com/${scan?.users[0]?.githubUsername}`}
                           >
-                            {scan.users[0].githubUsername}
+                            {scan?.users[0]?.githubUsername}
                           </Link>
                           <span>{"<=>"}</span>
                           <Link
-                            href={`https://github.com/${scan.users[1].githubUsername}`}
+                            href={`https://github.com/${scan?.users[1]?.githubUsername}`}
                           >
-                            {scan.users[1].githubUsername}
+                            {scan?.users[1]?.githubUsername}
                           </Link>
                         </div>
                       </div>
