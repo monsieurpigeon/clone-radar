@@ -14,7 +14,7 @@ export function DeleteButton({
   return (
     <div
       onClick={async (e) => {
-        e.preventDefault();
+        e.stopPropagation();
         const error = await handleDelete(id);
         if (error) {
           alert(error);

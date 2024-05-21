@@ -1,10 +1,11 @@
-import { getMyClones, scanMatches } from "@/app/actions";
-import { Clone } from "@/dbschema/interfaces";
+import { getMe, getMyClones, scanMatches } from "@/app/actions";
+import { Clone, User } from "@/dbschema/interfaces";
 import Clones from "./Clones";
 import { ScanButton } from "./ScanButton";
 
 export default async function ClonesPage() {
   const clones: Clone[] = (await getMyClones()) || [];
+  const user: User | null = await getMe();
 
   return (
     <div className="max-w-xl mx-auto">
@@ -17,7 +18,7 @@ export default async function ClonesPage() {
         </form>
       </header>
 
-      <Clones clones={clones} />
+      <Clones clones={clones} currentChannels={user?.channels} />
     </div>
   );
 }

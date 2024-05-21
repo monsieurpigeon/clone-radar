@@ -1,13 +1,9 @@
 import { User } from "@/dbschema/interfaces";
-import { auth } from "edgedb-client";
+import { getMe } from "../../actions";
 import { YoutubeCollection } from "./YoutubeCollection";
 
 export default async function Collection() {
-  const { client } = auth.getSession();
-
-  const user: User | null = await client.querySingle(
-    "select global current_user { *, channels: { * } };"
-  );
+  const user: User | null = await getMe();
 
   return (
     <>

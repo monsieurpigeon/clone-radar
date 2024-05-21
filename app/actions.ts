@@ -1,6 +1,6 @@
 "use server";
 
-import { Channel, Clone } from "@/dbschema/interfaces";
+import { Channel, Clone, User } from "@/dbschema/interfaces";
 import { auth } from "@/edgedb-client";
 import { revalidatePath } from "next/cache";
 import { PostHog } from "posthog-node";
@@ -39,13 +39,21 @@ export async function getRecentChannels(): Promise<Channel[] | null> {
 
 export async function getRecentScans(): Promise<Clone[] | null> {
   const session = auth.getSession();
-  return await session.client.query(
+  return session.client.query(
     `SELECT Clone {
         matchCount,
         users: {githubUsername}
     } FILTER .created > <datetime>'${new Date().toISOString()}' - <cal::relative_duration>'30 days'
     ORDER BY .matchCount DESC
     LIMIT 10`
+  );
+}
+
+export async function getMe(): Promise<User | null> {
+  const session = auth.getSession();
+
+  return session.client.querySingle(
+    "select global current_user { *, channels: { * } };"
   );
 }
 
@@ -60,6 +68,7 @@ export async function getMyClones(): Promise<Clone[] | null> {
     }
     FILTER global current_user in .users
     ORDER BY .matchCount DESC
+    LIMIT 100
 `
   );
 }
@@ -69,20 +78,27 @@ export async function scanMatches() {
   const query = session.client.query(`
   WITH currentUser := (SELECT global current_user),
   pool := (SELECT (SELECT currentUser.channels.fans) FILTER .id != currentUser.id),
-  myClones := (SELECT pool {
+  myPreviousClones := (SELECT (SELECT Clone FILTER currentUser in .users).other),
+  myClones := (SELECT {myPreviousClones, pool} {
     id,
     channels,
+    restrictedItems := (SELECT .channels intersect currentUser.channels),
     matchCount := (SELECT count((SELECT .channels intersect currentUser.channels))),
   } ORDER BY .matchCount LIMIT 5)
 
-  FOR clone in myClones UNION ((
+  FOR myClone in myClones UNION ((
     INSERT Clone {
-      users :=  (SELECT User FILTER .id in {currentUser.id, clone.id}),
-       cloneId := (SELECT array_join(array_agg((SELECT test:={<str>clone.id, <str>currentUser.id} ORDER BY test)), ":")),
-      matchCount := clone.matchCount,
+      users :=  (SELECT User FILTER .id in {currentUser.id, myClone.id}),
+      cloneId := (SELECT array_join(array_agg((SELECT test:={<str>myClone.id, <str>currentUser.id} ORDER BY test)), ":")),
+      matchCount := myClone.matchCount,
+      restrictedItems := myClone.restrictedItems,
     } unless conflict on .cloneId else (
-       UPDATE Clone SET { matchCount := clone.matchCount }
-    )))   
+      (DELETE Clone) if Clone.matchCount = 0 else
+      (UPDATE Clone SET {
+        matchCount := myClone.matchCount,
+        restrictedItems := myClone.restrictedItems
+      })
+    )))
   `);
   // posthog.capture({
   //   distinctId,

@@ -1,6 +1,6 @@
 "use client";
 
-import { Clone } from "@/dbschema/interfaces";
+import { Channel, Clone } from "@/dbschema/interfaces";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FiMail } from "react-icons/fi";
@@ -8,10 +8,15 @@ import { getConversation } from "../../actions";
 
 interface Props {
   clones: Clone[];
+  currentChannels: Channel[];
 }
 
-export default function Clones({ clones }: Props) {
+export default function Clones({ clones, currentChannels }: Props) {
   const router = useRouter();
+  console.log(currentChannels);
+  const currentChannelIds = new Set(
+    currentChannels?.map((channel) => channel.id)
+  );
 
   return (
     <ul role="list" className="flex flex-col gap-4">
@@ -21,7 +26,7 @@ export default function Clones({ clones }: Props) {
               <div className="flex-auto">
                 <div className="p-2 flex gap-2 bg-slate-400 rounded-xl">
                   <div className="w-12 text-center bg-slate-700 rounded flex items-center justify-center text-white">
-                    {clone.restrictedItems.length}
+                    {clone.matchCount}
                   </div>
                   <div className="flex-grow bg-slate-700 text-white p-2 rounded flex flex-col gap-2">
                     <div className="flex gap-4 justify-between">
@@ -67,7 +72,7 @@ export default function Clones({ clones }: Props) {
                       {clone.restrictedItems?.map((item) => (
                         <div
                           key={item.id}
-                          className="px-1 border rounded relative bg-slate-200 text-slate-900"
+                          className={`px-1 border rounded relative bg-slate-200 text-slate-900 ${!currentChannelIds.has(item.id) && "opacity-60"}`}
                         >
                           {item.name}
                         </div>
