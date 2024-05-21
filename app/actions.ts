@@ -93,12 +93,12 @@ export async function scanMatches() {
       matchCount := myClone.matchCount,
       restrictedItems := myClone.restrictedItems,
     } unless conflict on .cloneId else (
-      (DELETE Clone) if Clone.matchCount = 0 else
-      (UPDATE Clone SET {
+      UPDATE Clone SET {
         matchCount := myClone.matchCount,
         restrictedItems := myClone.restrictedItems
-      })
-    )))
+      }
+    )));
+    DELETE Clone FILTER .matchCount = 0;
   `);
   // posthog.capture({
   //   distinctId,
