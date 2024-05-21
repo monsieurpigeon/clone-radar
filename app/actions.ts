@@ -185,7 +185,7 @@ export async function scanMatches() {
   //   event: "scanned_matches",
   // });
 
-  const dramaticWait = sleep(3000);
+  const dramaticWait = sleep(5000);
 
   await Promise.all([query, dramaticWait]);
 
