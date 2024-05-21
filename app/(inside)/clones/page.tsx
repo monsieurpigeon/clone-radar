@@ -3,7 +3,7 @@ import { Clone } from "@/dbschema/interfaces";
 import Clones from "./Clones";
 import { ScanButton } from "./ScanButton";
 
-export default async function MatchesPage() {
+export default async function ClonesPage() {
   const clones: Clone[] = (await getMyClones()) || [];
 
   return (

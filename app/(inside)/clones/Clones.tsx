@@ -12,6 +12,7 @@ interface Props {
 
 export default function Clones({ clones }: Props) {
   const router = useRouter();
+
   return (
     <ul role="list" className="flex flex-col gap-4">
       {clones

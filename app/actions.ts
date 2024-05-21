@@ -9,12 +9,12 @@ const posthog = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY || "", {
   host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
 });
 
-const session = auth.getSession();
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export async function getPopularChannels(): Promise<Channel[] | null> {
+  const session = auth.getSession();
   return session.client.query(
     `SELECT Channel {
       youtubeId,
@@ -27,6 +27,7 @@ export async function getPopularChannels(): Promise<Channel[] | null> {
 }
 
 export async function getRecentChannels(): Promise<Channel[] | null> {
+  const session = auth.getSession();
   return await session.client.query(
     `SELECT Channel {
         youtubeId,
@@ -37,6 +38,7 @@ export async function getRecentChannels(): Promise<Channel[] | null> {
 }
 
 export async function getRecentScans(): Promise<Clone[] | null> {
+  const session = auth.getSession();
   return await session.client.query(
     `SELECT Clone {
         matchCount,
@@ -48,6 +50,7 @@ export async function getRecentScans(): Promise<Clone[] | null> {
 }
 
 export async function getMyClones(): Promise<Clone[] | null> {
+  const session = auth.getSession();
   return session.client.query(
     `SELECT Clone {
       matchCount,
@@ -62,6 +65,7 @@ export async function getMyClones(): Promise<Clone[] | null> {
 }
 
 export async function scanMatches() {
+  const session = auth.getSession();
   const query = session.client.query(`
   WITH currentUser := (SELECT global current_user),
   pool := (SELECT (SELECT currentUser.channels.fans) FILTER .id != currentUser.id),
@@ -93,6 +97,7 @@ export async function scanMatches() {
 }
 
 export async function getConversation(otherId: string): Promise<string> {
+  const session = auth.getSession();
   const previous = (await session.client.query(
     `
       WITH other := (SELECT User FILTER .id = <uuid>$otherId),

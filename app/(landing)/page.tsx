@@ -17,7 +17,6 @@ import { ReactNode } from "react";
 
 export default async function Home() {
   const session = auth.getSession();
-
   const signedIn = await session.isSignedIn();
 
   const popularChannels: Channel[] = (await getPopularChannels()) || [];
