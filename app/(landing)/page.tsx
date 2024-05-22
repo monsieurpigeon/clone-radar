@@ -17,7 +17,7 @@ import { ReactNode } from "react";
 
 const wording = [
   "You are unique in many ways.",
-  "One of them is the exact combination of the things you love now.",
+  "One of them is the exact combination of things you love right now.",
   "Algorithms find matching patterns between us in order to predict our behavior.",
   "But they haven't connected us, until now.",
 ];
