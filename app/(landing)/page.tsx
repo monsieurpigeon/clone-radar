@@ -69,11 +69,15 @@ export default async function Home() {
               Clone Radar
             </h1>
             <div className="mt-6 text-base leading-7 text-gray-600 flex flex-col items-center">
-              <div>You are unique in a lot of ways.</div>
+              <div>You are unique in many ways.</div>
               <div>
-                One of them is the perfect combination of the things you love
-                now.
+                One of them is the exact combination of the things you love now.
               </div>
+              <div>
+                Our lives are shaped by algorithms, they find matching patterns
+                between us in order to predict our behavior.
+              </div>
+              <div>But they don't connect us together.</div>
 
               <div style={{ width: "800px", height: "800px" }}>
                 <ThreeScene />

@@ -9,12 +9,12 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Clone Radar",
-  description: "You are unique in a lot of ways.",
+  description: "You are unique in many ways.",
   metadataBase: new URL("https://cloneradar.com"),
   openGraph: {
     type: "website",
     title: "Clone Radar",
-    description: "You are unique in a lot of ways.",
+    description: "You are unique in many ways.",
     url: "https://cloneradar.com",
     siteName: "Clone Radar",
     images: [
