@@ -1,6 +1,7 @@
 "use client";
 import { Channel } from "@/dbschema/interfaces";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { ChannelInputProps } from ".";
 import { CollectionList } from "./CollectionList";
 import { YoutubeInput } from "./YoutubeInput";
@@ -10,6 +11,13 @@ export function YoutubeCollection({
 }: {
   channels: Channel[] | undefined;
 }) {
+  const router = useRouter();
+  useEffect(() => {
+    if (channels?.length === 0) {
+      router.push("/collection/onboarding");
+    }
+  }, [channels, router]);
+
   const [channel, setChannel] = useState<ChannelInputProps | undefined>();
 
   return (

@@ -6,10 +6,8 @@ export default async function Collection() {
   const user: User | null = await getMe();
 
   return (
-    <>
-      <div className="max-w-xl mx-auto">
-        <YoutubeCollection channels={user?.channels} />
-      </div>
-    </>
+    <div className="max-w-xl mx-auto">
+      <YoutubeCollection channels={user?.channels} />
+    </div>
   );
 }
