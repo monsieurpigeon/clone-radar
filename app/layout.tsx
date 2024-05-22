@@ -43,7 +43,7 @@ export default async function RootLayout({
           <div className="flex flex-col h-screen">
             <div className="flex-grow">{children}</div>
             <footer className="z-50 flex flex-row justify-center">
-              <div className="flex flex-col items-center gap-1 pb-4 text-center">
+              <div className="flex flex-col items-center gap-1 py-4 text-center">
                 <div>
                   This is my entry for the{" "}
                   <a href="https://hackathon.edgedb.com/">

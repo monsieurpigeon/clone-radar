@@ -58,12 +58,12 @@ export function YoutubeInput({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-4 shadow-lg p-2 rounded-b-xl">
+      <div className="flex gap-4 shadow-md p-2 rounded-b-xl">
         <input
           value={value}
           placeholder="https://www.youtube.com/@t3dotgg"
           onChange={(e) => setValue(e.target.value)}
-          className="grow rounded-lg border-0 focus:ring-0"
+          className="grow rounded-lg border-0 focus:outline-none px-4 shadow-inner"
         />
         <Button onClick={handleVerify}>Verify</Button>
       </div>

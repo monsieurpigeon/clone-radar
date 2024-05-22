@@ -15,6 +15,13 @@ import { ReactNode } from "react";
 //   loading: () => <p>Loading...</p>,
 // });
 
+const wording = [
+  "You are unique in many ways.",
+  "One of them is the exact combination of the things you love now.",
+  "Algorithms find matching patterns between us in order to predict our behavior.",
+  "But they don't connect us together, till now.",
+];
+
 export default async function Home() {
   const session = auth.getSession();
   const signedIn = await session.isSignedIn();
@@ -62,75 +69,76 @@ export default async function Home() {
         </nav>
       </header>
 
-      <div className="px-6 py-14 lg:px-8 z-0">
-        <div className="mx-auto max-w-2xl pt-16 sm:pt-24 lg:pt-32">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+      <div className="px-6 lg:px-8 z-0">
+        <div className="mx-auto max-w-2xl pt-8 sm:pt-12 lg:pt-16">
+          <div className="text-center flex flex-col items-center">
+            <div className="mb-6 text-base leading-7 text-gray-600 flex flex-col items-center cursor-none">
+              {wording.map((sentence, index) => (
+                <div key={index}>
+                  {sentence.split(" ").map((word, wordIndex) => (
+                    <span key={wordIndex} className="hover:font-bold">
+                      {word}{" "}
+                    </span>
+                  ))}
+                </div>
+              ))}
+            </div>
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl py-8">
               Clone Radar
             </h1>
-            <div className="mt-6 text-base leading-7 text-gray-600 flex flex-col items-center">
-              <div>You are unique in many ways.</div>
-              <div>
-                One of them is the exact combination of the things you love now.
-              </div>
-              <div>
-                Our lives are shaped by algorithms, they find matching patterns
-                between us in order to predict our behavior.
-              </div>
-              <div>But they don't connect us together.</div>
-
-              <div style={{ width: "800px", height: "800px" }}>
-                <ThreeScene />
-              </div>
+            <div style={{ width: "800px", height: "800px" }}>
+              <ThreeScene />
+            </div>
+            <div className="w-100">
               <NextSteps />
-              <div className="grid grid-cols-2 gap-4">
-                <StatBlock
-                  title="Popular channels"
-                  items={popularChannels?.map((channel) => (
-                    <Link
-                      key={channel.id}
-                      href={`https://www.youtube.com/channel/${channel.youtubeId}`}
-                    >
-                      <div>{channel.name}</div>
-                    </Link>
-                  ))}
-                />
-                <StatBlock
-                  title="Recent channels"
-                  items={recentChannels.map((channel) => (
-                    <Link
-                      key={channel.id}
-                      href={`https://www.youtube.com/channel/${channel.youtubeId}`}
-                    >
-                      <div>{channel.name}</div>
-                    </Link>
-                  ))}
-                />
-                <StatBlock
-                  className="col-span-2"
-                  title="Best scans - 30 days"
-                  items={recentScans.map((scan, index) => {
-                    return (
-                      <div key={index}>
-                        <div>
-                          <span>{scan.matchCount} : </span>
-                          <Link
-                            href={`https://github.com/${scan?.users[0]?.githubUsername}`}
-                          >
-                            {scan?.users[0]?.githubUsername}
-                          </Link>
-                          <span>{" <=> "}</span>
-                          <Link
-                            href={`https://github.com/${scan?.users[1]?.githubUsername}`}
-                          >
-                            {scan?.users[1]?.githubUsername}
-                          </Link>
-                        </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4 pb-12 self-stretch">
+              <StatBlock
+                title="Popular channels"
+                items={popularChannels?.map((channel) => (
+                  <Link
+                    key={channel.id}
+                    href={`https://www.youtube.com/channel/${channel.youtubeId}`}
+                  >
+                    <div>{channel.name}</div>
+                  </Link>
+                ))}
+              />
+              <StatBlock
+                title="Recent channels"
+                items={recentChannels.map((channel) => (
+                  <Link
+                    key={channel.id}
+                    href={`https://www.youtube.com/channel/${channel.youtubeId}`}
+                  >
+                    <div>{channel.name}</div>
+                  </Link>
+                ))}
+              />
+              <StatBlock
+                className="col-span-2"
+                title="Best scans - 30 days"
+                items={recentScans.map((scan, index) => {
+                  return (
+                    <div key={index}>
+                      <div>
+                        <span>{scan.matchCount} : </span>
+                        <Link
+                          href={`https://github.com/${scan?.users[0]?.githubUsername}`}
+                        >
+                          {scan?.users[0]?.githubUsername}
+                        </Link>
+                        <span>{" <=> "}</span>
+                        <Link
+                          href={`https://github.com/${scan?.users[1]?.githubUsername}`}
+                        >
+                          {scan?.users[1]?.githubUsername}
+                        </Link>
                       </div>
-                    );
-                  })}
-                />
-              </div>
+                    </div>
+                  );
+                })}
+              />
             </div>
           </div>
         </div>
