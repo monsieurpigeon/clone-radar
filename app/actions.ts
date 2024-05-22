@@ -24,8 +24,7 @@ export async function getPopularChannels(): Promise<Channel[] | null> {
   const session = auth.getSession();
   return session.client.query(
     `SELECT Channel {
-      youtubeId,
-      name,
+      *,
       cloneRate := count(.fans)
     } ORDER BY .cloneRate DESC EMPTY LAST
     THEN .subscriberCount DESC
@@ -53,6 +52,20 @@ export async function getRecentScans(): Promise<Clone[] | null> {
     } FILTER .created > <datetime>'${new Date().toISOString()}' - <cal::relative_duration>'30 days'
     ORDER BY .matchCount DESC
     LIMIT 10`
+  );
+}
+
+export async function addChannels(channels: ChannelInputProps[]) {
+  const session = auth.getSession();
+  return session.client.query(
+    `
+  WITH raw_data := <array<str>>$ids,
+  UPDATE User FILTER global current_user.id = .id
+  set {
+    channels += (SELECT Channel FILTER .youtubeId IN array_unpack(raw_data))
+  }
+  `,
+    { ids: channels.map((c) => c.youtubeId) }
   );
 }
 

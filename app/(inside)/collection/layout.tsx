@@ -1,5 +1,3 @@
-import { OpenOnboardingButton } from "./OpenOnboardingButton";
-
 export default async function OnboardingLayout({
   children,
   onboarding,
@@ -11,9 +9,6 @@ export default async function OnboardingLayout({
     <div>
       <div>{children}</div>
       <div>{onboarding}</div>
-      <nav>
-        <OpenOnboardingButton />
-      </nav>
     </div>
   );
 }

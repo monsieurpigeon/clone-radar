@@ -15,7 +15,7 @@ export function ScanButton() {
             <span className="absolute animate-bounce rounded-full size-1 bg-green-300 top-1/3 left-1/3"></span>
           </span>
         )}
-        <span>Scan</span>
+        <span>{pending ? "Scanning..." : "Scan"}</span>
       </div>
     </Button>
   );
