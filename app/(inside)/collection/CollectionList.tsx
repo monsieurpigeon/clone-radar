@@ -21,7 +21,7 @@ export function CollectionList({
     <>
       <div className="flex items-center justify-between gap-4">
         <p className="text-xl font-bold leading-4 tracking-tight text-gray-900">
-          My Collection
+          My Collection {channels && `(${channels.length} / 16)`}
         </p>
         <button onClick={() => setShow((v) => !v)}>
           {show ? "Hide" : "Reveal"}

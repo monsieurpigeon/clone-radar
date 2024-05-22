@@ -6,7 +6,7 @@ import { ellipse, viewsFormatter } from "@/utils/formatter";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { FaShareSquare } from "react-icons/fa";
 import { ChannelInputProps, searchChannels } from ".";
 
@@ -20,6 +20,9 @@ export function YoutubeInput({
   setChannel: (channel: ChannelInputProps | undefined) => void;
 }) {
   const [value, setValue] = useState("");
+  const [pending, startTransition] = useTransition();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const router = useRouter();
   const handleVerify = () => {
     searchChannels(value)
@@ -39,6 +42,12 @@ export function YoutubeInput({
       .catch((error) => console.error(error));
   };
 
+  useEffect(() => {
+    if (myCollection?.length < 16) {
+      setErrorMessage(null);
+    }
+  }, [myCollection]);
+
   const collected = useMemo(() => {
     const collected = new Set();
     myCollection?.forEach((channel) => collected.add(channel.youtubeId));
@@ -46,15 +55,6 @@ export function YoutubeInput({
   }, [myCollection]);
 
   const isCollected = (youtubeId: string) => collected.has(youtubeId);
-
-  const handleCollect = async (channel: ChannelInputProps) => {
-    try {
-      await addChannel(channel);
-    } catch (error) {
-      console.error(error);
-    }
-    router.refresh();
-  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -67,7 +67,6 @@ export function YoutubeInput({
         />
         <Button onClick={handleVerify}>Verify</Button>
       </div>
-
       <div className="flex flex-col">
         {channel && (
           <div className="flex gap-4 p-4 border-l-4 border-purple-400 rounded-xl shadow-lg">
@@ -86,7 +85,16 @@ export function YoutubeInput({
                 </div>
               ) : (
                 <button
-                  onClick={() => handleCollect(channel)}
+                  onClick={() => {
+                    startTransition(async () => {
+                      try {
+                        await addChannel(channel);
+                        router.refresh();
+                      } catch (error) {
+                        setErrorMessage((error as Error).message);
+                      }
+                    });
+                  }}
                   className="border-2 rounded-lg px-1 hover:bg-yellow-400 hover:text-white hover:border-yellow-300 font-bold shadow-md"
                 >
                   Collect
@@ -123,6 +131,26 @@ export function YoutubeInput({
           </div>
         )}
       </div>
+      {errorMessage && (
+        <div className="flex gap-1">
+          <div
+            className="rounded rotate-180 border-2 overflow-hidden cursor-pointer"
+            onClick={() => {
+              setErrorMessage(null);
+            }}
+          >
+            <div className="blur-sm grid grid-cols-2 grid-rows-2">
+              <div className="bg-red-500 size-3 rounded animate-bounce"></div>
+              <div className="bg-red-500 size-3 rounded animate-bounce delay-100"></div>
+              <div className="bg-red-500 size-3 rounded animate-bounce delay-200"></div>
+              <div className="bg-red-500 size-3 rounded animate-bounce delay-300"></div>
+            </div>
+          </div>
+          <div className="bg-red-200 text-red-800 px-2 border rounded grow font-semibold">
+            {errorMessage}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

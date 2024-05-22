@@ -72,6 +72,14 @@ export async function addChannels(channels: ChannelInputProps[]) {
 export async function addChannel(channel: ChannelInputProps) {
   const session = auth.getSession();
 
+  const check: number[] = await session.client.query(
+    `SELECT count((SELECT global current_user.channels))`
+  );
+
+  if (check[0] >= 16) {
+    throw new Error("You can only have 16 channels. Please remove one first.");
+  }
+
   const res = await session.client.query(
     `
       with newChannel := (

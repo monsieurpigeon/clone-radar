@@ -19,7 +19,7 @@ const wording = [
   "You are unique in many ways.",
   "One of them is the exact combination of the things you love now.",
   "Algorithms find matching patterns between us in order to predict our behavior.",
-  "But they don't connect us together, till now.",
+  "But they don't connect us together, until now.",
 ];
 
 export default async function Home() {
@@ -86,7 +86,7 @@ export default async function Home() {
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl py-8">
               Clone Radar
             </h1>
-            <div style={{ width: "800px", height: "800px" }}>
+            <div style={{ width: "500px", height: "500px" }}>
               <ThreeScene />
             </div>
             <div className="w-100">

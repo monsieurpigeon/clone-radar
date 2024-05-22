@@ -62,12 +62,15 @@ export default function OnboardingPage() {
                     <div
                       className={`flex rounded-lg overflow-hidden hover:shadow-md transition-shadow	 border-2 ${selected.has(top.id) && "border-yellow-300 shadow-md"}`}
                     >
-                      <Image
-                        alt={top.name}
-                        src={top.thumbnailUrl}
-                        width={88}
-                        height={88}
-                      />
+                      <div className="relative min-h-20 max-h-20 min-w-20 max-w-20 ">
+                        <Image
+                          alt={top.name}
+                          src={top.thumbnailUrl}
+                          fill={true}
+                          style={{ objectFit: "cover" }}
+                        />
+                      </div>
+
                       <div
                         className={`bg-slate-100 p-4 w-full flex flex-col justify-between ${selected.has(top.id) && "bg-yellow-100"}`}
                       >
