@@ -6,7 +6,7 @@ import { ellipse, viewsFormatter } from "@/utils/formatter";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FaShareSquare } from "react-icons/fa";
 import { ChannelInputProps, searchChannels } from ".";
 
@@ -20,7 +20,6 @@ export function YoutubeInput({
   setChannel: (channel: ChannelInputProps | undefined) => void;
 }) {
   const [value, setValue] = useState("");
-  const [pending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const router = useRouter();
@@ -85,15 +84,10 @@ export function YoutubeInput({
                 </div>
               ) : (
                 <button
-                  onClick={() => {
-                    startTransition(async () => {
-                      try {
-                        await addChannel(channel);
-                        router.refresh();
-                      } catch (error) {
-                        setErrorMessage((error as Error).message);
-                      }
-                    });
+                  onClick={async () => {
+                    const error = await addChannel(channel);
+                    setErrorMessage(error);
+                    router.refresh();
                   }}
                   className="border-2 rounded-lg px-1 hover:bg-yellow-400 hover:text-white hover:border-yellow-300 font-bold shadow-md"
                 >

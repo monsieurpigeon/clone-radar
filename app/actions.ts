@@ -77,7 +77,7 @@ export async function addChannel(channel: ChannelInputProps) {
   );
 
   if (check[0] >= 16) {
-    throw new Error("You can only have 16 channels. Please remove one first.");
+    return "You can only add 16 channels. Please remove one to add more.";
   }
 
   const res = await session.client.query(
