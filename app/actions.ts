@@ -177,9 +177,15 @@ export async function getMyClones(): Promise<Clone[] | null> {
 }
 
 export async function scanMatches() {
+  const threshold = 3;
   const session = auth.getSession();
-  const query = session.client.query(`
-  WITH currentUser := (SELECT global current_user),
+  await session.client.query(
+    `WITH currentUser := (SELECT global current_user),
+    DELETE Clone FILTER currentUser in .users AND .matchCount <= max(.users.threshold);`
+  );
+
+  const query = session.client.query(
+    `WITH currentUser := (SELECT global current_user),
   pool := (SELECT (SELECT currentUser.channels.fans) FILTER .id != currentUser.id),
   myPreviousClones := (SELECT (SELECT Clone FILTER currentUser in .users).other),
   myClones := (SELECT {myPreviousClones, pool} {
@@ -187,8 +193,7 @@ export async function scanMatches() {
     channels,
     restrictedItems := (SELECT .channels intersect currentUser.channels),
     matchCount := (SELECT count((SELECT .channels intersect currentUser.channels))),
-  } ORDER BY .matchCount LIMIT 5)
-
+  } FILTER .matchCount >= max({.threshold, currentUser.threshold}) ORDER BY .matchCount LIMIT 5)
   FOR myClone in myClones UNION ((
     INSERT Clone {
       users :=  (SELECT User FILTER .id in {currentUser.id, myClone.id}),
@@ -202,7 +207,8 @@ export async function scanMatches() {
         restrictedItems := myClone.restrictedItems
       })
     )));
-  `);
+  `
+  );
   // posthog.capture({
   //   distinctId,
   //   event: "scanned_matches",
@@ -212,7 +218,7 @@ export async function scanMatches() {
 
   await Promise.all([query, dramaticWait]);
 
-  revalidatePath("/clones");
+  revalidatePath("/radar");
 }
 
 export async function createConversation(id: string): Promise<string> {
@@ -291,4 +297,16 @@ export async function getConversationById(
     FILTER .id = <uuid>$id`,
     { id }
   );
+}
+
+export async function updateThreshold(threshold: number) {
+  const session = auth.getSession();
+  await session.client.query(
+    `UPDATE User FILTER global current_user.id = .id
+    SET {
+      threshold := <int64>$threshold
+    }`,
+    { threshold }
+  );
+  revalidatePath("/radar");
 }

@@ -14,6 +14,7 @@ module default {
     required identity: ext::auth::Identity;
     required name: str;
     email: str;
+    required threshold: int64;
     required githubUsername: str {
       constraint exclusive;
     };
