@@ -1,8 +1,10 @@
 import { createConversation } from "@/app/actions";
 import { Channel, Clone, User } from "@/dbschema/interfaces";
+import githubLogo from "@/public/github.svg";
+import { COLORS } from "@/utils/constants";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { COLORS } from "../../../utils/constants";
 
 export function CloneItem({
   clone,
@@ -14,7 +16,7 @@ export function CloneItem({
   const router = useRouter();
 
   return (
-    <div className="rounded-lg hover:shadow-md transition-shadow flex gap-4 cursor-pointer">
+    <div className="rounded-lg flex gap-4 cursor-pointer">
       <MatchCount count={clone.matchCount} />
       <div className="flex flex-col">
         <UserItem
@@ -68,6 +70,17 @@ function UserItem({
       }}
     >
       <span className="text-xl font-bold hover:underline">{user.name}</span>
+      <div className="mx-3">
+        <Link href={`https://github.com/${user.githubUsername}`}>
+          <Image
+            src={githubLogo}
+            alt="Follow us on Twitter"
+            width={24}
+            height={24}
+          />
+        </Link>
+      </div>
+
       {isNew && (
         <span className="font-semibold text-sky-600"> - New clone !</span>
       )}
