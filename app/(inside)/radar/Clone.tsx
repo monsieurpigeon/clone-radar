@@ -2,7 +2,6 @@ import { createConversation } from "@/app/actions";
 import { Channel, Clone, User } from "@/dbschema/interfaces";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FiMail } from "react-icons/fi";
 import { COLORS } from "../../../utils/constants";
 
 export function CloneItem({
@@ -12,8 +11,17 @@ export function CloneItem({
   clone: Clone;
   currentChannelIds: Set<string>;
 }) {
+  const router = useRouter();
+
   return (
-    <>
+    <div
+      className="p-4 rounded-lg hover:shadow-md transition-shadow"
+      onClick={async () => {
+        const convId = await createConversation(clone.id);
+        router.replace(`/conversations/${convId}`);
+        router.refresh();
+      }}
+    >
       <MatchCount count={clone.matchCount} />
       <div className="flex flex-col">
         <UserItem user={clone.other} isNew={!clone.conversation?.id} />
@@ -27,10 +35,7 @@ export function CloneItem({
           ))}
         </div>
       </div>
-      <div className="flex justify-end">
-        <ContactButton id={clone.id} />
-      </div>
-    </>
+    </div>
   );
 }
 
@@ -81,22 +86,5 @@ function MatchItem({
         {channel.name}
       </div>
     </Link>
-  );
-}
-
-function ContactButton({ id }: { id: string }) {
-  const router = useRouter();
-
-  return (
-    <button
-      onClick={async () => {
-        const convId = await createConversation(id);
-        router.replace(`/conversations/${convId}`);
-        router.refresh();
-      }}
-      className="h-2 text-3xl hover:text-blue-500 transition-colors"
-    >
-      <FiMail />
-    </button>
   );
 }
