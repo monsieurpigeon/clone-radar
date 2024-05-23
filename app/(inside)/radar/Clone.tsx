@@ -56,9 +56,11 @@ function UserItem({
   }
   return (
     <Link href={`http://github.com/${user.githubUsername}`}>
-      <div className="text-xl">
-        {user.name}
-        {isNew && <span className="font-bold text-base"> - New clone !</span>}
+      <div>
+        <span className="text-xl font-bold hover:underline">{user.name}</span>
+        {isNew && (
+          <span className="font-semibold text-sky-600"> - New clone !</span>
+        )}
       </div>
     </Link>
   );
