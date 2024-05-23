@@ -68,18 +68,18 @@ function UserItem({
         router.replace(`/messages/${convId}`);
         router.refresh();
       }}
+      className="flex items-center gap-2"
     >
       <span className="text-xl font-bold hover:underline">{user.name}</span>
-      <div className="mx-3">
-        <Link href={`https://github.com/${user.githubUsername}`}>
-          <Image
-            src={githubLogo}
-            alt="Follow us on Twitter"
-            width={24}
-            height={24}
-          />
-        </Link>
-      </div>
+
+      <Link href={`https://github.com/${user.githubUsername}`}>
+        <Image
+          src={githubLogo}
+          alt="Follow us on Twitter"
+          width={20}
+          height={20}
+        />
+      </Link>
 
       {isNew && (
         <span className="font-semibold text-sky-600"> - New clone !</span>
