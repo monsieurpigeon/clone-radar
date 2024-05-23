@@ -15,7 +15,7 @@ export function CloneItem({
   return (
     <>
       <MatchCount count={clone.matchCount} />
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col">
         <UserItem user={clone.other} isNew={!clone.conversation?.id} />
         <div className="flex flex-wrap gap-1">
           {clone.restrictedItems.map((item) => (
@@ -27,7 +27,7 @@ export function CloneItem({
           ))}
         </div>
       </div>
-      <div className="flex items-center justify-center">
+      <div className="flex justify-end">
         <ContactButton id={clone.id} />
       </div>
     </>
@@ -92,7 +92,7 @@ function ContactButton({ id }: { id: string }) {
         router.replace(`/conversations/${convId}`);
         router.refresh();
       }}
-      className="text-3xl hover:text-blue-500 transition-colors"
+      className="h-2 text-3xl hover:text-blue-500 transition-colors"
     >
       <FiMail />
     </button>
