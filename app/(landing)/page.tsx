@@ -125,7 +125,7 @@ export default async function Home() {
                 className="col-span-2"
                 title="Best scans - last 30 days"
                 items={
-                  <div className="grid grid-cols-9 m-auto">
+                  <div className="grid grid-cols-9 m-auto gap-3">
                     {recentScans.map((scan) => {
                       return <ScanLine scan={scan} key={scan.id} />;
                     })}
@@ -151,7 +151,7 @@ function ScanLine({ scan }: { scan: Clone }) {
       </Link>
 
       <span
-        className={`rounded px-2 mx-3 bg-${COLORS[scan.matchCount]}-500 text-white font-bold`}
+        className={`rounded px-2 bg-${COLORS[scan.matchCount]}-500 text-white font-bold`}
       >
         {scan.matchCount}
       </span>
