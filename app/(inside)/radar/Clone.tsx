@@ -15,10 +15,10 @@ export function CloneItem({
 
   return (
     <div
-      className="p-4 rounded-lg hover:shadow-md transition-shadow"
+      className="p-4 rounded-lg hover:shadow-md transition-shadow flex"
       onClick={async () => {
         const convId = await createConversation(clone.id);
-        router.replace(`/conversations/${convId}`);
+        router.replace(`/messages/${convId}`);
         router.refresh();
       }}
     >
@@ -42,7 +42,7 @@ export function CloneItem({
 function MatchCount({ count }: { count: number }) {
   return (
     <div
-      className={`h-10 rounded text-xl text-white font-bold flex items-center justify-center bg-${COLORS[count]}-500`}
+      className={`size-10 grow-0 shrink-0 rounded text-xl text-white font-bold flex items-center justify-center bg-${COLORS[count]}-500`}
     >
       {count}
     </div>

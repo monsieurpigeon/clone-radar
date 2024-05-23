@@ -258,7 +258,7 @@ export async function getConversation(otherId: string): Promise<string> {
     `,
     { otherId }
   )) as { id: string }[];
-  revalidatePath("/conversations");
+  revalidatePath("/messages");
   return previous[0].id;
 }
 

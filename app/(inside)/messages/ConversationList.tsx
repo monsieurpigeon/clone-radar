@@ -20,8 +20,8 @@ export function ConversationList({
           <Link
             href={
               conversation.id === selectedConversationId
-                ? "/conversations"
-                : `/conversations/${conversation.id}`
+                ? "/messages"
+                : `/messages/${conversation.id}`
             }
             key={conversation.id}
           >

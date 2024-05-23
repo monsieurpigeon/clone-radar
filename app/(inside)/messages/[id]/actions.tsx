@@ -21,5 +21,5 @@ export async function sendMessage(formData: FormData) {
     { conversationId, message }
   );
 
-  revalidatePath("/conversations");
+  revalidatePath("/messages");
 }
