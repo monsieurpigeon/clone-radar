@@ -17,7 +17,7 @@ export default function Clones({ clones, currentChannels }: Props) {
     <>
       <div>
         {clones?.length ? (
-          <div className="grid grid-cols-[auto_auto_auto] gap-4">
+          <div className="grid grid-cols-[50px_auto_40px] gap-4">
             {clones.map((clone) => (
               <CloneItem
                 key={clone.id}

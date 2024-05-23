@@ -15,7 +15,7 @@ export function CloneItem({
   return (
     <>
       <MatchCount count={clone.matchCount} />
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
         <UserItem user={clone.other} isNew={!clone.conversation?.id} />
         <div className="flex flex-wrap gap-1">
           {clone.restrictedItems.map((item) => (
@@ -37,7 +37,7 @@ export function CloneItem({
 function MatchCount({ count }: { count: number }) {
   return (
     <div
-      className={`min-w-10 h-10 rounded text-xl text-white font-bold flex items-center justify-center bg-${COLORS[count]}-500`}
+      className={`h-10 rounded text-xl text-white font-bold flex items-center justify-center bg-${COLORS[count]}-500`}
     >
       {count}
     </div>
@@ -58,7 +58,7 @@ function UserItem({
     <Link href={`http://github.com/${user.githubUsername}`}>
       <div className="text-xl">
         {user.name}
-        {isNew && <span className="font-bold"> - New clone !</span>}
+        {isNew && <span className="font-bold text-base"> - New clone !</span>}
       </div>
     </Link>
   );
@@ -92,7 +92,7 @@ function ContactButton({ id }: { id: string }) {
         router.replace(`/conversations/${convId}`);
         router.refresh();
       }}
-      className="text-3xl"
+      className="text-3xl hover:text-blue-500 transition-colors"
     >
       <FiMail />
     </button>
