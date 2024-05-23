@@ -55,7 +55,8 @@ export const { GET, POST } = auth.createAuthRouteHandlers({
           avatarUrl := <optional str>$avatarUrl,
           githubUsername := <optional str>$githubUsername,
           userRole := 'user',
-          identity := (global ext::auth::ClientTokenIdentity)
+          identity := (global ext::auth::ClientTokenIdentity),
+          threshold := <int64>3,
         } unless conflict on .githubUsername
         else (UPDATE User SET {
           name := <optional str>$name,

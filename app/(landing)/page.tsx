@@ -125,7 +125,7 @@ export default async function Home() {
                 className="col-span-2"
                 title="Best scans - last 30 days"
                 items={
-                  <div className="grid grid-cols-9 m-auto gap-3">
+                  <div className="grid grid-cols-9 m-auto gap-x-3 gap-y-1">
                     {recentScans.map((scan) => {
                       return <ScanLine scan={scan} key={scan.id} />;
                     })}
