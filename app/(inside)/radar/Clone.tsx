@@ -62,15 +62,17 @@ function UserItem({
     return null;
   }
   return (
-    <div
-      onClick={async () => {
-        const convId = await createConversation(cloneId);
-        router.replace(`/messages/${convId}`);
-        router.refresh();
-      }}
-      className="flex items-center gap-2"
-    >
-      <span className="text-xl font-bold hover:underline">{user.name}</span>
+    <div className="flex items-center gap-2">
+      <span
+        className="text-xl font-bold hover:underline"
+        onClick={async () => {
+          const convId = await createConversation(cloneId);
+          router.replace(`/messages/${convId}`);
+          router.refresh();
+        }}
+      >
+        {user.name}
+      </span>
 
       <Link href={`https://github.com/${user.githubUsername}`}>
         <Image
