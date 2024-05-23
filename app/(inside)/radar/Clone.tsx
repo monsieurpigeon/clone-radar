@@ -16,7 +16,7 @@ export function CloneItem({
     <>
       <MatchCount count={clone.matchCount} />
       <div>
-        <UserItem user={clone.other} isNew={!!clone.conversation.id} />
+        <UserItem user={clone.other} isNew={!clone.conversation?.id} />
         <div className="flex flex-wrap gap-1">
           {clone.restrictedItems.map((item) => (
             <MatchItem
