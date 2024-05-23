@@ -105,7 +105,7 @@ export default async function Home() {
                     key={channel.id}
                     href={`https://www.youtube.com/channel/${channel.youtubeId}`}
                   >
-                    <p className="text-ellipsis">{channel.name}</p>
+                    <p className="hover:underline">{channel.name}</p>
                   </Link>
                 ))}
               />
@@ -117,7 +117,7 @@ export default async function Home() {
                     key={channel.id}
                     href={`https://www.youtube.com/channel/${channel.youtubeId}`}
                   >
-                    <p className="text-ellipsis">{channel.name}</p>
+                    <p className="hover:underline">{channel.name}</p>
                   </Link>
                 ))}
               />
