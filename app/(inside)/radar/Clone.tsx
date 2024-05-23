@@ -14,17 +14,14 @@ export function CloneItem({
   const router = useRouter();
 
   return (
-    <div
-      className="p-4 rounded-lg hover:shadow-md transition-shadow flex"
-      onClick={async () => {
-        const convId = await createConversation(clone.id);
-        router.replace(`/messages/${convId}`);
-        router.refresh();
-      }}
-    >
+    <div className="rounded-lg hover:shadow-md transition-shadow flex gap-4 cursor-pointer">
       <MatchCount count={clone.matchCount} />
       <div className="flex flex-col">
-        <UserItem user={clone.other} isNew={!clone.conversation?.id} />
+        <UserItem
+          user={clone.other}
+          isNew={!clone.conversation?.id}
+          cloneId={clone.id}
+        />
         <div className="flex flex-wrap gap-1">
           {clone.restrictedItems.map((item) => (
             <MatchItem
@@ -52,22 +49,29 @@ function MatchCount({ count }: { count: number }) {
 function UserItem({
   user,
   isNew,
+  cloneId,
 }: {
   user: User | null | undefined;
   isNew: boolean;
+  cloneId: string;
 }) {
+  const router = useRouter();
   if (!user) {
     return null;
   }
   return (
-    <Link href={`http://github.com/${user.githubUsername}`}>
-      <div>
-        <span className="text-xl font-bold hover:underline">{user.name}</span>
-        {isNew && (
-          <span className="font-semibold text-sky-600"> - New clone !</span>
-        )}
-      </div>
-    </Link>
+    <div
+      onClick={async () => {
+        const convId = await createConversation(cloneId);
+        router.replace(`/messages/${convId}`);
+        router.refresh();
+      }}
+    >
+      <span className="text-xl font-bold hover:underline">{user.name}</span>
+      {isNew && (
+        <span className="font-semibold text-sky-600"> - New clone !</span>
+      )}
+    </div>
   );
 }
 
