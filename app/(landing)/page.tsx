@@ -10,6 +10,7 @@ import { Channel, Clone } from "@/dbschema/interfaces";
 import { auth } from "edgedb-client";
 import Link from "next/link";
 import { ReactNode } from "react";
+import { COLORS } from "../../utils/constants";
 
 // const Dynamic3D = dynamic(() => import("../components/ThreeScene"), {
 //   loading: () => <p>Loading...</p>,
@@ -76,7 +77,10 @@ export default async function Home() {
               {wording.map((sentence, index) => (
                 <div key={index}>
                   {sentence.split(" ").map((word, wordIndex) => (
-                    <span key={wordIndex} className="hover:font-bold">
+                    <span
+                      key={`${index}-${wordIndex}`}
+                      className="hover:font-bold"
+                    >
                       {word}{" "}
                     </span>
                   ))}
@@ -92,52 +96,41 @@ export default async function Home() {
             <div className="w-100">
               <NextSteps />
             </div>
-            <div className="grid grid-cols-2 gap-4 pb-12 self-stretch">
+            <div className="grid grid-cols-2 gap-4 pb-12 text-nowrap">
               <StatBlock
                 title="Popular channels"
+                className="overflow-hidden"
                 items={popularChannels?.map((channel) => (
                   <Link
                     key={channel.id}
                     href={`https://www.youtube.com/channel/${channel.youtubeId}`}
                   >
-                    <div>{channel.name}</div>
+                    <p className="text-ellipsis">{channel.name}</p>
                   </Link>
                 ))}
               />
               <StatBlock
                 title="Recent channels"
+                className="overflow-hidden"
                 items={recentChannels.map((channel) => (
                   <Link
                     key={channel.id}
                     href={`https://www.youtube.com/channel/${channel.youtubeId}`}
                   >
-                    <div>{channel.name}</div>
+                    <p className="text-ellipsis">{channel.name}</p>
                   </Link>
                 ))}
               />
               <StatBlock
                 className="col-span-2"
-                title="Best scans - 30 days"
-                items={recentScans.map((scan, index) => {
-                  return (
-                    <div key={index}>
-                      <div>
-                        <span>{scan.matchCount} : </span>
-                        <Link
-                          href={`https://github.com/${scan?.users[0]?.githubUsername}`}
-                        >
-                          {scan?.users[0]?.githubUsername}
-                        </Link>
-                        <span>{" <=> "}</span>
-                        <Link
-                          href={`https://github.com/${scan?.users[1]?.githubUsername}`}
-                        >
-                          {scan?.users[1]?.githubUsername}
-                        </Link>
-                      </div>
-                    </div>
-                  );
-                })}
+                title="Best scans - last 30 days"
+                items={
+                  <div className="grid grid-cols-9 m-auto">
+                    {recentScans.map((scan) => {
+                      return <ScanLine scan={scan} key={scan.id} />;
+                    })}
+                  </div>
+                }
               />
             </div>
           </div>
@@ -146,16 +139,42 @@ export default async function Home() {
     </div>
   );
 }
+
+function ScanLine({ scan }: { scan: Clone }) {
+  return (
+    <>
+      <Link
+        href={`https://github.com/${scan?.users[0]?.githubUsername}`}
+        className="col-span-4 text-right hover:underline"
+      >
+        {scan?.users[0]?.githubUsername}
+      </Link>
+
+      <span
+        className={`rounded px-2 mx-3 bg-${COLORS[scan.matchCount]}-500 text-white font-bold`}
+      >
+        {scan.matchCount}
+      </span>
+
+      <Link
+        href={`https://github.com/${scan?.users[1]?.githubUsername}`}
+        className="col-span-4 text-left hover:underline"
+      >
+        {scan?.users[1]?.githubUsername}
+      </Link>
+    </>
+  );
+}
 interface StatBlockProps {
   title: string;
-  items?: ReactNode[];
+  items?: ReactNode[] | ReactNode;
   className?: string;
 }
 
 function StatBlock({ title, items, className }: StatBlockProps) {
   return (
     <div className={`border rounded p-4 ${className}`}>
-      <div className="font-semibold">{title}</div>
+      <div className="font-semibold mb-4">{title}</div>
       <div className="flex flex-col items-start">{items}</div>
     </div>
   );
