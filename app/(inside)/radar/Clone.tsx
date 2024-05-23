@@ -15,7 +15,7 @@ export function CloneItem({
   return (
     <>
       <MatchCount count={clone.matchCount} />
-      <div>
+      <div className="flex flex-col gap-4">
         <UserItem user={clone.other} isNew={!clone.conversation?.id} />
         <div className="flex flex-wrap gap-1">
           {clone.restrictedItems.map((item) => (
@@ -37,7 +37,7 @@ export function CloneItem({
 function MatchCount({ count }: { count: number }) {
   return (
     <div
-      className={`rounded text-xl text-white font-bold flex items-center justify-center bg-${COLORS[count]}-500`}
+      className={`min-w-10 h-10 rounded text-xl text-white font-bold flex items-center justify-center bg-${COLORS[count]}-500`}
     >
       {count}
     </div>
@@ -56,7 +56,7 @@ function UserItem({
   }
   return (
     <Link href={`http://github.com/${user.githubUsername}`}>
-      <div>
+      <div className="text-xl">
         {user.name}
         {isNew && <span className="font-bold"> - New clone !</span>}
       </div>
@@ -74,7 +74,7 @@ function MatchItem({
   return (
     <Link href={`https://www.youtube.com/channel/${channel.youtubeId}`}>
       <div
-        className={`border rounded px-2 hover:shadow-md transition-shadow ${removed && "line-through"}`}
+        className={`text-sm border rounded px-2 hover:shadow-md transition-shadow ${removed && "line-through"}`}
       >
         {channel.name}
       </div>
