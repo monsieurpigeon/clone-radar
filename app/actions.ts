@@ -165,7 +165,7 @@ export async function getMyClones(): Promise<Clone[] | null> {
       id,
       matchCount,
       users: {id, name, githubUsername},
-      restrictedItems: {name, id, youtubeId},
+      restrictedItems: {name, id, youtubeId} ORDER BY .subscriberCount DESC,
       other: {id, name, githubUsername},
       conversation: {id}
     }
