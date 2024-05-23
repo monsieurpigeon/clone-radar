@@ -14,7 +14,7 @@ import { classNames } from "../src/utils";
 
 const navigation = [
   { name: "Collection", href: "/collection", current: true },
-  { name: "Radar", href: "/clones", current: false },
+  { name: "Radar", href: "/radar", current: false },
   { name: "Messages", href: "/conversations", current: false },
 ];
 

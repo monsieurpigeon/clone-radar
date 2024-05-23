@@ -39,6 +39,10 @@ export default function OnboardingPage() {
                 text="Your collection stays secret, your clones only know the matching
                 channels"
               />
+              <Hero
+                emoji="㊙️"
+                text="If you update your collection and lose a clone, the conversation with it will be deleted forever"
+              />
             </div>
           </div>
           <div className="p-4">

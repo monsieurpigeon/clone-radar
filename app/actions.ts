@@ -162,10 +162,12 @@ export async function getMyClones(): Promise<Clone[] | null> {
   const session = auth.getSession();
   return session.client.query(
     `SELECT Clone {
+      id,
       matchCount,
       users: {id, name, githubUsername},
-      restrictedItems: {name, id},
-      other: {id, name, githubUsername}
+      restrictedItems: {name, id, youtubeId},
+      other: {id, name, githubUsername},
+      conversation: {id}
     }
     FILTER global current_user in .users
     ORDER BY .matchCount DESC
@@ -213,6 +215,29 @@ export async function scanMatches() {
   revalidatePath("/clones");
 }
 
+export async function createConversation(id: string): Promise<string> {
+  const session = auth.getSession();
+  console.log("creating conversation with", id);
+  const res: { conversation: { id: string } | null } | null =
+    await session.client.querySingle(
+      `SELECT Clone {conversation} FILTER .id = <uuid>$id`,
+      { id }
+    );
+  if (res?.conversation) {
+    return res.conversation.id;
+  } else {
+    const updatedClone: { conversation: { id: string } | null } | null =
+      await session.client.querySingle(
+        `UPDATE Clone FILTER .id = <uuid>$id SET {
+        conversation := (INSERT Conversation)
+      };
+      SELECT Clone {conversation} FILTER .id = <uuid>$id`,
+        { id }
+      );
+    return updatedClone?.conversation?.id || "";
+  }
+}
+
 export async function getConversation(otherId: string): Promise<string> {
   const session = auth.getSession();
   const previous = (await session.client.query(
@@ -238,12 +263,12 @@ export async function getConversations(): Promise<
   return session.client.query(
     `SELECT Conversation {
       *,
-      participants: {id, name, githubUsername},
-      participant := (SELECT assert_single((SELECT .participants filter .id != global current_user.id))){
+      origin: {users: {id, name, githubUsername}} ,
+      participant := (SELECT assert_single((SELECT .origin.users filter .id != global current_user.id))){
         id, name, githubUsername
       }
     }
-    FILTER global current_user in .participants
+    FILTER global current_user in .origin.users
     ORDER BY .updated DESC
 `
   );
@@ -258,7 +283,7 @@ export async function getConversationById(
   return session.client.querySingle(
     `SELECT Conversation {
       *,
-      participant := (SELECT assert_single((SELECT .participants filter .id != global current_user.id))){
+      participant := (SELECT assert_single((SELECT .origin.users filter .id != global current_user.id))){
         id, name, githubUsername
       },
       lastMessages := (SELECT .messages ORDER BY .created DESC LIMIT 5){ *, author: {*} }

@@ -38,8 +38,13 @@ module default {
       constraint exclusive;
     };
     multi users: User;
-    other := (SELECT .users FILTER .id != global current_user.id);
+    other := (SELECT assert_single((SELECT .users FILTER .id != global current_user.id)));
     multi restrictedItems: Channel;
+
+    conversation: Conversation {
+      on target delete allow;
+      on source delete delete target;
+    }
 
     created: datetime {
       rewrite insert using (datetime_of_statement());
@@ -51,8 +56,12 @@ module default {
   }
 
   type Conversation {
-    multi messages: Message;
-    multi participants: User;
+    multi messages: Message {
+      on source delete delete target;
+    }
+
+    origin := .<conversation[is Clone];
+
     created: datetime {
       rewrite insert using (datetime_of_statement());
     }

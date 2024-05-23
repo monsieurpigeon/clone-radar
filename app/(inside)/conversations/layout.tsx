@@ -25,7 +25,11 @@ export default async function ConversationLayout({
       </header>
       <div className="flex gap-4">
         <ConversationList conversations={conversations} />
-        <div>{children}</div>
+        {conversations.length > 0 ? (
+          <div>{children}</div>
+        ) : (
+          <div>No conversation yet</div>
+        )}
       </div>
     </div>
   );
