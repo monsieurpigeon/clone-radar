@@ -11,8 +11,9 @@ export default function NotFound() {
           height="315"
           src="https://www.youtube.com/embed/sJO0n6kvPRU?autoplay=1&start=116"
           title="YouTube video player"
-          allow="autoplay;"
-        ></iframe>
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+        />
       </div>
       <Link href="/collection" className="hover:underline">
         Go back to your collection
