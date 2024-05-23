@@ -181,7 +181,7 @@ export async function scanMatches() {
   const session = auth.getSession();
   await session.client.query(
     `WITH currentUser := (SELECT global current_user),
-    DELETE Clone FILTER currentUser in .users AND .matchCount <= max(.users.threshold);`
+    DELETE Clone FILTER currentUser in .users AND .matchCount < max(.users.threshold);`
   );
 
   const query = session.client.query(
