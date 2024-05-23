@@ -43,12 +43,12 @@ export async function getRecentChannels(): Promise<Channel[] | null> {
   );
 }
 
-export async function getRecentScans(): Promise<Clone[] | null> {
+export async function getRecentClones(): Promise<Clone[] | null> {
   const session = auth.getSession();
   return session.client.query(
     `SELECT Clone {
         matchCount,
-        users: {githubUsername} ORDER BY .githubUsername,
+        users: {githubUsername, name} ORDER BY .name,
     } FILTER .created > <datetime>'${new Date().toISOString()}' - <cal::relative_duration>'30 days'
     ORDER BY .matchCount DESC
     LIMIT 10`

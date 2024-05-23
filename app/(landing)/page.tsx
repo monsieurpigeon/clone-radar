@@ -1,7 +1,7 @@
 import {
   getPopularChannels,
   getRecentChannels,
-  getRecentScans,
+  getRecentClones,
 } from "@/app/actions";
 import NextSteps from "@/components/NextSteps";
 import { ThreeScene } from "@/components/ThreeScene";
@@ -29,7 +29,7 @@ export default async function Home() {
 
   const popularChannels: Channel[] = (await getPopularChannels()) || [];
   const recentChannels: Channel[] = (await getRecentChannels()) || [];
-  const recentScans: Clone[] = (await getRecentScans()) || [];
+  const recentClones: Clone[] = (await getRecentClones()) || [];
 
   return (
     <div>
@@ -123,11 +123,11 @@ export default async function Home() {
               />
               <StatBlock
                 className="col-span-2"
-                title="Best scans - last 30 days"
+                title="Best clones - last 30 days"
                 items={
                   <div className="grid grid-cols-9 m-auto gap-x-3 gap-y-1">
-                    {recentScans.map((scan) => {
-                      return <ScanLine scan={scan} key={scan.id} />;
+                    {recentClones.map((clone) => {
+                      return <CloneLine clone={clone} key={clone.id} />;
                     })}
                   </div>
                 }
@@ -140,27 +140,27 @@ export default async function Home() {
   );
 }
 
-function ScanLine({ scan }: { scan: Clone }) {
+function CloneLine({ clone }: { clone: Clone }) {
   return (
     <>
       <Link
-        href={`https://github.com/${scan?.users[0]?.githubUsername}`}
+        href={`https://github.com/${clone?.users[0]?.githubUsername}`}
         className="col-span-4 text-right hover:underline"
       >
-        {scan?.users[0]?.githubUsername}
+        {clone?.users[0]?.name}
       </Link>
 
       <span
-        className={`rounded px-2 bg-${COLORS[scan.matchCount]}-500 text-white font-bold`}
+        className={`rounded px-2 bg-${COLORS[clone.matchCount]}-500 text-white font-bold`}
       >
-        {scan.matchCount}
+        {clone.matchCount}
       </span>
 
       <Link
-        href={`https://github.com/${scan?.users[1]?.githubUsername}`}
+        href={`https://github.com/${clone?.users[1]?.githubUsername}`}
         className="col-span-4 text-left hover:underline"
       >
-        {scan?.users[1]?.githubUsername}
+        {clone?.users[1]?.name}
       </Link>
     </>
   );
