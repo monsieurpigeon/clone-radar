@@ -31,7 +31,7 @@ export default async function ConversationLayout({
             <div className="">
               <ConversationList conversations={conversations} />
             </div>
-            <div className="col-span-2">{children}</div>
+            <div className="col-span-2 h-full">{children}</div>
           </>
         ) : (
           <div className="col-span-3 p-8">

@@ -41,7 +41,7 @@ export default async function RootLayout({
       <CSPostHogProvider user={user}>
         <body className={inter.className}>
           <div className="flex flex-col h-screen">
-            <div className="grow">{children}</div>
+            <div className="grow h-full">{children}</div>
             <footer className="z-50 flex flex-row justify-center">
               <div className="flex flex-col items-center gap-1 py-4 text-center">
                 <div>
