@@ -200,10 +200,10 @@ export async function scanMatches() {
     id,
     channels,
     matchCount := (SELECT count((SELECT .channels intersect currentUser.channels))),
-  } FILTER .matchCount >= max({.threshold, currentUser.threshold}) ORDER BY .matchCount DESC LIMIT 5)
+  } FILTER .matchCount >= max({.threshold, currentUser.threshold}) ORDER BY .matchCount DESC LIMIT 10)
   FOR myClone in myClones UNION ((
     INSERT Clone {
-      users :=  (SELECT User FILTER .id in {currentUser.id, myClone.id}),
+      users := (SELECT User FILTER .id in {currentUser.id, myClone.id}),
       cloneId := (SELECT array_join(array_agg((SELECT test:={<str>myClone.id, <str>currentUser.id} ORDER BY test)), ":")),
       matchCount := myClone.matchCount,
       restrictedItems := (SELECT myClone.channels intersect currentUser.channels),
