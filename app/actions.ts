@@ -171,7 +171,7 @@ export async function getMyClones(): Promise<Clone[] | null> {
       conversation: {id}
     }
     FILTER global current_user in .users
-    ORDER BY .matchCount DESC
+    ORDER BY .matchCount DESC THEN .created DESC
     LIMIT 100
 `
   );
