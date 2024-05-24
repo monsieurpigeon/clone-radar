@@ -1,5 +1,6 @@
 "use client";
 
+import { MAX_MESSAGE_SIZE } from "@/utils/constants";
 import { useState } from "react";
 import { sendMessage } from "./actions";
 
@@ -27,6 +28,7 @@ export function ChatForm({ conversationId }: { conversationId: string }) {
           name="message"
           className="flex-grow border rounded-md p-4 focus:outline-none"
           value={message}
+          maxLength={MAX_MESSAGE_SIZE}
           onChange={(e) => setMessage(e.target.value)}
         />
         <button

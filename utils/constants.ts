@@ -17,3 +17,5 @@ export const COLORS = [
   "fuchsia",
   "pink",
 ];
+
+export const MAX_MESSAGE_SIZE = 1024;
