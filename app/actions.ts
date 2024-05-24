@@ -184,8 +184,8 @@ export async function scanMatches() {
     myPreviousClones := (SELECT Clone FILTER currentUser in .users),
     FOR myClone in myPreviousClones UNION ((
       UPDATE Clone SET {
-        matchCount := (SELECT count((SELECT myClone.other.channels intersect currentUser.channels))),
-        restrictedItems := (SELECT myClone.other.channels intersect currentUser.channels)
+        matchCount := (SELECT count((SELECT Clone.other.channels intersect currentUser.channels))),
+        restrictedItems := (SELECT Clone.other.channels intersect currentUser.channels)
       }
     ));
     
