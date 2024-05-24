@@ -14,7 +14,7 @@ export function ConversationList({
   const selectedConversationId = pathname.split("/").pop();
 
   return (
-    <div className="flex flex-col gap-2 border rounded-md overflow-hidden">
+    <div className="flex flex-col border rounded-md overflow-hidden">
       {conversations.map((conversation) => (
         <Link
           href={
@@ -25,7 +25,7 @@ export function ConversationList({
           key={conversation.id}
         >
           <div
-            className={`hover:bg-slate-50 ${selectedConversationId === conversation.id && "border-l-4 border-blue-500 bg-slate-50 border-b-1"}`}
+            className={`hover:bg-slate-50 ${selectedConversationId === conversation.id && "border-l-4 border-blue-500 bg-slate-50"}`}
           >
             <div className="flex flex-col p-3">
               <p className="font-semibold">{conversation.participant.name}</p>
