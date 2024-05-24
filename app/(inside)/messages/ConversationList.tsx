@@ -14,30 +14,28 @@ export function ConversationList({
   const selectedConversationId = pathname.split("/").pop();
 
   return (
-    <div className="flex flex-col gap-2 border rounded">
-      {conversations.map((conversation) => {
-        return (
-          <Link
-            href={
-              conversation.id === selectedConversationId
-                ? "/messages"
-                : `/messages/${conversation.id}`
-            }
-            key={conversation.id}
+    <div className="flex flex-col gap-2 border rounded-md overflow-hidden">
+      {conversations.map((conversation) => (
+        <Link
+          href={
+            conversation.id === selectedConversationId
+              ? "/messages"
+              : `/messages/${conversation.id}`
+          }
+          key={conversation.id}
+        >
+          <div
+            className={`${selectedConversationId === conversation.id && "border-l-4 border-blue-500 bg-slate-50 border-b-1"}`}
           >
-            <div
-              className={`rounded ${selectedConversationId === conversation.id && "border-l-4 border-blue-500 bg-slate-50"}`}
-            >
-              <div className="flex flex-col p-3 border-b-1">
-                <p className="font-semibold">{conversation.participant.name}</p>
-                <p className="text-sm">
-                  {durationFormatter(conversation.updated)}
-                </p>
-              </div>
+            <div className="flex flex-col p-3">
+              <p className="font-semibold">{conversation.participant.name}</p>
+              <p className="text-sm">
+                {durationFormatter(conversation.updated)}
+              </p>
             </div>
-          </Link>
-        );
-      })}
+          </div>
+        </Link>
+      ))}
     </div>
   );
 }

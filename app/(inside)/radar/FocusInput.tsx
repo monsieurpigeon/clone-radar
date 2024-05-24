@@ -3,6 +3,7 @@ import { updateThreshold } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { User } from "@/dbschema/interfaces";
+import { COLORS } from "@/utils/constants";
 import { ReactNode, useState } from "react";
 
 export function FocusInput({
@@ -47,14 +48,12 @@ export function FocusInput({
         </>
       ) : (
         <>
-          <div className="grow">
-            <button
-              onClick={() => setIsEditing(true)}
-              className="rounded border px-2 ml-4 hover:bg-gray-200"
-            >
-              Focus: {user?.threshold}
-            </button>
-          </div>
+          <button
+            onClick={() => setIsEditing(true)}
+            className={`rounded border px-2 ml-4 hover:bg-gray-200 border-y-4 border-${COLORS[user?.threshold]}-500`}
+          >
+            Focus <span className="font-bold">{user?.threshold}</span>
+          </button>
 
           {slot}
         </>

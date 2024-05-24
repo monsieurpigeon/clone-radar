@@ -19,6 +19,8 @@ module default {
       constraint exclusive;
     };
     required avatarUrl: str;
+
+    lastScans: array<datetime>;
   
     userRole: Role {
       default := "user";

@@ -8,6 +8,7 @@ import {
   User,
 } from "@/dbschema/interfaces";
 import { auth } from "@/edgedb-client";
+import { SCAN_LIMIT } from "@/utils/constants";
 import { revalidatePath } from "next/cache";
 import { PostHog } from "posthog-node";
 import { ChannelInputProps } from "./(inside)/collection";
@@ -177,11 +178,18 @@ export async function getMyClones(): Promise<Clone[] | null> {
 }
 
 export async function scanMatches() {
-  const threshold = 3;
   const session = auth.getSession();
   await session.client.query(
     `WITH currentUser := (SELECT global current_user),
-    DELETE Clone FILTER currentUser in .users AND .matchCount < max(.users.threshold);`
+    myPreviousClones := (SELECT Clone FILTER currentUser in .users),
+    FOR myClone in myPreviousClones UNION ((
+      UPDATE Clone SET {
+        matchCount := (SELECT count((SELECT myClone.other.channels intersect currentUser.channels))),
+        restrictedItems := (SELECT myClone.other.channels intersect currentUser.channels)
+      }
+    ));
+    
+    DELETE Clone FILTER global current_user in .users AND .matchCount < max(.users.threshold);`
   );
 
   const query = session.client.query(
@@ -191,32 +199,34 @@ export async function scanMatches() {
   myClones := (SELECT {myPreviousClones, pool} {
     id,
     channels,
-    restrictedItems := (SELECT .channels intersect currentUser.channels),
     matchCount := (SELECT count((SELECT .channels intersect currentUser.channels))),
-  } FILTER .matchCount >= max({.threshold, currentUser.threshold}) ORDER BY .matchCount LIMIT 5)
+  } FILTER .matchCount >= max({.threshold, currentUser.threshold}) ORDER BY .matchCount DESC LIMIT 5)
   FOR myClone in myClones UNION ((
     INSERT Clone {
       users :=  (SELECT User FILTER .id in {currentUser.id, myClone.id}),
       cloneId := (SELECT array_join(array_agg((SELECT test:={<str>myClone.id, <str>currentUser.id} ORDER BY test)), ":")),
       matchCount := myClone.matchCount,
-      restrictedItems := myClone.restrictedItems,
+      restrictedItems := (SELECT myClone.channels intersect currentUser.channels),
     } unless conflict on .cloneId else (
       (DELETE Clone) if {myClone.matchCount = 0} else
       (UPDATE Clone SET {
         matchCount := myClone.matchCount,
-        restrictedItems := myClone.restrictedItems
+        restrictedItems := (SELECT myClone.channels intersect currentUser.channels)
       })
     )));
   `
   );
-  // posthog.capture({
-  //   distinctId,
-  //   event: "scanned_matches",
-  // });
+
+  const updateUser = session.client.query(
+    `UPDATE User FILTER global current_user.id = .id
+    SET {
+      lastScans := [datetime_of_statement()] ++ .lastScans[0:${SCAN_LIMIT - 1}]  
+    }`
+  );
 
   const dramaticWait = sleep(5000);
 
-  await Promise.all([query, dramaticWait]);
+  await Promise.all([dramaticWait, query, updateUser]);
 
   revalidatePath("/radar");
 }
