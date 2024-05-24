@@ -1,10 +1,11 @@
 # Clone Radar
 
-You are unique in many ways. One of them is the exact combination of the things you love now.
+You are unique in many ways.  
+One of them is the exact combination of things you love right now.  
+Algorithms find matching patterns between us in order to predict our behavior.  
+But they haven't connected us, until now.
 
-Our lives are shaped by algorithms, they find matching patterns between us in order to predict our behavior. But they don't connect us together.
-
-[Clone Radar](https://cloneradar.com) is a reverse algorithm, you add what you like the most to your collection and you can find matching users to connect with.
+[Clone Radar](https://cloneradar.com)
 
 ## Libraries
 
