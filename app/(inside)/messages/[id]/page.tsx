@@ -24,7 +24,7 @@ export default async function ConversationPage({
               return (
                 <div
                   key={message.id}
-                  className={`${isOther ? "self-start" : "self-end"}`}
+                  className={`flex flex-col ${isOther ? "self-start items-start" : "self-end items-end"}`}
                 >
                   <div className="p-2 border max-w-80 rounded bg-white">
                     <div>{message.text}</div>
