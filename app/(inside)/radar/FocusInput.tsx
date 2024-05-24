@@ -5,7 +5,7 @@ import { Slider } from "@/components/ui/slider";
 import { User } from "@/dbschema/interfaces";
 import { ReactNode, useState } from "react";
 
-export function PowerInput({
+export function FocusInput({
   user,
   slot,
 }: {
@@ -23,6 +23,7 @@ export function PowerInput({
             <div className="col-span-7 flex items-center">
               <Slider
                 defaultValue={[user?.threshold || 3]}
+                min={1}
                 max={16}
                 step={1}
                 onValueChange={(e) => {
@@ -46,9 +47,15 @@ export function PowerInput({
         </>
       ) : (
         <>
-          <button onClick={() => setIsEditing(true)} className="grow">
-            Power: {user?.threshold}
-          </button>
+          <div className="grow">
+            <button
+              onClick={() => setIsEditing(true)}
+              className="rounded border px-2 ml-4 hover:bg-gray-200"
+            >
+              Focus: {user?.threshold}
+            </button>
+          </div>
+
           {slot}
         </>
       )}

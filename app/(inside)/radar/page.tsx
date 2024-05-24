@@ -1,7 +1,7 @@
 import { getMe, getMyClones, scanMatches } from "@/app/actions";
 import { Clone, User } from "@/dbschema/interfaces";
 import Clones from "./Clones";
-import { PowerInput } from "./PowerInput";
+import { FocusInput } from "./FocusInput";
 import { ScanButton } from "./ScanButton";
 
 export default async function ClonesPage() {
@@ -15,7 +15,7 @@ export default async function ClonesPage() {
         <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900">
           My Clones
         </h1>
-        <PowerInput
+        <FocusInput
           user={user}
           slot={
             <form action={scanMatches}>
