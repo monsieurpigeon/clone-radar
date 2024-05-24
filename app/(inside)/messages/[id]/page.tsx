@@ -1,5 +1,6 @@
+import { getConversationById } from "@/app/actions";
+import { SubscribePro } from "@/components/SubscribePro";
 import { durationFormatter } from "@/utils/formatter";
-import { getConversationById } from "../../../actions";
 import { ChatForm } from "./ChatForm";
 
 export default async function ConversationPage({
@@ -40,10 +41,7 @@ export default async function ConversationPage({
           <ChatForm conversationId={params.id} />
         </div>
       </div>
-      <div className="border rounded text-center mt-2 bg-purple-700 text-white font-semibold">
-        Subscribe to a PRO account to unlock ✨{" "}
-        <span className="font-bold italic">scrolling</span>
-      </div>
+      <SubscribePro feature="scrolling" />
     </div>
   );
 }
