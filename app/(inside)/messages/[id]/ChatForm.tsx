@@ -9,6 +9,7 @@ export function ChatForm({ conversationId }: { conversationId: string }) {
     <form
       onSubmit={async (e) => {
         e.preventDefault();
+        if (!message) return;
         await sendMessage(
           new FormData(e.target as HTMLFormElement) as FormData
         );
@@ -22,14 +23,16 @@ export function ChatForm({ conversationId }: { conversationId: string }) {
         hidden
       />
       <div className="flex gap-4">
-        <input
-          type="text"
+        <textarea
           name="message"
-          className="flex-grow border rounded-md"
+          className="flex-grow border rounded-md p-4 focus:outline-none"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
-        <button className="bg-blue-500 hover:bg-blue-700 text-white px-3 py-2 rounded-md font-semibold">
+        <button
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-700 text-white px-3 py-2 rounded-md font-semibold"
+        >
           Send
         </button>
       </div>

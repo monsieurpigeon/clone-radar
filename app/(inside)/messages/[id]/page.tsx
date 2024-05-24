@@ -14,25 +14,24 @@ export default async function ConversationPage({
   }
 
   return (
-    <div className="max-w-xl mx-auto">
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col-reverse gap-4">
-          {conversation.lastMessages?.map((message) => {
-            return (
-              <div key={message.id} className="p-2 border rounded">
-                <div className="flex gap-4 text-sm">
-                  <div className="font-semibold">{message.author.name}</div>
-                  <div>{durationFormatter(message.created)}</div>
-                </div>
-
-                <div>{message.text}</div>
+    <div className="h-full bg-slate-50 border rounded p-4">
+      <div className="flex flex-col gap-4  h-full">
+        <div className="flex flex-col-reverse gap-4 grow">
+          {conversation.lastMessages?.map((message) => (
+            <div
+              key={message.id}
+              className={`p-2 border max-w-80 rounded bg-white ${message.author.id === conversation.participant.id ? "self-start" : "self-end"}`}
+            >
+              <div className="flex gap-4 text-sm">
+                <div className="font-semibold">{message.author.name}</div>
+                <div>{durationFormatter(message.created)}</div>
               </div>
-            );
-          })}
+
+              <div>{message.text}</div>
+            </div>
+          ))}
         </div>
-        <div>
-          <ChatForm conversationId={params.id} />
-        </div>
+        <ChatForm conversationId={params.id} />
       </div>
     </div>
   );

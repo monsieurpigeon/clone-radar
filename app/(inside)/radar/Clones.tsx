@@ -1,5 +1,6 @@
 "use client";
 
+import { EmptyState } from "@/components/EmptyState";
 import { Channel, Clone } from "@/dbschema/interfaces";
 import { CloneItem } from "./Clone";
 
@@ -27,9 +28,15 @@ export default function Clones({ clones, currentChannels }: Props) {
             ))}
           </div>
         ) : (
-          <div>
-            <div>No clones found yet...</div>
-            <div>Hit the Scan button to find your first clones</div>
+          <div className="p-8">
+            <EmptyState
+              title="No clones found yet..."
+              description={[
+                "Hit the Scan button to find your first clones.",
+                "Lower the focus to find more clones.",
+                "You can only scan 5 times per hour.",
+              ]}
+            />
           </div>
         )}
       </div>

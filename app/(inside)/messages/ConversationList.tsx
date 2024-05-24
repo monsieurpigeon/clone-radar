@@ -14,7 +14,7 @@ export function ConversationList({
   const selectedConversationId = pathname.split("/").pop();
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2 border rounded">
       {conversations.map((conversation) => {
         return (
           <Link
@@ -26,11 +26,13 @@ export function ConversationList({
             key={conversation.id}
           >
             <div
-              className={`border rounded p-4 ${selectedConversationId === conversation.id && "bg-yellow-200"}`}
+              className={`rounded ${selectedConversationId === conversation.id && "border-l-4 border-blue-500 bg-slate-50"}`}
             >
-              <div className="flex gap-4">
+              <div className="flex flex-col p-3 border-b-1">
                 <p className="font-semibold">{conversation.participant.name}</p>
-                <p>{durationFormatter(conversation.updated)}</p>
+                <p className="text-sm">
+                  {durationFormatter(conversation.updated)}
+                </p>
               </div>
             </div>
           </Link>

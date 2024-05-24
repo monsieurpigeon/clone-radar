@@ -223,7 +223,6 @@ export async function scanMatches() {
 
 export async function createConversation(id: string): Promise<string> {
   const session = auth.getSession();
-  console.log("creating conversation with", id);
   const res: { conversation: { id: string } | null } | null =
     await session.client.querySingle(
       `SELECT Clone {conversation} FILTER .id = <uuid>$id`,
@@ -292,7 +291,7 @@ export async function getConversationById(
       participant := (SELECT assert_single((SELECT .origin.users filter .id != global current_user.id))){
         id, name, githubUsername
       },
-      lastMessages := (SELECT .messages ORDER BY .created DESC LIMIT 5){ *, author: {*} }
+      lastMessages := (SELECT .messages ORDER BY .created DESC LIMIT 10){ *, author: {*} }
     }
     FILTER .id = <uuid>$id`,
     { id }

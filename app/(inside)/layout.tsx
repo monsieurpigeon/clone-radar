@@ -22,11 +22,11 @@ export default async function InsideLayout({
   }
 
   return (
-    <div>
+    <div className="h-full flex flex-col">
       <Navbar signedIn={signedIn} onSignOut={handleSignOut} />
-      <div className="relative isolate px-4 pt-8 sm:px-6 xl:px-16">
-        <main>
-          <div className="mx-auto max-w-7xl">{children}</div>
+      <div className="relative px-4 mt-8 sm:px-6 xl:px-16 grow">
+        <main className="h-full">
+          <div className="mx-auto max-w-7xl h-full">{children}</div>
         </main>
       </div>
     </div>

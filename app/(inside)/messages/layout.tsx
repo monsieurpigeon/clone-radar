@@ -1,6 +1,8 @@
 import { getConversations } from "@/app/actions";
 import { auth } from "edgedb-client";
+import Link from "next/link";
 import { redirect } from "next/navigation";
+import { EmptyState } from "../../../components/EmptyState";
 import { ConversationList } from "./ConversationList";
 
 export default async function ConversationLayout({
@@ -17,18 +19,33 @@ export default async function ConversationLayout({
   const conversations = await getConversations();
 
   return (
-    <div className="max-w-xl mx-auto">
+    <div className="max-w-2xl mx-auto h-full flex flex-col">
       <header className="flex justify-between items-center pb-4">
         <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900">
           My Messages
         </h1>
       </header>
-      <div className="flex gap-4">
-        <ConversationList conversations={conversations} />
+      <div className="grid grid-cols-3 gap-4 grow h-full">
         {conversations.length > 0 ? (
-          <div>{children}</div>
+          <>
+            <div className="">
+              <ConversationList conversations={conversations} />
+            </div>
+            <div className="col-span-2">{children}</div>
+          </>
         ) : (
-          <div>No conversation yet</div>
+          <div className="col-span-3 p-8">
+            <Link href="/radar">
+              <EmptyState
+                title="No conversation yet..."
+                description={[
+                  "Scan some clones and click their names to open a new conversation.",
+                  "If you lose a clone, the conversation will be destroyed.",
+                  "Only the last 10 messages are stored in the conversation.",
+                ]}
+              />
+            </Link>
+          </div>
         )}
       </div>
     </div>
