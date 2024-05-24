@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { COOLDOWN } from "@/utils/constants";
 import { addMinutes, differenceInSeconds, intervalToDuration } from "date-fns";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { zeroPad } from "../../../utils/formatter";
 
@@ -19,25 +19,31 @@ export function ScanButton({
   const [remaining, setRemaining] = useState<string | null>(null);
   const router = useRouter();
 
+  const updateRemaining = useCallback(() => {
+    const remaining = differenceInSeconds(
+      addMinutes(nextTime, COOLDOWN),
+      Date.now()
+    );
+    const duration = intervalToDuration({ start: 0, end: remaining * 1000 });
+    setRemaining(
+      `${zeroPad(duration.minutes || 0)}:${zeroPad(duration.seconds || 0)}`
+    );
+    return remaining;
+  }, [nextTime, setRemaining]);
+
   useEffect(() => {
     if (!exhausted) return;
+    updateRemaining();
     const interval = setInterval(() => {
-      const tmp = differenceInSeconds(
-        addMinutes(nextTime, COOLDOWN),
-        Date.now()
-      );
-      const duration = intervalToDuration({ start: 0, end: tmp * 1000 });
+      const remaining = updateRemaining();
 
-      if (tmp && tmp <= 0) {
+      if (remaining && remaining <= 0) {
         clearInterval(interval);
         router.replace("/radar");
       }
-      setRemaining(
-        `${zeroPad(duration.minutes || 0)}:${zeroPad(duration.seconds || 0)}`
-      );
     }, 1000);
     return () => clearInterval(interval);
-  }, [exhausted, nextTime, remaining, router]);
+  }, [exhausted, nextTime, remaining, router, updateRemaining]);
 
   return (
     <Button type="submit" disabled={pending || exhausted}>
