@@ -15,8 +15,8 @@ export default async function ConversationPage({
 
   return (
     <div className="h-full bg-slate-50 border rounded p-4">
-      <div className="flex flex-col gap-4  h-full">
-        <div className="flex flex-col-reverse gap-4">
+      <div className="flex flex-col gap-4 h-full">
+        <div className="flex flex-col-reverse gap-4 grow">
           {conversation.lastMessages?.map((message) => {
             const isOther = message.author.id === conversation.participant.id;
             return (
