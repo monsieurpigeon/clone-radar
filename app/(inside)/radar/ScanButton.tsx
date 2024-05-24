@@ -2,10 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { COOLDOWN } from "@/utils/constants";
-import { addMinutes, differenceInSeconds } from "date-fns";
+import { addMinutes, differenceInSeconds, intervalToDuration } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
+import { zeroPad } from "../../../utils/formatter";
 
 export function ScanButton({
   exhausted,
@@ -15,7 +16,7 @@ export function ScanButton({
   nextTime: Date;
 }) {
   const { pending } = useFormStatus();
-  const [remaining, setRemaining] = useState<number | null>(null);
+  const [remaining, setRemaining] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -25,19 +26,22 @@ export function ScanButton({
         addMinutes(nextTime, COOLDOWN),
         Date.now()
       );
+      const duration = intervalToDuration({ start: 0, end: tmp * 1000 });
 
-      if (remaining && remaining <= 0) {
+      if (tmp && tmp <= 0) {
         clearInterval(interval);
         router.replace("/radar");
       }
-      setRemaining(Math.max(tmp, 0));
+      setRemaining(
+        `${zeroPad(duration.minutes || 0)}:${zeroPad(duration.seconds || 0)}`
+      );
     }, 1000);
     return () => clearInterval(interval);
   }, [exhausted, nextTime, remaining, router]);
 
   return (
     <Button type="submit" disabled={pending || exhausted}>
-      <div className="flex items-center gap-4 min-w-8">
+      <div className="flex items-center gap-4 min-w-12">
         {pending && (
           <span className="relative flex h-3 w-3">
             <span className="absolute animate-ping  h-full w-full rounded-full bg-green-400 opacity-75"></span>
@@ -48,7 +52,9 @@ export function ScanButton({
         {exhausted ? (
           <span className="w-full text-center">{remaining}</span>
         ) : (
-          <span>{pending ? "Scanning..." : "Scan"}</span>
+          <span className="w-full text-center">
+            {pending ? "Scanning..." : "Scan"}
+          </span>
         )}
       </div>
     </Button>

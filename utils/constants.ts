@@ -20,5 +20,5 @@ export const COLORS = [
 
 export const MAX_MESSAGE_SIZE = 1024;
 
-export const COOLDOWN = 1;
-export const SCAN_LIMIT = 2;
+export const COOLDOWN = 60;
+export const SCAN_LIMIT = 5;

@@ -50,3 +50,5 @@ export function ellipse(text: string, threshold: number) {
   }
   return `${text.substring(0, threshold)}...`;
 }
+
+export const zeroPad = (num: number) => String(num).padStart(2, "0");

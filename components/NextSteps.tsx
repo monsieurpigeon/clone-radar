@@ -4,8 +4,8 @@
 const timeline = [
   {
     id: 0,
-    content: "Login",
-    description: <div>Login faster using your Github account</div>,
+    content: "Github party !",
+    description: <div>You can only login using your Github account</div>,
   },
   {
     id: 1,
