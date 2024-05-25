@@ -200,7 +200,7 @@ export async function scanMatches() {
     id,
     channels,
     matchCount := (SELECT count((SELECT .channels intersect currentUser.channels))),
-  } FILTER .matchCount >= max({.threshold, currentUser.threshold}) ORDER BY .matchCount DESC LIMIT 10)
+  } FILTER .matchCount >= max({.threshold, currentUser.threshold}) ORDER BY .matchCount DESC LIMIT 25)
   FOR myClone in myClones UNION ((
     INSERT Clone {
       users := (SELECT User FILTER .id in {currentUser.id, myClone.id}),
@@ -286,7 +286,7 @@ export async function getConversationById(
       participant := (SELECT assert_single((SELECT .origin.users filter .id != global current_user.id))){
         id, name, githubUsername
       },
-      lastMessages := (SELECT .messages ORDER BY .created DESC LIMIT 10){ *, author: {*} }
+      lastMessages := (SELECT .messages ORDER BY .created DESC LIMIT 5){ *, author: {*} }
     }
     FILTER .id = <uuid>$id`,
     { id }
@@ -367,7 +367,7 @@ export async function getUnreadMessages(
   const session = auth.getSession();
   return session.client.querySingle(
     `SELECT Conversation {
-      lastMessages := (SELECT .messages ORDER BY .created DESC LIMIT 10){ *, author: {id, name} }
+      lastMessages := (SELECT .messages ORDER BY .created DESC LIMIT 5){ *, author: {id, name} }
     } FILTER .id = <uuid>$conversationId`,
     { conversationId }
   );

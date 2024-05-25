@@ -25,7 +25,7 @@ export function ConversationList({ children }: { children: ReactNode }) {
             description={[
               "Scan some clones and click their names to open a new conversation.",
               "If you lose a clone, the conversation will be destroyed.",
-              "Only the last 10 messages are stored in the conversation.",
+              "Only the last 5 messages are stored in the conversation.",
             ]}
           />
         </Link>
