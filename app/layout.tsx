@@ -1,6 +1,5 @@
 import "@/app/globals.css";
 import { CSPostHogProvider } from "@/app/providers";
-import { TimeCounter } from "@/components/TimeCounter";
 import { auth } from "@/edgedb-client";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -44,16 +43,6 @@ export default async function RootLayout({
             <div className="grow">{children}</div>
             <footer className="z-50 flex flex-row justify-center">
               <div className="flex flex-col items-center gap-1 py-4 text-center">
-                <div>
-                  This is my entry for the{" "}
-                  <a href="https://hackathon.edgedb.com/">
-                    <span className="p-1 underline hover:bg-sky-100">
-                      EdgeDB hackthon
-                    </span>
-                  </a>{" "}
-                  and you still have <TimeCounter /> to build a better app and
-                  win 5k$
-                </div>
                 <div>
                   Made with <a href="https://www.edgedb.com/">EdgeDB</a> and{" "}
                   <a href="https://nextjs.org/">Next.js</a>, hosted on{" "}
