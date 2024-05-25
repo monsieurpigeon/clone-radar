@@ -2,8 +2,8 @@
 
 import { Conversation, User } from "@/dbschema/interfaces";
 import { durationFormatter } from "@/utils/formatter";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { readConversation } from "../../actions";
 
 export function ConversationList({
   conversations,
@@ -12,20 +12,28 @@ export function ConversationList({
 }) {
   const pathname = usePathname();
   const selectedConversationId = pathname.split("/").pop();
+  const router = useRouter();
 
   return (
     <div className="flex flex-col border rounded-md overflow-hidden">
       {conversations.map((conversation) => (
-        <Link
-          href={
-            conversation.id === selectedConversationId
-              ? "/messages"
-              : `/messages/${conversation.id}`
-          }
+        <div
           key={conversation.id}
+          className="cursor-pointer"
+          onClick={async () => {
+            if (conversation.isUnread) {
+              await readConversation(conversation.id);
+            }
+
+            router.replace(
+              conversation.id === selectedConversationId
+                ? "/messages"
+                : `/messages/${conversation.id}`
+            );
+          }}
         >
           <div
-            className={`hover:bg-slate-50 ${selectedConversationId === conversation.id && "border-l-4 border-blue-500 bg-slate-50"}`}
+            className={`flex items-center justify-between hover:bg-slate-50 ${selectedConversationId === conversation.id && "border-l-4 border-blue-500 bg-slate-50"}`}
           >
             <div className="flex flex-col p-3">
               <p className="font-semibold">{conversation.participant.name}</p>
@@ -33,8 +41,11 @@ export function ConversationList({
                 {durationFormatter(conversation.updated)}
               </p>
             </div>
+            {conversation.isUnread && (
+              <div className="mx-4 p-2 bg-red-500 rounded-full animate-bounce"></div>
+            )}
           </div>
-        </Link>
+        </div>
       ))}
     </div>
   );

@@ -21,6 +21,7 @@ module default {
     required avatarUrl: str;
 
     lastScans: array<datetime>;
+    unreadConversations := .<unread[is Conversation];
   
     userRole: Role {
       default := "user";
@@ -62,6 +63,8 @@ module default {
     multi messages: Message {
       on source delete delete target;
     }
+    unread: User;
+    isUnread := .unread = global current_user;
 
     origin := .<conversation[is Clone];
 

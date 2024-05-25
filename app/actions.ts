@@ -8,7 +8,7 @@ import {
   User,
 } from "@/dbschema/interfaces";
 import { auth } from "@/edgedb-client";
-import { SCAN_LIMIT } from "@/utils/constants";
+import { MAX_MESSAGE_SIZE, SCAN_LIMIT } from "@/utils/constants";
 import { revalidatePath } from "next/cache";
 import { PostHog } from "posthog-node";
 import { ChannelInputProps } from "./(inside)/collection";
@@ -318,4 +318,46 @@ export async function updateThreshold(threshold: number) {
     { threshold }
   );
   revalidatePath("/radar");
+}
+
+export async function getUnreadConversations(): Promise<number | null> {
+  const session = auth.getSession();
+  return session.client.querySingle(
+    `SELECT count((SELECT global current_user.unreadConversations))`
+  );
+}
+
+export async function sendMessage(formData: FormData) {
+  const { client } = auth.getSession();
+  const message = formData.get("message")?.toString();
+  if (!message) return;
+  const conversationId = formData.get("conversationId");
+  const trimmedMessage = message.substring(0, MAX_MESSAGE_SIZE);
+  await client.query(
+    `
+        UPDATE Conversation
+        FILTER .id = <uuid>$conversationId
+        SET {
+            unread := assert_single(.origin.other),
+            messages += (INSERT Message {
+                text := <str>$message,
+                author := global current_user
+            })
+        }
+      `,
+    { conversationId, message: trimmedMessage }
+  );
+
+  revalidatePath("/messages");
+}
+
+export async function readConversation(id: string) {
+  const session = auth.getSession();
+  await session.client.query(
+    `UPDATE Conversation FILTER .id = <uuid>$id SET {
+      unread := {}
+    }`,
+    { id }
+  );
+  revalidatePath("/messages");
 }

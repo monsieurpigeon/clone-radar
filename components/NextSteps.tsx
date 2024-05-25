@@ -4,23 +4,28 @@
 const timeline = [
   {
     id: 0,
-    content: "Github party !",
+    content: "Built for nerds",
     description: <div>You can only login using your Github account</div>,
   },
   {
     id: 1,
-    content: "Collect your favorite YouTube channels",
+    content: "Collect your 16 favorite YouTube channels",
     description: (
       <div>
         Paste URL from any channel, video or short to collect a new YouTube
-        channel
+        channel. Your collection is kept hidden while you stream.
       </div>
     ),
   },
   {
     id: 2,
     content: "Scan your clones on the radar",
-    description: <div>Find users with the most matching channels</div>,
+    description: (
+      <div>
+        Find users with the most matching YouTube channels, they are your
+        clones.
+      </div>
+    ),
   },
   {
     id: 3,
@@ -28,7 +33,7 @@ const timeline = [
     description: (
       <div>
         You can open a conversation with your clones and visit their github
-        profiles
+        profiles.
       </div>
     ),
   },

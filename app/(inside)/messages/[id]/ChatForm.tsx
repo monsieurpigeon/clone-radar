@@ -1,8 +1,8 @@
 "use client";
 
+import { sendMessage } from "@/app/actions";
 import { MAX_MESSAGE_SIZE } from "@/utils/constants";
 import { useState } from "react";
-import { sendMessage } from "./actions";
 
 export function ChatForm({ conversationId }: { conversationId: string }) {
   const [message, setMessage] = useState("");
