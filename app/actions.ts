@@ -298,6 +298,9 @@ export async function getConversationById(
   return session.client.querySingle(
     `SELECT Conversation {
       *,
+      origin: {
+        restrictedItems: {name, id, youtubeId} ORDER BY .subscriberCount DESC
+      },
       participant := (SELECT assert_single((SELECT .origin.users filter .id != global current_user.id))){
         id, name, githubUsername
       },
@@ -320,11 +323,11 @@ export async function updateThreshold(threshold: number) {
   revalidatePath("/radar");
 }
 
-export async function getUnreadConversations(): Promise<number | null> {
+export async function getUnreadConversations(): Promise<
+  { id: string }[] | null
+> {
   const session = auth.getSession();
-  return session.client.querySingle(
-    `SELECT count((SELECT global current_user.unreadConversations))`
-  );
+  return session.client.query(`SELECT global current_user.unreadConversations`);
 }
 
 export async function sendMessage(formData: FormData) {
@@ -348,16 +351,35 @@ export async function sendMessage(formData: FormData) {
       `,
     { conversationId, message: trimmedMessage }
   );
-
-  revalidatePath("/messages");
 }
 
-export async function readConversation(id: string) {
+export async function setConversationRead(id: string) {
   const session = auth.getSession();
   await session.client.query(
     `UPDATE Conversation FILTER .id = <uuid>$id SET {
       unread := {}
     }`,
     { id }
+  );
+}
+
+export async function checkConversationUnread(id: string) {
+  const session = auth.getSession();
+  return session.client.querySingle(
+    `WITH conversation := (SELECT Conversation FILTER .id = <uuid>$id)
+    SELECT conversation.unread = global current_user`,
+    { id }
+  );
+}
+
+export async function getUnreadMessages(
+  conversationId: string
+): Promise<{ lastMessages: Message[] } | null> {
+  const session = auth.getSession();
+  return session.client.querySingle(
+    `SELECT Conversation {
+      lastMessages := (SELECT .messages ORDER BY .created DESC LIMIT 10){ *, author: {name} }
+    } FILTER .id = <uuid>$conversationId`,
+    { conversationId }
   );
 }

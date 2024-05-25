@@ -2,6 +2,7 @@ import { getConversationById } from "@/app/actions";
 import { SubscribePro } from "@/components/SubscribePro";
 import { ChatForm } from "./ChatForm";
 import { ChatWindow } from "./ChatWindow";
+import { UserHeader } from "./UserHeader";
 
 export default async function ConversationPage({
   params,
@@ -16,6 +17,7 @@ export default async function ConversationPage({
 
   return (
     <div className="h-full flex flex-col">
+      <UserHeader conversation={conversation} />
       <div className="bg-slate-50 border rounded p-4 grow h-full">
         <div className="flex flex-col gap-4 h-full">
           <ChatWindow conversation={conversation} />

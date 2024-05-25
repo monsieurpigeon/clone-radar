@@ -34,8 +34,8 @@ export default function Clones({ clones, currentChannels }: Props) {
               description={[
                 "Hit the Scan button to find your first clones.",
                 "Lower the focus to find more clones.",
-                "Each scan costs 1 power.",
-                "A power is restored in 1 hour.",
+                "Each Scan costs 1 Power.",
+                "A Power is refreshed after 1 hour.",
               ]}
             />
           </div>

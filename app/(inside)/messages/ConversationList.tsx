@@ -3,6 +3,7 @@
 import { Conversation, User } from "@/dbschema/interfaces";
 import { durationFormatter } from "@/utils/formatter";
 import { usePathname, useRouter } from "next/navigation";
+import { useUnreadStore } from "../../../store/zustand";
 
 export function ConversationList({
   conversations,
@@ -12,6 +13,7 @@ export function ConversationList({
   const pathname = usePathname();
   const selectedConversationId = pathname.split("/").pop();
   const router = useRouter();
+  const { conversations: unread } = useUnreadStore();
 
   return (
     <div className="flex flex-col border rounded-md overflow-hidden">
@@ -36,8 +38,11 @@ export function ConversationList({
                 {durationFormatter(conversation.lastWritten)}
               </p>
             </div>
-            {conversation.isUnread && (
-              <div className="mx-4 p-2 bg-red-500 rounded-full animate-bounce"></div>
+            {unread.has(conversation.id) && (
+              <div className="mx-4 p-2 relative">
+                <div className="absolute top-0 left-0 p-2 bg-red-500 rounded-full blur-sm"></div>
+                <div className="absolute top-0 left-0 p-2 bg-red-500 rounded-full animate-bounce"></div>
+              </div>
             )}
           </div>
         </div>
