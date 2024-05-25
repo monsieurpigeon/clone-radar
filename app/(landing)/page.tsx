@@ -90,7 +90,10 @@ export default async function Home() {
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl py-8">
               Clone Radar
             </h1>
-            <div style={{ width: "500px", height: "500px" }}>
+            <div
+              className="collapse lg:visible"
+              style={{ width: "500px", height: "500px" }}
+            >
               <ThreeScene />
             </div>
             <div className="w-100">
