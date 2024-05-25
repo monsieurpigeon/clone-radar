@@ -3,7 +3,7 @@
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
-  BuildingStorefrontIcon,
+  GlobeAltIcon,
   UserCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -51,7 +51,7 @@ export default function Navbar({
               <div className="flex">
                 <div className="flex flex-shrink-0 items-center mt-2">
                   <Link href="/">
-                    <BuildingStorefrontIcon className="h-8 w-auto lg:block text-primary" />
+                    <GlobeAltIcon className="h-8 w-auto lg:block text-primary" />
                   </Link>
                 </div>
                 <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
