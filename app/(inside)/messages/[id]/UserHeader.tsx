@@ -10,20 +10,23 @@ export function UserHeader({
   conversation: Conversation & { participant: User };
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const matchCount = conversation.origin?.[0].matchCount;
   return (
     <div className="pb-2">
       <div className="flex gap-4">
-        <Link
-          href={`https://github.com/${conversation.participant.githubUsername}`}
-        >
-          <div className="font-bold">{conversation.participant.name}</div>
-        </Link>
+        <div>
+          <Link
+            href={`https://github.com/${conversation.participant.githubUsername}`}
+          >
+            <span className="font-bold">{conversation.participant.name}</span>{" "}
+          </Link>
+        </div>
         <button
           onClick={() => {
             setIsOpen((v) => !v);
           }}
         >
-          {isOpen ? "less" : "more"}
+          {`${matchCount} match${matchCount > 1 ? "es" : ""}`}
         </button>
       </div>
 

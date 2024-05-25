@@ -23,7 +23,10 @@ export function CollectionList({
         <p className="text-xl font-bold leading-4 tracking-tight text-gray-900">
           My Collection {channels && `(${channels.length} / 16)`}
         </p>
-        <button onClick={() => setShow((v) => !v)}>
+        <button
+          onClick={() => setShow((v) => !v)}
+          className="border rounded px-2 shadow"
+        >
           {show ? "Hide" : "Reveal"}
         </button>
       </div>
@@ -49,6 +52,7 @@ export function CollectionList({
                   onClick={() => {
                     handleClick(item);
                   }}
+                  isBackground={!show}
                 />
               ))}
           </div>

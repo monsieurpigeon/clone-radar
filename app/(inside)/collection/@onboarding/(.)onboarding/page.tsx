@@ -13,6 +13,7 @@ export default function OnboardingPage() {
   const router = useRouter();
   const [tops, setTops] = useState<Channel[]>([]);
   const [selected, setSelected] = useState<Map<string, Channel>>(new Map());
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     getPopularChannels().then((data) => {
       setTops(data || []);
@@ -91,7 +92,9 @@ export default function OnboardingPage() {
               </ul>
               <Button
                 className="self-end"
+                disabled={selected.size === 0 || loading}
                 onClick={async () => {
+                  setLoading(true);
                   try {
                     await addChannels(Array.from(selected.values()));
                     router.replace("/collection");
@@ -101,7 +104,9 @@ export default function OnboardingPage() {
                   }
                 }}
               >
-                Collect {selected.size} channel{selected.size > 1 ? "s" : ""}
+                {loading
+                  ? "Loading"
+                  : `Collect ${selected.size} channel${selected.size > 1 ? "s" : ""}`}
               </Button>
             </div>
           </div>
@@ -113,7 +118,7 @@ export default function OnboardingPage() {
 
 function Hero({ emoji, text }: { emoji: string; text: string }) {
   return (
-    <div className="flex gap-4 items-center">
+    <div className="flex gap-4 items-baseline">
       <div className="text-3xl">{emoji}</div>
       <div className="text-xl">{text}</div>
     </div>

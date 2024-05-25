@@ -18,7 +18,7 @@ export function CollectionItem({
     <div
       className="show-container relative collection-item"
       style={{ transitionDelay: `${delay}s` }}
-      onClick={onClick}
+      onClick={isBackground ? () => {} : onClick}
     >
       <div
         key={item.id}

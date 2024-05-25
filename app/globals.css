@@ -77,6 +77,7 @@
 
 html,
 body {
+  user-select: none;
   height: 100%;
 }
 
@@ -97,6 +98,5 @@ body {
 .collection-list.active .collection-item {
   opacity: 1;
   transform: scale(1);
-
   transition: all 0.5s ease-in-out;
 }

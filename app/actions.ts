@@ -281,6 +281,7 @@ export async function getConversationById(
     `SELECT Conversation {
       *,
       origin: {
+        matchCount,
         restrictedItems: {name, id, youtubeId} ORDER BY .subscriberCount DESC
       },
       participant := (SELECT assert_single((SELECT .origin.users filter .id != global current_user.id))){
