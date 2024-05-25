@@ -1,8 +1,8 @@
 "use client";
 
 import { Conversation, Message, User } from "@/dbschema/interfaces";
-import { durationFormatter } from "@/utils/formatter";
-import { useUnreadStore } from "../../../../store/zustand";
+import { useUnreadStore } from "@/store/zustand";
+import { chatTimeFormatter } from "@/utils/formatter";
 
 export function ChatWindow({
   conversation,
@@ -27,7 +27,7 @@ export function ChatWindow({
             <div
               className={`flex gap-4 text-sm opacity-50 ${isOther ? "justify-start" : "justify-end"}`}
             >
-              <div className="">{durationFormatter(message.created)}</div>
+              <div className="">{chatTimeFormatter(message.created)}</div>
             </div>
           </div>
         );

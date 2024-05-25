@@ -1,7 +1,6 @@
 "use client";
 
 import { Conversation, User } from "@/dbschema/interfaces";
-import { durationFormatter } from "@/utils/formatter";
 import { usePathname, useRouter } from "next/navigation";
 import { useUnreadStore } from "../../../store/zustand";
 
@@ -34,9 +33,6 @@ export function ConversationList({
           >
             <div className="flex flex-col p-3">
               <p className="font-semibold">{conversation.participant.name}</p>
-              <p className="text-sm">
-                {durationFormatter(conversation.lastWritten)}
-              </p>
             </div>
             {unread.has(conversation.id) && (
               <div className="mx-4 p-2 relative">

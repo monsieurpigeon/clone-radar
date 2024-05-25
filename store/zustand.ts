@@ -5,8 +5,8 @@ import { create } from "zustand";
 type UnreadStore = {
   count: number;
   conversations: Set<string>;
-  messages: Map<string, Message[]>;
   update: () => Promise<void>;
+  messages: Map<string, Message[]>;
   updateMessages: (conversationId: string) => Promise<void>;
 };
 

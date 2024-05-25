@@ -378,7 +378,7 @@ export async function getUnreadMessages(
   const session = auth.getSession();
   return session.client.querySingle(
     `SELECT Conversation {
-      lastMessages := (SELECT .messages ORDER BY .created DESC LIMIT 10){ *, author: {name} }
+      lastMessages := (SELECT .messages ORDER BY .created DESC LIMIT 10){ *, author: {id, name} }
     } FILTER .id = <uuid>$conversationId`,
     { conversationId }
   );

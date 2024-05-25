@@ -27,6 +27,13 @@ export function durationFormatter(date: Date | null | undefined): string {
   return `${seconds} second${seconds > 1 ? "s" : ""} ago`;
 }
 
+export function chatTimeFormatter(date: Date | null | undefined): string {
+  if (!date) {
+    return "";
+  }
+  return `${zeroPad(date.getHours())}:${zeroPad(date.getMinutes())}`;
+}
+
 export function capitalize(s: string): string {
   return s
     .split(" ")
