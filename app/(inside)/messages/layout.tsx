@@ -21,7 +21,7 @@ export default async function ConversationLayout({
           My Messages
         </h1>
       </header>
-      <div className="grid grid-cols-3 gap-4 grow h-full">
+      <div className="grid grid-cols-3 gap-2 grow h-full">
         <ConversationList>
           <div className="col-span-2 h-full">{children}</div>
         </ConversationList>

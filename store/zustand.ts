@@ -1,11 +1,11 @@
 import { getUnreadConversations, getUnreadMessages } from "@/app/actions";
-import { Conversation, Message } from "@/dbschema/interfaces";
+import { Conversation, Message, User } from "@/dbschema/interfaces";
 import { create } from "zustand";
 
 type UnreadStore = {
   count: number;
   unreadConversations: Set<string>;
-  conversations: Conversation[] | null;
+  conversations: (Conversation & { participant: User })[] | null;
   update: () => Promise<void>;
   messages: Map<string, Message[]>;
   updateMessages: (conversationId: string) => Promise<void>;
@@ -18,7 +18,6 @@ export const useUnreadStore = create<UnreadStore>((set) => ({
   messages: new Map(),
   update: async () => {
     const result = await getUnreadConversations();
-    console.log(result);
     return set(() => {
       const unread = result?.filter((c) => c.isUnread) || [];
       return {
