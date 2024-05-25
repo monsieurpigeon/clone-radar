@@ -253,24 +253,6 @@ export async function createConversation(id: string): Promise<string> {
   }
 }
 
-export async function getConversation(otherId: string): Promise<string> {
-  const session = auth.getSession();
-  const previous = (await session.client.query(
-    `
-      WITH other := (SELECT User FILTER .id = <uuid>$otherId),
-      myConversations := (SELECT Conversation {id} FILTER global current_user in .participants), 
-      previous := (SELECT myConversations FILTER other in .participants),
-      SELECT(INSERT Conversation {
-        participants := {global current_user, other}
-      }){id} if len(array_agg(previous)) = 0
-      else previous
-    `,
-    { otherId }
-  )) as { id: string }[];
-  revalidatePath("/messages");
-  return previous[0].id;
-}
-
 export async function getConversations(): Promise<
   (Conversation & { participant: User })[]
 > {
@@ -323,11 +305,18 @@ export async function updateThreshold(threshold: number) {
   revalidatePath("/radar");
 }
 
-export async function getUnreadConversations(): Promise<
-  { id: string }[] | null
-> {
+export async function getUnreadConversations(): Promise<Conversation[] | null> {
   const session = auth.getSession();
-  return session.client.query(`SELECT global current_user.unreadConversations`);
+  return session.client.query(
+    `SELECT Conversation {
+      id,
+      participant := (SELECT assert_single((SELECT .origin.users filter .id != global current_user.id))){
+        id, name, githubUsername
+      },
+      isUnread,
+      lastWritten
+    } FILTER global current_user in .origin.users ORDER BY .lastWritten DESC`
+  );
 }
 
 export async function sendMessage(formData: FormData) {

@@ -1,3 +1,5 @@
+import { format, isToday } from "date-fns";
+
 export function dateFormatter(date: Date | null | undefined): string {
   if (!date) {
     return "";
@@ -31,7 +33,12 @@ export function chatTimeFormatter(date: Date | null | undefined): string {
   if (!date) {
     return "";
   }
-  return `${zeroPad(date.getHours())}:${zeroPad(date.getMinutes())}`;
+  if (isToday(date)) {
+    return `${format(date, "HH:MM")}`;
+  } else {
+    // add date
+    return `${format(date, "MMM d HH:MM")}`;
+  }
 }
 
 export function capitalize(s: string): string {

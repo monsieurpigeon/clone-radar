@@ -1,10 +1,11 @@
 import { getUnreadConversations, getUnreadMessages } from "@/app/actions";
-import { Message } from "@/dbschema/interfaces";
+import { Conversation, Message } from "@/dbschema/interfaces";
 import { create } from "zustand";
 
 type UnreadStore = {
   count: number;
-  conversations: Set<string>;
+  unreadConversations: Set<string>;
+  conversations: Conversation[] | null;
   update: () => Promise<void>;
   messages: Map<string, Message[]>;
   updateMessages: (conversationId: string) => Promise<void>;
@@ -12,14 +13,20 @@ type UnreadStore = {
 
 export const useUnreadStore = create<UnreadStore>((set) => ({
   count: 0,
-  conversations: new Set(),
+  unreadConversations: new Set(),
+  conversations: null,
   messages: new Map(),
   update: async () => {
     const result = await getUnreadConversations();
-    return set(() => ({
-      count: result?.length || 0,
-      conversations: new Set(result?.map((c) => c.id) || []),
-    }));
+    console.log(result);
+    return set(() => {
+      const unread = result?.filter((c) => c.isUnread) || [];
+      return {
+        count: unread.length || 0,
+        unreadConversations: new Set(unread.map((c) => c.id) || []),
+        conversations: result || [],
+      };
+    });
   },
   updateMessages: async (conversationId: string) => {
     const result = await getUnreadMessages(conversationId);
