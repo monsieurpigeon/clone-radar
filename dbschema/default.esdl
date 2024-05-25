@@ -65,6 +65,7 @@ module default {
     }
     unread: User;
     isUnread := .unread = global current_user;
+    lastWritten: datetime;
 
     origin := .<conversation[is Clone];
 

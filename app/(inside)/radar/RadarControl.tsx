@@ -58,6 +58,11 @@ export function RadarControl({ user }: { user: User | null }) {
             </button>
             <button
               className={`rounded border border-b-4 px-2 bg-${COLORS[SCAN_LIMIT - consumed]}-200 border-${COLORS[SCAN_LIMIT - consumed]}-500`}
+              onClick={() => {
+                alert(
+                  "1 Scan costs 1 Power\nA Power is refreshed after 1 hour\nGet a PRO plan to unlock ✨ UNLIMITED POWER"
+                );
+              }}
             >
               Power <span className="font-bold">{SCAN_LIMIT - consumed}</span>
             </button>

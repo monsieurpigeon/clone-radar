@@ -11,7 +11,7 @@ export function SubscribePro({ feature }: { feature: string }) {
       }}
       className="cursor-pointer border-2 rounded text-center mt-2 bg-purple-500 border-purple-600 text-white font-semibold hover:bg-purple-400"
     >
-      Subscribe to a PRO account to unlock ✨{" "}
+      Subscribe to a PRO plan to unlock ✨{" "}
       <span className="font-bold italic">{feature}</span>
     </div>
   );

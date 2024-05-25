@@ -3,7 +3,6 @@
 import { Conversation, User } from "@/dbschema/interfaces";
 import { durationFormatter } from "@/utils/formatter";
 import { usePathname, useRouter } from "next/navigation";
-import { readConversation } from "../../actions";
 
 export function ConversationList({
   conversations,
@@ -20,11 +19,7 @@ export function ConversationList({
         <div
           key={conversation.id}
           className="cursor-pointer"
-          onClick={async () => {
-            if (conversation.isUnread) {
-              await readConversation(conversation.id);
-            }
-
+          onClick={() => {
             router.replace(
               conversation.id === selectedConversationId
                 ? "/messages"
@@ -38,7 +33,7 @@ export function ConversationList({
             <div className="flex flex-col p-3">
               <p className="font-semibold">{conversation.participant.name}</p>
               <p className="text-sm">
-                {durationFormatter(conversation.updated)}
+                {durationFormatter(conversation.lastWritten)}
               </p>
             </div>
             {conversation.isUnread && (

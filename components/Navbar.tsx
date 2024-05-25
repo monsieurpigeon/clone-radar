@@ -1,6 +1,5 @@
 "use client";
 
-import { getUnreadConversations } from "@/app/actions";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -10,8 +9,9 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment } from "react";
 import { classNames } from "../src/utils";
+import { UnreadBadge } from "./UnreadBadge";
 
 const navigation = [
   { name: "Collection", href: "/collection", current: true },
@@ -20,11 +20,7 @@ const navigation = [
     name: "Messages",
     href: "/messages",
     current: false,
-    bonus: (value: number) => (
-      <div className="ml-2 px-2 text-center font-bold border-2 border-red-300 text-white rounded-xl bg-red-700">
-        {value}
-      </div>
-    ),
+    bonus: <UnreadBadge />,
   },
 ];
 
@@ -36,26 +32,12 @@ export default function Navbar({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [unread, setUnread] = useState<number>(0);
 
   const handleSignOut = async () => {
     await onSignOut();
 
     router.push("/");
   };
-  const getUnread = async () => {
-    console.log("GET UNREAD");
-    const result = await getUnreadConversations();
-    setUnread(result || 0);
-  };
-
-  useEffect(() => {
-    const timeout = setInterval(() => {
-      getUnread();
-    }, 10000);
-    getUnread();
-    return () => clearTimeout(timeout);
-  }, []);
 
   return (
     <Disclosure
@@ -85,8 +67,7 @@ export default function Navbar({
                       )}
                       aria-current={item.current ? "page" : undefined}
                     >
-                      {item.name}{" "}
-                      {item.bonus && unread > 0 && item.bonus(unread)}
+                      {item.name} {item.bonus && item.bonus}
                     </Link>
                   ))}
                 </div>

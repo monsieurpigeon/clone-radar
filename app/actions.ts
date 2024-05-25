@@ -342,7 +342,8 @@ export async function sendMessage(formData: FormData) {
             messages += (INSERT Message {
                 text := <str>$message,
                 author := global current_user
-            })
+            }),
+            lastWritten := datetime_of_statement()
         }
       `,
     { conversationId, message: trimmedMessage }
@@ -359,5 +360,4 @@ export async function readConversation(id: string) {
     }`,
     { id }
   );
-  revalidatePath("/messages");
 }

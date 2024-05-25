@@ -1,11 +1,28 @@
 "use client";
 
-import { sendMessage } from "@/app/actions";
+import { readConversation, sendMessage } from "@/app/actions";
+import { useUnreadStore } from "@/store/zustand";
 import { MAX_MESSAGE_SIZE } from "@/utils/constants";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export function ChatForm({ conversationId }: { conversationId: string }) {
   const [message, setMessage] = useState("");
+  const { update } = useUnreadStore();
+
+  const refreshConversation = useCallback(async () => {
+    await readConversation(conversationId);
+    update();
+  }, [conversationId, update]);
+
+  useEffect(() => {
+    refreshConversation();
+    const interval = setInterval(() => {
+      refreshConversation();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [conversationId, refreshConversation]);
+
   return (
     <form
       onSubmit={async (e) => {
