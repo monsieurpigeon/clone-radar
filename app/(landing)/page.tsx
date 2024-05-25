@@ -91,7 +91,7 @@ export default async function Home() {
               Clone Radar
             </h1>
             <div
-              className="collapse lg:visible"
+              className="hidden lg:block"
               style={{ width: "500px", height: "500px" }}
             >
               <ThreeScene />
