@@ -19,7 +19,6 @@ export function CollectionList({
 
   return (
     <>
-      <div className="blur" />
       <div className="flex items-center justify-between gap-4">
         <p className="text-xl font-bold leading-4 tracking-tight text-gray-900">
           My Collection {channels && `(${channels.length} / 16)`}
@@ -34,7 +33,9 @@ export function CollectionList({
 
       <div className="relative">
         <div className="border-2 rounded-lg p-4 shadow-lg overflow-hidden">
-          <div className={`${show && "blur"} blur-xl transition-all delay-500`}>
+          <div
+            className={`${show ? "blur" : "blur-xl"} transition-all delay-500`}
+          >
             <div className="grid grid-cols-4 grid-rows-4 gap-4">
               {channels &&
                 channels.map((item) => (
