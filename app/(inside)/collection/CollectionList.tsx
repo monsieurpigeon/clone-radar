@@ -19,6 +19,7 @@ export function CollectionList({
 
   return (
     <>
+      <div className="blur" />
       <div className="flex items-center justify-between gap-4">
         <p className="text-xl font-bold leading-4 tracking-tight text-gray-900">
           My Collection {channels && `(${channels.length} / 16)`}
