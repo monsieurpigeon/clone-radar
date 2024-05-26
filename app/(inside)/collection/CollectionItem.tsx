@@ -29,7 +29,7 @@ export function CollectionItem({
           height={300}
           src={item.thumbnailUrl}
           alt={item.name}
-          className="hover:scale-125 transition-all"
+          className="hover:scale-110 transition-all"
         />
       </div>
       {!isBackground && (
