@@ -2,7 +2,7 @@ import * as SliderPrimitive from "@radix-ui/react-slider";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { COLORS } from "../../utils/constants";
+import { COLORS } from "@/utils/constants";
 
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
