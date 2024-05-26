@@ -89,7 +89,7 @@ export function YoutubeInput({
                     setErrorMessage(error);
                     router.refresh();
                   }}
-                  className="border-2 rounded-lg px-1 hover:bg-yellow-400 hover:text-white hover:border-yellow-300 font-bold shadow-md"
+                  className="border-2 rounded-lg px-1 hover:bg-yellow-400 hover:scale-110 transition-all hover:text-white hover:border-yellow-300 font-bold shadow-md"
                 >
                   Collect
                 </button>
@@ -104,13 +104,13 @@ export function YoutubeInput({
                     href={`https://www.youtube.com/channel/${channel.youtubeId}`}
                   >
                     <div>
-                      <FaShareSquare className="hover:fill-slate-500" />
+                      <FaShareSquare className="hover:scale-125" />
                     </div>
                   </Link>
                 </div>
 
                 <button
-                  className="self-end"
+                  className="self-end hover:underline hover:text-blue-500 transition-all"
                   onClick={() => setChannel(undefined)}
                 >
                   Close

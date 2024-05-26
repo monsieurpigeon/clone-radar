@@ -3,6 +3,7 @@ import { CSPostHogProvider } from "@/app/providers";
 import { auth } from "@/edgedb-client";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -44,13 +45,28 @@ export default async function RootLayout({
             <footer className="z-50 flex flex-row justify-center">
               <div className="flex flex-col items-center gap-1 py-4 text-center">
                 <div>
-                  Made with <a href="https://www.edgedb.com/">EdgeDB</a> and{" "}
-                  <a href="https://nextjs.org/">Next.js</a>, hosted on{" "}
-                  <a href="https://vercel.com/">Vercel</a>. Clone Radar is open
-                  source on{" "}
-                  <a href="https://github.com/monsieurpigeon/clone-radar">
+                  Made with{" "}
+                  <Link
+                    className="hover:underline"
+                    href="https://www.edgedb.com/"
+                  >
+                    EdgeDB
+                  </Link>{" "}
+                  and{" "}
+                  <Link className="hover:underline" href="https://nextjs.org/">
+                    Next.js
+                  </Link>
+                  , hosted on{" "}
+                  <Link className="hover:underline" href="https://vercel.com/">
+                    Vercel
+                  </Link>
+                  . Clone Radar is open source on{" "}
+                  <Link
+                    className="hover:underline"
+                    href="https://github.com/monsieurpigeon/clone-radar"
+                  >
                     GitHub
-                  </a>
+                  </Link>
                   .
                 </div>
               </div>

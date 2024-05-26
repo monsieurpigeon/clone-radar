@@ -1,5 +1,6 @@
 "use client";
 
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import posthog from "posthog-js";
 
@@ -12,7 +13,7 @@ export function DeleteButton({
 }) {
   const router = useRouter();
   return (
-    <div
+    <button
       onClick={async (e) => {
         e.stopPropagation();
         const error = await handleDelete(id);
@@ -23,9 +24,9 @@ export function DeleteButton({
         posthog.capture(`channel_delete`);
         router.refresh();
       }}
-      className="show-target cursor-pointer text-sm border rounded-full absolute px-1 top-2 right-2 bg-red-300 text-white border-red-500 hover:bg-red-500"
+      className="show-target border-2 rounded-full absolute p-1 top-2 right-2 text-white hover:bg-opacity-60 hover:bg-slate-500 transition-all"
     >
-      Delete
-    </div>
+      <XMarkIcon className="size-4" />
+    </button>
   );
 }
